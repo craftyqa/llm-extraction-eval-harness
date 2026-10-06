@@ -14,7 +14,7 @@ A blank field costs the clerk a minute; a plausible wrong value can get approved
 
 ### What counts as an invoice
 
-An invoice is a seller's request for payment that identifies the seller, has an invoice number or date, and states an amount owed. **The title doesn't matter**: a document titled "Bill", "Statement & Invoice" or "Facture / Invoice" is an invoice if it meets this definition.
+An invoice is a seller's request for payment that identifies the seller, has an invoice number or date, and states an amount owed. **The title doesn't matter**: a document titled "Bill", "Statement & Invoice" or "Facture / Invoice" is an invoice if it meets this definition. Where the scope table below names a document type, the table takes precedence over this definition.
 
 | In scope | Out of scope → reject `out_of_scope` |
 | --- | --- |
@@ -41,7 +41,7 @@ The check is about labels, not party names or free text.
 | Amounts | `1,234.50`, `$1,234.50`, `1 234,50 $`, `1.234,50` (incl. U+00A0 / U+202F spaces) | see §4 |
 | Source text | PDF with a text layer, CSV, plain text | PDF with no text layer → reject `unreadable` |
 
-**One document per file.** `multiple_documents` means more than one distinct invoice number, each with its own total. A remittance slip that repeats the same invoice number is part of the same invoice.
+**One document per file.** `multiple_documents` means the file contains more than one invoice, each with its own invoice number and its own total. Only invoices contained in the file count: invoices that are only listed or referenced (e.g. on a statement of account, or as "previous invoice" on a new one) don't. A remittance slip that repeats the same invoice number is part of the same invoice.
 
 ## 3. Output fields
 
@@ -56,10 +56,10 @@ The check is about labels, not party names or free text.
 | `vendorTaxId` | `123456789RT0001` | no | exact | The vendor's GST/HST registration: 9-digit business number + `RT` + 4 digits, spaces and dashes removed. QST, PST, VAT and company-registry numbers are not this field. |
 | `customerName` | string | yes | token-set | The bill-to entity (labels: Bill To, Billed To, Sold To, Customer). Not the ship-to entity, service address or contact person. |
 | `currency` | `CAD` \| `USD` | yes | exact | `$`, `C$`, `CAD`, `CDN` → CAD. `US$`, `USD`, "US funds" → USD. A bare `$` is CAD. |
-| `subtotal` | decimal string, 2 dp | no | amount | The printed pre-tax figure that equals the sum of the line amounts, **before** discounts, shipping/freight, fees, deposits and tax (labels: Subtotal, Merchandise, Fees). If no such figure is printed → `not_found`. |
+| `subtotal` | decimal string, 2 dp | no | amount | The printed pre-tax figure that equals the sum of the line amounts as printed (after any per-line discounts), **before** document-level discounts, shipping/freight, fees, deposits and tax (labels: Subtotal, Merchandise, Fees). If no such figure is printed → `not_found`. |
 | `taxAmount` | decimal string, 2 dp | no | amount | **Sum of all sales-tax lines** (GST+PST, GST+QST or HST), one evidence item per line. An explicit zero or "exempt" line → `"0.00"`. No tax line at all → `not_found`. |
 | `total` | decimal string, 2 dp | yes | amount | Gross total of **this** invoice including tax (labels: Total, Invoice Total, Total Current Charges). **Not** a figure after deposits, payments, retainers or credits, and not one that includes prior balances. If the gross total isn't printed → `not_found`. |
-| `amountDue` | decimal string, 2 dp | no | amount | The amount the customer is asked to pay now (labels: Amount Due, Balance Due, Total Amount Due), after deposits, payments, retainers, credits and prior balances. When nothing is deducted or added it is the same printed figure as `total`. |
+| `amountDue` | decimal string, 2 dp | no | amount | The amount the customer is asked to pay now (labels: Amount Due, Balance Due, Total Amount Due), after deposits, payments, retainers, credits and prior balances. When nothing is deducted or added it is the same printed figure as `total`; a single combined line such as "Total Due" then feeds both fields. |
 | `lineItems` | — | — | — | **Stretch**; not in v1 output or scoring. |
 
 ## 4. Normalisation (app code, not the model)
@@ -83,7 +83,7 @@ Examples: `$1,290.65` → `1290.65` · `1 234,50 $` → `1234.50` · `€ 4.250,
    - If one component is > 12, that component is the day.
    - If both components are equal, the date is unambiguous.
    - Otherwise, look for another date in the **same document, in the same numeric format**, with a component > 12, and use its order.
-   - If there isn't one → `not_found` / `ambiguous`.
+   - If there isn't one → `not_found` / `ambiguous`. Nothing else decides the order: not a written-month date, payment terms combined with a due date, or the vendor's location or language.
 3. Two-digit years → `not_found` / `ambiguous`.
 4. A result outside a real calendar date → `unparseable`.
 
@@ -125,7 +125,7 @@ The model fills `status`, `evidence[].raw`, `evidence[].quote`, `reason` and the
 1. `quote` occurs in the source text, **and**
 2. `raw` occurs in `quote`.
 
-A field is grounded only if **every** evidence item is grounded. Grounding is checked against the text produced by the app's own ingest step (PDF text via MuPDF), not against any other PDF-to-text tool. For the cases in `spec/examples/`, that text is `source.mupdf.txt`.
+A field is grounded only if **every** evidence item is grounded. Grounding never changes a field's `status` or `value`: an ungrounded field stays `found`, with `value` normalised from its `raw` (§4) as usual, and `grounded: false`. Grounding is checked against the text produced by the app's own ingest step (PDF text via MuPDF), not against any other PDF-to-text tool. For the cases in `spec/examples/`, that text is `source.mupdf.txt`.
 
 `not_found.reason` is recorded but not graded in v1.
 
@@ -152,8 +152,8 @@ A field is grounded only if **every** evidence item is grounded. Grounding is ch
 
 - For name fields, `value` is a canonical form and may differ from the printed raw in case or accents.
 - `alternatives` only exist for genuinely interchangeable values (legal vs trading name). They are never a way to accept a decoy.
-- `decoys` don't change the outcome; they let the scorecard count **decoy hits** (see §9).
-- `meta.json` records `violatesRules`: rules (§7) that the **source document itself** breaks.
+- `decoys` don't change the outcome; they let the scorecard count **decoy hits** (see §10).
+- `meta.json` records `violatesRules`: rules (§9) that the **source document itself** breaks.
 
 ## 7. Refusal rules
 
@@ -261,7 +261,7 @@ A case passes when **all** of these hold:
 0. If you don't have an expected output, decide it first from the document alone, using §2–§7: extract or reject (and why), then each field's expected value or `not_found`.
 1. Determine the document outcome by comparing expected and actual `status` (and reject `reason`).
 2. If fields are scored, for each of the 11 fields: decide the value outcome using §8, then grounding for found fields using §5.
-3. Note decoy hits.
+3. Note decoy hits. Decoy hits are counted against the `decoys` in `expected.json`; a grader without an expected file notes wrong values that look like likely decoys.
 4. Apply the case-pass rules.
 5. Record anything this spec didn't decide as a question; it becomes a spec fix or a new example.
 
@@ -298,7 +298,6 @@ Worked examples for every outcome label (G- field, D- document, C- case) are in 
 
 | Question | Current default |
 | --- | --- |
-| `XF-1` is broken by any shipping, freight, fee or discount line (2 of 3 checkable examples violate it in the source). Keep as is, or allow for those lines? | Keep; record in `violatesRules` |
 | "At most one optional field wrong" lets a `taxAmount` with a tax line missing (risk R-9, S2) pass the case if it's otherwise clean. Acceptable? | Yes; the optional-wrong threshold catches it in aggregate |
 | Line items in scope | No (stretch) |
 | Threshold for rejecting a PDF as `unreadable` when ingest still produces Private Use Area or U+FFFD characters (see `docs/decisions.md`, PDF parser) | Set in Phase 1 from real counts; record the count in source metadata either way |

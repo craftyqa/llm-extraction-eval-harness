@@ -136,7 +136,7 @@ https://github.com/anthropics/courses
 - [x] Finalise the risk list with severities (`spec/risks.md`)
 - [x] Write one worked example per outcome label (`spec/examples/grading-examples.md`)
 - [x] Start `docs/decisions.md`: one line per decision with date, choice and reason
-- [ ] **Blind-grade test** (below; pairs ready in `spec/blind-grade/`)
+- [x] **Blind-grade test** (below; pairs in `spec/blind-grade/`). Self-grade and LLM grader both matched the answer key; the grader's questions became decisions #24–#31 (see `spec/blind-grade/results.md`)
 
 ### Grading spec
 
@@ -435,4 +435,3 @@ The full log, with reasons, is in `docs/decisions.md`. `spec/SPEC.md` is the sou
 | Judge model | Different family, ≥ the extractor's size | Phase 3 |
 | Production temperature | 0.2 | Phase 1 |
 | Retrieval on/off by default | Decide from the Phase 3 comparison | Phase 3 |
-| Line items in scope | No (stretch) | Phase 0 |

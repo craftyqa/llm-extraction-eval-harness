@@ -53,3 +53,4 @@ All examples use the golden cases in this folder (EX-01 to EX-07). "Actual" is a
 | C-04 | EX-02 | G-06 | no | Required field wrong (and ungrounded). |
 | C-05 | EX-03 | G-14 | no | Required field `total` wrong. |
 | C-06 | EX-06 | invoiceDate `not_found`, everything else correct | yes | Abstaining on an ambiguous date is `correct_absent`. |
+| C-07 | EX-03 | taxAmount `154.16` with quote `GST (5%): 154.16` (not verbatim), everything else correct | no | Rule 3: a found field is both ungrounded and wrong. Rule 4 alone would allow it (one optional wrong), and the grounded version passes (C-01). |

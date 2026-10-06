@@ -4,7 +4,7 @@ A small LLM document-extraction app, and a full evaluation harness around it. Th
 
 The app is deliberately simple. The harness is the point: a written quality bar, a golden dataset, layered scoring, adversarial tests, a CI quality gate and tracing.
 
-> **Status:** Phase 0 (spec and quality bar) is nearly complete; only the blind-grade test is left. No app or harness code exists yet. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
+> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. No app or harness code exists yet. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
 
 ## Contents
 
@@ -147,7 +147,7 @@ Seven hand-built examples in [`spec/examples/`](spec/examples/), each with the s
 
 Each example also keeps the text from three PDF parsers (`source.mupdf.txt`, `source.unpdf.txt`, `source.pdftotext.txt`). Grounding is checked against the MuPDF text, which is what the app's ingest step produces. Worked examples for every outcome label are in [`spec/examples/grading-examples.md`](spec/examples/grading-examples.md).
 
-### Blind-grade test (in progress)
+### Blind-grade test (done)
 
 Before any code: can someone grade outputs correctly using **only** the spec? Five document + output pairs in [`spec/blind-grade/`](spec/blind-grade/) each target one edge case. They are graded by me and by a second grader (a person, or a fresh LLM session with no project context) who gets only `SPEC.md`. Every disagreement becomes a spec fix or a new worked example. See [`spec/blind-grade/README.md`](spec/blind-grade/README.md) for the procedure.
 
@@ -207,7 +207,7 @@ Planned additions: `src/` (ingest, retrieve, extract, cli), `prompts/` (versione
 
 | Phase | Deliverable | Status |
 | --- | --- | --- |
-| 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Blind-grade test left |
+| 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
 | 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | Not started |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
