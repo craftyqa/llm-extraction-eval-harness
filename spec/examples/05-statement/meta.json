@@ -1,0 +1,12 @@
+{
+  "id": "EX-05",
+  "partition": "decoys",
+  "difficulty": "hard",
+  "risks": ["R-1", "R-2", "R-5", "R-6"],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Combined statement and invoice (utility bill). In scope because it has its own invoice number and current charges. Total = current charges; amount due nets previous balance, payments and credits."
+}

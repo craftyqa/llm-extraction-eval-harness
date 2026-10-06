@@ -1,0 +1,66 @@
+{
+  "caseId": "EX-05",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "S-2609-114872",
+      "evidence": [{ "raw": "S-2609-114872", "quote": "S-2609-114872" }],
+      "decoys": ["300-48127-06", "DL-77120", "DL-77854"]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-09-30",
+      "evidence": [{ "raw": "September 30, 2026", "quote": "September 30, 2026" }],
+      "decoys": ["2026-09-01"]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-10-21",
+      "evidence": [{ "raw": "October 21, 2026", "quote": "October 21, 2026" }]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Coastal Gas & Propane Services",
+      "evidence": [{ "raw": "Coastal Gas & Propane Services", "quote": "Coastal Gas & Propane Services" }],
+      "decoys": ["Coastal Gas & Propane — Payment Processing"]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "841027716RT0001",
+      "evidence": [{ "raw": "84102 7716 RT0001", "quote": "HST Reg. 84102 7716 RT0001" }]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Driftwood Café & Bakery",
+      "evidence": [{ "raw": "Driftwood Café & Bakery", "quote": "Driftwood Café & Bakery" }]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [{ "raw": "$", "quote": "$1,134.19" }]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "1007.99",
+      "evidence": [{ "raw": "$1,007.99", "quote": "$1,007.99" }]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "151.20",
+      "evidence": [{ "raw": "$151.20", "quote": "$151.20" }]
+    },
+    "total": {
+      "status": "found",
+      "value": "1159.19",
+      "evidence": [{ "raw": "$1,159.19", "quote": "$1,159.19" }],
+      "decoys": ["1134.19", "612.44"]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "1134.19",
+      "evidence": [{ "raw": "$1,134.19", "quote": "$1,134.19" }],
+      "decoys": ["1159.19"]
+    }
+  }
+}

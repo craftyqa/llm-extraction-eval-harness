@@ -1,0 +1,64 @@
+{
+  "caseId": "EX-01",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "INV-2026-04817",
+      "evidence": [{ "raw": "INV-2026-04817", "quote": "INV-2026-04817" }],
+      "decoys": ["PO-55102", "C-00931"]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-09-14",
+      "evidence": [{ "raw": "September 14, 2026", "quote": "September 14, 2026" }]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-10-14",
+      "evidence": [{ "raw": "October 14, 2026", "quote": "October 14, 2026" }]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Harbourline Industrial Supply Inc.",
+      "evidence": [{ "raw": "Harbourline Industrial Supply Inc.", "quote": "Harbourline Industrial Supply Inc." }],
+      "decoys": ["Fundy Shore Credit Union"]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "814273390RT0001",
+      "evidence": [{ "raw": "81427 3390 RT0001", "quote": "81427 3390 RT0001" }]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Fundy Ridge Fabrication Ltd.",
+      "evidence": [{ "raw": "Fundy Ridge Fabrication Ltd.", "quote": "Fundy Ridge Fabrication Ltd." }],
+      "decoys": ["Fundy Ridge Fabrication — Plant 2"]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [{ "raw": "CAD", "quote": "Total Due (CAD)" }]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "1074.30",
+      "evidence": [{ "raw": "$1,074.30", "quote": "$1,074.30" }]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "168.35",
+      "evidence": [{ "raw": "$168.35", "quote": "$168.35" }]
+    },
+    "total": {
+      "status": "found",
+      "value": "1290.65",
+      "evidence": [{ "raw": "$1,290.65", "quote": "$1,290.65" }]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "1290.65",
+      "evidence": [{ "raw": "$1,290.65", "quote": "$1,290.65" }]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+Tidewater Analytics — Morgan Ellery
+17 Heron Cove Road · Pointe-aux-Pins, NB E8K 3T2
+
+BILLED TO
+Marram Lane Outfitters Co. Priya Castellan, Operations 5 Dune Street Sandford Harbour, NS B0J 2L0
+AMOUNT DUE
+$4,474.00
+
+BILL NO.
+TA-0057
+ISSUED
+2026-09-30
+
+PAYMENT DUE
+Due on receipt
+CLIENT REF.
+MRL-2026-Q3
+
+BILL
+
+S E RV I C E
+Discovery workshop and stakeholder interviews Data model review and recommendations report Dashboard build, sprint 1
+Terms: Due on receipt. Interac e-Transfer to pay@tidewater-analytics.example Thank you — it was a pleasure working with your team.
+
+HOURS
+6 11.5 18.25
+Fees Courtesy discount HST @ 15% Retainer applied Amount due
+
+R AT E
+145.00 145.00 130.00
+
+LINE TOTAL
+870.00 1,667.50 2,372.50
+
+$4,910.00 −$150.00
+$714.00 −$1,000.00
+$4,474.00
+
+morgan@tidewater-analytics.example · 506-555-0198 · HST No. 77310 2264 RT0001 Synthetic test document. Fictional company and data, generated for software testing.
+
+

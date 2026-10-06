@@ -1,0 +1,64 @@
+{
+  "caseId": "EX-02",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "TA-0057",
+      "evidence": [{ "raw": "TA-0057", "quote": "TA-0057" }],
+      "decoys": ["MRL-2026-Q3"]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-09-30",
+      "evidence": [{ "raw": "2026-09-30", "quote": "2026-09-30" }]
+    },
+    "dueDate": {
+      "status": "not_found",
+      "reason": "absent",
+      "decoys": ["2026-09-30"]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Tidewater Analytics — Morgan Ellery",
+      "alternatives": ["Tidewater Analytics", "Morgan Ellery"],
+      "evidence": [{ "raw": "Tidewater Analytics — Morgan Ellery", "quote": "Tidewater Analytics — Morgan Ellery" }]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "773102264RT0001",
+      "evidence": [{ "raw": "77310 2264 RT0001", "quote": "HST No. 77310 2264 RT0001" }]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Marram Lane Outfitters Co.",
+      "evidence": [{ "raw": "Marram Lane Outfitters Co.", "quote": "Marram Lane Outfitters Co." }],
+      "decoys": ["Priya Castellan"]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [{ "raw": "$", "quote": "$4,474.00" }]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "4910.00",
+      "evidence": [{ "raw": "$4,910.00", "quote": "$4,910.00" }]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "714.00",
+      "evidence": [{ "raw": "$714.00", "quote": "$714.00" }]
+    },
+    "total": {
+      "status": "not_found",
+      "reason": "absent",
+      "decoys": ["4474.00", "5474.00", "4910.00"]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "4474.00",
+      "evidence": [{ "raw": "$4,474.00", "quote": "$4,474.00" }]
+    }
+  }
+}

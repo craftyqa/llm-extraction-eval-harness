@@ -1,0 +1,12 @@
+{
+  "id": "EX-01",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": ["R-1", "R-6", "R-13"],
+  "sourceFormat": "pdf",
+  "smoke": true,
+  "violatesRules": ["XF-1"],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Baseline invoice. XF-1 fails in the source because shipping ($48.00) sits between subtotal and total."
+}

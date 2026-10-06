@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<title>Statement of Account NSE-20417</title>
+<style>
+  @page { size: Letter; margin: 0.6in; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #222; }
+  .top { display: flex; justify-content: space-between; }
+  .vendor h1 { margin: 0; font-size: 17pt; color: #8a2b1f; }
+  .vendor p { margin: 2px 0; color: #555; }
+  .doctitle { text-align: right; }
+  .doctitle h2 { margin: 0 0 6px; font-size: 16pt; }
+  table.meta { border-collapse: collapse; margin-left: auto; }
+  table.meta td { padding: 2px 0 2px 12px; }
+  table.meta td.k { color: #777; text-align: right; }
+  .to { margin-top: 18px; }
+  .label { font-size: 8pt; text-transform: uppercase; color: #777; }
+  table.tx { border-collapse: collapse; width: 100%; margin-top: 18px; }
+  table.tx th { border-bottom: 2px solid #8a2b1f; text-align: left; padding: 5px; font-size: 9pt; }
+  table.tx td { padding: 5px; border-bottom: 1px solid #e5e5e5; }
+  .num { text-align: right; white-space: nowrap; }
+  table.aging { border-collapse: collapse; width: 100%; margin-top: 16px; }
+  table.aging th, table.aging td { border: 1px solid #ccc; padding: 5px; text-align: center; }
+  table.aging th { background: #f4ece9; font-size: 9pt; }
+  table.aging td.bal { font-weight: 700; }
+  .note { margin-top: 14px; font-size: 9pt; color: #444; }
+  .slip { margin-top: 30px; border-top: 2px dashed #999; padding-top: 10px; }
+  table.slipt { border-collapse: collapse; width: 100%; margin-top: 6px; }
+  table.slipt th { font-size: 8pt; color: #777; text-align: left; font-weight: normal; }
+  table.slipt td { padding: 3px 0; }
+  .synthetic { margin-top: 10px; font-size: 8pt; color: #aaa; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="vendor">
+      <h1>Northshore Electrical Wholesale Ltd.</h1>
+      <p>220 Foundry Street · Gannet Harbour, NS B2H 4L8</p>
+      <p>902-555-0129 · credit@northshore-elec.example</p>
+      <p>HST Reg. 86630 1147 RT0001</p>
+    </div>
+    <div class="doctitle">
+      <h2>STATEMENT OF ACCOUNT</h2>
+      <table class="meta">
+        <tr><td class="k">Statement Date</td><td>September 30, 2026</td></tr>
+        <tr><td class="k">Account No.</td><td>NSE-20417</td></tr>
+        <tr><td class="k">Terms</td><td>Net 30</td></tr>
+        <tr><td class="k">Page</td><td>1 of 1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="to">
+    <div class="label">Account</div>
+    <p><strong>Tern Island Builders Inc.</strong><br>
+    Accounts Payable<br>
+    14 Breakwater Lane<br>
+    Kittiwake Cove, NS B3Z 1R5</p>
+  </div>
+
+  <table class="tx">
+    <tr><th>Date</th><th>Reference</th><th>Description</th><th class="num">Charges</th><th class="num">Credits</th><th class="num">Balance</th></tr>
+    <tr><td>2026-08-31</td><td></td><td>Balance forward</td><td class="num"></td><td class="num"></td><td class="num">3,412.88</td></tr>
+    <tr><td>2026-09-03</td><td>CHQ 4410</td><td>Payment — thank you</td><td class="num"></td><td class="num">2,000.00</td><td class="num">1,412.88</td></tr>
+    <tr><td>2026-09-08</td><td>77-104512</td><td>Invoice</td><td class="num">1,846.21</td><td class="num"></td><td class="num">3,259.09</td></tr>
+    <tr><td>2026-09-15</td><td>77-104733</td><td>Invoice</td><td class="num">642.60</td><td class="num"></td><td class="num">3,901.69</td></tr>
+    <tr><td>2026-09-22</td><td>CM-2291</td><td>Credit memo — returned breakers</td><td class="num"></td><td class="num">118.45</td><td class="num">3,783.24</td></tr>
+    <tr><td>2026-09-26</td><td>77-105020</td><td>Invoice</td><td class="num">2,309.94</td><td class="num"></td><td class="num">6,093.18</td></tr>
+  </table>
+
+  <table class="aging">
+    <tr><th>Current</th><th>31–60 Days</th><th>61–90 Days</th><th>Over 90 Days</th><th>Balance Due (CAD)</th></tr>
+    <tr><td>4,680.30</td><td>1,412.88</td><td>0.00</td><td>0.00</td><td class="bal">$6,093.18</td></tr>
+  </table>
+
+  <p class="note">This statement summarizes activity on your account. Please refer to the individual invoices for item and tax details. The 31–60 day balance of $1,412.88 is now past due; please remit promptly to avoid a hold on your account.</p>
+
+  <div class="slip">
+    <strong>✂ Remittance — return with payment</strong>
+    <table class="slipt">
+      <tr><th>Account No.</th><th>Statement Date</th><th>Balance Due</th><th>Amount Enclosed</th></tr>
+      <tr><td>NSE-20417</td><td>September 30, 2026</td><td>$6,093.18</td><td>$ ____________</td></tr>
+    </table>
+    <p>Make cheques payable to Northshore Electrical Wholesale Ltd. · 220 Foundry Street · Gannet Harbour, NS B2H 4L8</p>
+  </div>
+
+  <p class="synthetic">Synthetic test document. Fictional company and data, generated for software testing.</p>
+</body>
+</html>

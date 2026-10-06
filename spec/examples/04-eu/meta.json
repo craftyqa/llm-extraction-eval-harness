@@ -1,0 +1,12 @@
+{
+  "id": "EX-04",
+  "partition": "should-reject",
+  "difficulty": "medium",
+  "risks": ["R-5"],
+  "sourceFormat": "pdf",
+  "smoke": true,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Real invoice, wrong locale: Dutch vendor, Swedish customer, EUR, Dutch/English labels. Language check passes, so the reason is out_of_scope, not unsupported_language."
+}

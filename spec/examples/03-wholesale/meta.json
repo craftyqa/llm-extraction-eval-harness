@@ -1,0 +1,12 @@
+{
+  "id": "EX-03",
+  "partition": "decoys",
+  "difficulty": "hard",
+  "risks": ["R-1", "R-2", "R-6", "R-8", "R-9", "R-10", "R-13"],
+  "sourceFormat": "pdf",
+  "smoke": true,
+  "violatesRules": ["XF-1"],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Dense ERP layout. GST + PST summed. Invoice total vs balance due after deposit. Remit-to lockbox name. Four number-like decoys near the invoice number."
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<title>Facture / Invoice RB-26-147</title>
+<style>
+  @page { size: Letter; margin: 0.6in; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; color: #1d2433; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #2b5c8a; padding-bottom: 12px; }
+  .vendor h1 { margin: 0; font-size: 18pt; color: #2b5c8a; }
+  .vendor p { margin: 2px 0; color: #4a5568; }
+  .doctitle { text-align: right; }
+  .doctitle h2 { margin: 0; font-size: 20pt; letter-spacing: 1px; }
+  .grid { display: flex; gap: 24px; margin-top: 18px; }
+  .box { flex: 1; }
+  .label { font-size: 8pt; text-transform: uppercase; color: #718096; letter-spacing: .5px; }
+  table.meta { border-collapse: collapse; width: 100%; }
+  table.meta td { padding: 3px 6px 3px 0; vertical-align: top; }
+  table.meta td.k { color: #718096; width: 48%; }
+  table.lines { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  table.lines th { background: #2b5c8a; color: #fff; text-align: left; padding: 6px; font-weight: 600; font-size: 9pt; }
+  table.lines td { padding: 6px; border-bottom: 1px solid #e2e8f0; }
+  .num { text-align: right; white-space: nowrap; }
+  table.totals { margin-left: auto; margin-top: 12px; border-collapse: collapse; min-width: 45%; }
+  table.totals td { padding: 4px 6px; }
+  table.totals tr.grand td { border-top: 2px solid #1d2433; font-weight: 700; }
+  table.totals tr.due td { background: #edf2f7; font-weight: 700; }
+  .foot { margin-top: 28px; border-top: 1px solid #cbd5e0; padding-top: 10px; font-size: 9pt; color: #4a5568; }
+  .synthetic { margin-top: 10px; font-size: 8pt; color: #a0aec0; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="vendor">
+      <h1>Traductions Rivière-Bleue Inc.</h1>
+      <p>1450, rue des Érables, bureau 210, Trois-Ruisseaux (Québec) G9A 3K7</p>
+      <p>819 555-0173 · comptes@riviere-bleue.example</p>
+    </div>
+    <div class="doctitle">
+      <h2>FACTURE / INVOICE</h2>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <div class="label">Facturer à / Bill to</div>
+      <p><strong>Lakeshore Medical Devices Ltd.</strong><br>
+      Attn: Dana Whitfield, Procurement<br>
+      75 Harbourfront Road, Unit 4<br>
+      Merrow Bay, ON N0H 2C4</p>
+      <div class="label">Projet / Project</div>
+      <p>Mode d'emploi IFU-220, révision C / IFU-220 user manual, rev. C</p>
+    </div>
+    <div class="box">
+      <table class="meta">
+        <tr><td class="k">Facture n° / Invoice No.</td><td>RB-26-147</td></tr>
+        <tr><td class="k">Date</td><td>03/04/2026</td></tr>
+        <tr><td class="k">Échéance / Due date</td><td>3 mai 2026 / May 3, 2026</td></tr>
+        <tr><td class="k">Conditions / Terms</td><td>Net 30 jours / Net 30 days</td></tr>
+        <tr><td class="k">Bon de commande / PO No.</td><td>LMD-4471</td></tr>
+        <tr><td class="k">N° client / Client No.</td><td>10-882</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <table class="lines">
+    <tr><th>#</th><th>Description</th><th class="num">Qté / Qty</th><th class="num">Prix unitaire / Unit price</th><th class="num">Montant / Amount</th></tr>
+    <tr><td>1</td><td>Traduction EN→FR / Translation EN→FR (mots / words)</td><td class="num">12&#8239;400</td><td class="num">0,14&nbsp;$</td><td class="num">1&#8239;736,00&nbsp;$</td></tr>
+    <tr><td>2</td><td>Révision / Proofreading (h)</td><td class="num">6</td><td class="num">85,00&nbsp;$</td><td class="num">510,00&nbsp;$</td></tr>
+    <tr><td>3</td><td>Mise en page / Desktop publishing (h)</td><td class="num">4</td><td class="num">75,00&nbsp;$</td><td class="num">300,00&nbsp;$</td></tr>
+  </table>
+
+  <table class="totals">
+    <tr><td>Sous-total / Subtotal</td><td class="num">2&#8239;546,00&nbsp;$</td></tr>
+    <tr><td>TPS / GST (5&nbsp;%)</td><td class="num">127,30&nbsp;$</td></tr>
+    <tr><td>TVQ / QST (9,975&nbsp;%)</td><td class="num">253,96&nbsp;$</td></tr>
+    <tr class="grand"><td>Total</td><td class="num">2&#8239;927,26&nbsp;$</td></tr>
+    <tr class="due"><td>Montant dû / Amount due</td><td class="num">2&#8239;927,26&nbsp;$</td></tr>
+  </table>
+
+  <div class="foot">
+    <p>TPS/GST n° 78415 2290 RT0001 · TVQ/QST n° 1218843307 TQ0001</p>
+    <p>Paiement par virement / Payment by transfer: Caisse populaire des Trois-Ruisseaux · transit 81520 · folio 0047719</p>
+    <p>Merci de votre confiance. / Thank you for your business.</p>
+    <p class="synthetic">Synthetic test document. Fictional company and data, generated for software testing.</p>
+  </div>
+</body>
+</html>

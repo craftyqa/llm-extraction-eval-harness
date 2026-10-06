@@ -1,0 +1,64 @@
+Harbourline Industrial Supply Inc.
+
+H
+
+410 Wharf Road Shediac Bay, NB E4P 2K9
+
+(506) 555-0142 · ar@harbourline.example
+
+INVOICE
+
+Invoice # Invoice Date Due Date P.O. # Customer ID GST/HST Reg.
+
+INV-2026-04817 September 14, 2026 October 14, 2026 PO-55102 C-00931 81427 3390 RT0001
+
+BILL TO
+Fundy Ridge Fabrication Ltd. Attn: Accounts Payable 88 Marsh Lane, Unit 3 Riverside Falls, NB E1C 4R7
+
+SHIP TO
+Fundy Ridge Fabrication — Plant 2 Attn: Receiving, Dock B 2150 Industrial Parkway Kestrel Point, NB E2A 6M1
+
+TERMS
+Net 30
+
+# Description
+1 Hex bolt M10 x 50mm, grade 8.8, zinc (box of 100)
+Item HX-M10-50
+2 Flat washer M10, zinc (box of 250)
+Item WS-M10-F
+3 Wedge anchor 3/8" x 3-3/4" (box of 50)
+Item AN-PL-3/8
+4 On-site inventory count and bin labelling
+Item SV-ONSITE
+
+Qty Unit Price
+
+Amount
+
+12
+
+$38.50 $462.00
+
+6
+
+$21.75 $130.50
+
+4
+
+$64.20 $256.80
+
+1 $225.00 $225.00
+
+Subtotal Shipping & Handling HST (15%)
+Total Due (CAD)
+
+$1,074.30 $48.00 $168.35
+$1,290.65
+
+Payment by EFT Fundy Shore Credit Union Institution 899 · Transit 41207 Account 0038 5521 9
+
+Notes Please quote invoice number on remittance. 1.5% monthly interest on overdue balances.
+
+Synthetic test document. Fictional company and data, generated for software testing.
+
+
