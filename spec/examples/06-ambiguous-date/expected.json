@@ -1,0 +1,71 @@
+{
+  "caseId": "EX-06",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "RB-26-147",
+      "evidence": [{ "raw": "RB-26-147", "quote": "Invoice No. RB-26-147" }],
+      "decoys": ["LMD-4471", "10-882", "IFU-220"]
+    },
+    "invoiceDate": {
+      "status": "not_found",
+      "reason": "ambiguous",
+      "decoys": ["2026-03-04", "2026-04-03"]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-05-03",
+      "evidence": [{ "raw": "May 3, 2026", "quote": "May 3, 2026" }]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Traductions Rivière-Bleue Inc.",
+      "evidence": [{ "raw": "Traductions Rivière-Bleue Inc.", "quote": "Traductions Rivière-Bleue Inc." }],
+      "decoys": ["Caisse populaire des Trois-Ruisseaux"]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "784152290RT0001",
+      "evidence": [{ "raw": "78415 2290 RT0001", "quote": "TPS/GST n° 78415 2290 RT0001" }],
+      "decoys": ["1218843307TQ0001"]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Lakeshore Medical Devices Ltd.",
+      "evidence": [{ "raw": "Lakeshore Medical Devices Ltd.", "quote": "Lakeshore Medical Devices Ltd." }],
+      "decoys": ["Dana Whitfield"]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [{ "raw": "$", "quote": "2 927,26 $" }]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2546.00",
+      "evidence": [{ "raw": "2 546,00 $", "quote": "Sous-total / Subtotal 2 546,00 $" }],
+      "decoys": ["254600.00"]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "381.26",
+      "evidence": [
+        { "raw": "127,30 $", "quote": "TPS / GST (5 %) 127,30 $" },
+        { "raw": "253,96 $", "quote": "TVQ / QST (9,975 %) 253,96 $" }
+      ],
+      "decoys": ["127.30", "253.96"]
+    },
+    "total": {
+      "status": "found",
+      "value": "2927.26",
+      "evidence": [{ "raw": "2 927,26 $", "quote": "Total 2 927,26 $" }],
+      "decoys": ["292726.00"]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "2927.26",
+      "evidence": [{ "raw": "2 927,26 $", "quote": "Amount due 2 927,26 $" }]
+    }
+  }
+}

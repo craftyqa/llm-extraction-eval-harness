@@ -1,0 +1,12 @@
+{
+  "id": "EX-07",
+  "partition": "should-reject",
+  "difficulty": "medium",
+  "risks": ["R-1", "R-5", "R-6"],
+  "sourceFormat": "pdf",
+  "smoke": true,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Pure statement of account: lists three invoices, a payment and a credit memo, with no invoice number or charges of its own. Contrast with EX-05 (combined statement/invoice, in scope)."
+}

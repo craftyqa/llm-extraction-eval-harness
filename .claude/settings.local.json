@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(foreach \\($c in 'node','npx','python','py','pdftotext','pdfinfo','wkhtmltopdf','chrome','msedge'\\) { $g = Get-Command $c -ErrorAction SilentlyContinue; if \\($g\\) { \"$c -> $\\($g.Source\\)\" } else { \"$c -> \\(none\\)\" } }; Test-Path \"C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\"; Test-Path \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\")"
+      "PowerShell(foreach \\($c in 'node','npx','python','py','pdftotext','pdfinfo','wkhtmltopdf','chrome','msedge'\\) { $g = Get-Command $c -ErrorAction SilentlyContinue; if \\($g\\) { \"$c -> $\\($g.Source\\)\" } else { \"$c -> \\(none\\)\" } }; Test-Path \"C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\"; Test-Path \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\")",
+      "PowerShell(node \"$env:TEMP\\\\unpdf-extract\\\\extract.mjs\" \"C:\\\\source\\\\llm-extraction-eval-harness\\\\spec\\\\examples\\\\06-ambiguous-date\\\\source.pdf\" \"C:\\\\source\\\\llm-extraction-eval-harness\\\\spec\\\\examples\\\\07-account-statement\\\\source.pdf\")",
+      "PowerShell($t = [IO.File]::ReadAllText\\(\"spec\\\\examples\\\\06-ambiguous-date\\\\source.unpdf.txt\"\\); foreach \\($s in '546,00','927,26','400'\\) { $i = $t.IndexOf\\($s\\); \\($t.Substring\\($i-3, 12\\).ToCharArray\\(\\) | ForEach-Object { 'U+{0:X4}' -f [int]$_ }\\) -join ' ' })"
     ]
   }
 }

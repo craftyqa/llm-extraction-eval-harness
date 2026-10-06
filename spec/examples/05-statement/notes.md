@@ -20,3 +20,5 @@ Utility-style bill from a New Brunswick vendor. HST 15%. It shows account activi
 **Rules:** `XF-1` holds (1,007.99 + 151.20 = 1,159.19), the only sample where it does. `XF-2` holds.
 
 **Normaliser note:** `−$612.44` uses U+2212, but `-$25.00` on the next line uses an ASCII hyphen. Both must parse as negative.
+
+**Extractor note:** `source.mupdf.txt` (mupdf 1.28.1) is the reference text. MuPDF puts the vendor's address and HST number near the **end** of the text, after the remittance slip, because of how the page is laid out. The vendorTaxId quote is still grounded, but retrieval and the model can't assume header facts appear first.

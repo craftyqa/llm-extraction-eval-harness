@@ -1,0 +1,31 @@
+Northshore Electrical Wholesale Ltd.
+220 Foundry Street · Gannet Harbour, NS B2H 4L8
+902-555-0129 · credit@northshore-elec.example
+HST Reg. 86630 1147 RT0001
+STATEMENT OF ACCOUNT
+Statement Date September 30, 2026
+Account No. NSE-20417
+Terms Net 30
+Page 1 of 1
+ACCOUNT
+Tern Island Builders Inc.
+Accounts Payable
+14 Breakwater Lane
+Kittiwake Cove, NS B3Z 1R5
+Date Reference Description Charges Credits Balance
+2026-08-31 Balance forward 3,412.88
+2026-09-03 CHQ 4410 Payment — thank you 2,000.00 1,412.88
+2026-09-08 77-104512 Invoice 1,846.21 3,259.09
+2026-09-15 77-104733 Invoice 642.60 3,901.69
+2026-09-22 CM-2291 Credit memo — returned breakers 118.45 3,783.24
+2026-09-26 77-105020 Invoice 2,309.94 6,093.18
+Current 31–60 Days 61–90 Days Over 90 Days Balance Due (CAD)
+4,680.30 1,412.88 0.00 0.00 $6,093.18
+This statement summarizes activity on your account. Please refer to the individual invoices for item and tax details. The 31–60
+day balance of $1,412.88 is now past due; please remit promptly to avoid a hold on your account.
+✂ Remittance — return with payment
+Account No. Statement Date Balance Due Amount Enclosed
+NSE-20417 September 30, 2026 $6,093.18 $ ____________
+Make cheques payable to Northshore Electrical Wholesale Ltd. · 220 Foundry Street · Gannet Harbour, NS B2H
+4L8
+Synthetic test document. Fictional company and data, generated for software testing.

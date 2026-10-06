@@ -18,4 +18,4 @@ British Columbia distributor. GST 5% and PST 7% as separate lines. A deposit is 
 
 **Rules:** `XF-1` fails in the source: 2,948.20 + 360.53 ≠ 3,443.73 because of $135.00 freight. `XF-2` holds.
 
-**Extractor note:** pdftotext joins the SHIPPED and B/O columns on some rows (`8` + `0` → `80`). It doesn't affect any graded field, but line items would be unreliable if they're ever brought into scope.
+**Extractor note:** `source.mupdf.txt` (mupdf 1.28.1) is the reference text, and it keeps every table cell separate. pdftotext joins the SHIPPED and B/O columns on some rows (`8` + `0` → `80`). It doesn't affect any graded field, but it's a reason to re-check the extractor if line items are ever brought into scope.

@@ -1,0 +1,12 @@
+{
+  "id": "EX-06",
+  "partition": "messy formatting",
+  "difficulty": "hard",
+  "risks": ["R-4", "R-8", "R-9", "R-10", "R-11"],
+  "sourceFormat": "pdf",
+  "smoke": true,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Bilingual EN/FR Quebec invoice. Invoice date 03/04/2026 is ambiguous; the written due date and Net 30 hint at DD/MM but don't count. GST + QST summed. French-Canadian amount format."
+}

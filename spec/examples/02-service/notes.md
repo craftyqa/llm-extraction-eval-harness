@@ -22,3 +22,5 @@ Sole proprietor consultant in New Brunswick billing a Nova Scotia customer. HST 
 **Why this case matters:** a required field (`total`) is legitimately absent. A model that always fills in required fields will fail here, which is the behaviour the asymmetric quality bar is meant to reward.
 
 **Normaliser note:** the discount and retainer lines use U+2212 (`−`), not ASCII `-`.
+
+**Extractor note:** `source.mupdf.txt` (mupdf 1.28.1) is the reference text. The labels use CSS letter-spacing. MuPDF reads them as words (`ISSUED`, `AMOUNT DUE`), but unpdf splits them into letters (`I S S U E D`) and pdftotext does so for some (`S E RV I C E`). Under those extractors, a quote that includes a label is ungrounded. In MuPDF's output, only the `BILL` title stays split (`B I L L`).

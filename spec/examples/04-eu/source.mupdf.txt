@@ -1,0 +1,95 @@
+Vandermolen Componenten B.V.
+
+facturen@vandermolen.example
+
++31 10 555 0142
+
+Vandermolen Componenten B.V. · Havenkade 214 · 2981 XK Ooltwijk ·
+Nederland
+
+Hallström Fluidteknik AB
+
+t.a.v. Ekonomiavdelningen
+Verkstadsgatan 9
+582 74 Lindvik
+
+Sverige
+BTW/VAT: SE556812043901
+
+Factuurnummer / Invoice no.
+2026-1093
+
+Factuurdatum / Date
+18-09-2026
+
+Vervaldatum / Due
+18-10-2026
+
+Klantnummer / Customer no.
+K-40217
+
+Uw referentie / Your ref.
+HF/PO/88412
+
+Factuur / Invoice
+
+Art.nr.
+Omschrijving / Description
+Aantal / Qty
+Prijs / Price
+Bedrag / Amount
+
+VC-2200
+Pneumatic valve block, 4-way, G1/4
+20 st
+€ 112,40
+€ 2.248,00
+
+VC-0381
+Push-in fitting 8 mm, nickel plated (pack of 25)
+14 pk
+€ 27,95
+€ 391,30
+
+VC-PU8-50
+PU tubing 8 x 5.5 mm, blue, 50 m roll
+6 rol
+€ 46,10
+€ 276,60
+
+SRV-CAL
+Factory calibration and test certificate
+1 st
+€ 1.250,00
+€ 1.250,00
+
+Subtotaal / Subtotal
+€ 4.165,90
+
+Verzendkosten / Shipping
+€ 85,00
+
+BTW / VAT 0%
+€ 0,00
+
+Te betalen / Amount
+payable
+€ 4.250,90
+
+BTW verlegd — intracommunautaire levering (art. 138 Richtlijn 2006/112/EG).
+VAT reverse charge — intra-Community supply. Customer accounts for VAT.
+
+Synthetic test document. Fictional company and data, generated for software testing.
+
+Vandermolen Componenten B.V.
+Havenkade 214
+2981 XK Ooltwijk
+Nederland
+
+KvK 61204478
+BTW / VAT NL859204117B01
+
+Polderbank N.V.
+IBAN NL68 PLDB 0482 1755 30
+BIC PLDBNL2A
+

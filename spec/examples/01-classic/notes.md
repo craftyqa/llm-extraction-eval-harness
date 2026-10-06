@@ -18,4 +18,7 @@ New Brunswick vendor, HST 15%, CAD, one page. The baseline: every field is print
 
 **Rules:** `XF-1` fails in the source: 1,074.30 + 168.35 ≠ 1,290.65 because of the $48.00 shipping line. `XF-2` holds.
 
-**Extractor note:** in the pdftotext output, `Total Due (CAD)` and `$1,290.65` are on different lines, so a quote of `Total Due (CAD) $1,290.65` is **ungrounded**. See grading example G-12.
+**Extractor notes:**
+- `source.mupdf.txt` (mupdf 1.28.1) is the reference text for grounding. `source.pdftotext.txt` and `source.unpdf.txt` are kept for comparison.
+- **Ingest regression fixture.** This PDF uses the Inter font, whose case-sensitive alternates (hyphen between digits, parentheses around capitals, `×`, `—`) have no Unicode mapping in the Chromium PDF. `unpdf` (pdf.js) emits Private Use Area code points for 24 of them; for example, `INV-2026-04817` becomes `INV202604817`. MuPDF and pdftotext recover the real characters. The ingest tests should assert that this file extracts with no PUA characters and that `INV-2026-04817` and `(CAD)` survive. See `docs/decisions.md`.
+- Layout differs between extractors (pdftotext separates `Total Due (CAD)` from `$1,290.65`; MuPDF and unpdf keep them adjacent). Grading example G-12 uses a paraphrased quote so it doesn't depend on either.

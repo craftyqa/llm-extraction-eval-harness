@@ -121,11 +121,11 @@ type RejectReason =
 
 The model fills `status`, `evidence[].raw`, `evidence[].quote`, `reason` and the reject reason. The app fills `value`, the offsets and `grounded`.
 
-**Grounding.** An evidence item is grounded when, after collapsing every whitespace run (including line breaks) to a single space on both sides, case-sensitively:
+**Grounding.** An evidence item is grounded when, after collapsing every whitespace run (including line breaks, U+00A0 and U+202F) to a single space on both sides, case-sensitively:
 1. `quote` occurs in the source text, **and**
 2. `raw` occurs in `quote`.
 
-A field is grounded only if **every** evidence item is grounded. Grounding is checked against the text produced by the app's own ingest step, not against any other PDF-to-text tool.
+A field is grounded only if **every** evidence item is grounded. Grounding is checked against the text produced by the app's own ingest step (PDF text via MuPDF), not against any other PDF-to-text tool. For the cases in `spec/examples/`, that text is `source.mupdf.txt`.
 
 `not_found.reason` is recorded but not graded in v1.
 
@@ -301,17 +301,19 @@ All examples use the cases in `spec/examples/`. "Actual" is a hypothetical model
 | G-02 | EX-03 · vendorName | `KEYSTONE PACKAGING DISTRIBUTORS LTD.` / same | correct | grounded | Matcher ignores case and `Ltd`. |
 | G-03 | EX-02 · vendorName | `Tidewater Analytics` / `Tidewater Analytics — Morgan Ellery` | correct | grounded | Matches a listed alternative. |
 | G-04 | EX-02 · total | not_found | correct_absent | — | The gross total is never printed. |
-| G-05 | EX-02 · dueDate | `2026-09-30` / `ISSUED 2026-09-30` | hallucinated | grounded | "Due on receipt" isn't a date; the issue date was copied. Grounded (line break collapses to a space) but still a hallucination. Optional field. |
+| G-05 | EX-02 · dueDate | `2026-09-30` / `2026-09-30` | hallucinated | grounded | "Due on receipt" isn't a date; the issue date was copied. Grounded but still a hallucination. Optional field. |
 | G-06 | EX-02 · total | `$5,474.00` / `Total $5,474.00` | hallucinated | ungrounded | Computed (4,910 − 150 + 714). Required → case fails. |
 | G-07 | EX-02 · total | `$4,474.00` / `$4,474.00` | hallucinated | grounded | Amount due taken as total. Decoy hit. Required → case fails. |
 | G-08 | EX-03 · total | `2,943.73` / `2,943.73` | wrong_value | grounded | Balance due after deposit. Decoy hit. Required → case fails. |
 | G-09 | EX-03 · taxAmount | one item: `154.16` / `154.16` | wrong_value | grounded | GST only, PST dropped. Decoy hit. Optional. |
 | G-10 | EX-01 · customerName | `Fundy Ridge Fabrication — Plant 2` / same | wrong_value | grounded | Ship-to entity; token-set rejects the extra tokens. Required → case fails. |
 | G-11 | EX-01 · vendorTaxId | not_found | missing | — | Doesn't fail the case; counts against the optional missing threshold. |
-| G-12 | EX-01 · total | `$1,290.65` / `Total Due (CAD) $1,290.65` | correct | ungrounded | Label and amount aren't adjacent in the source text. Evidence error, not a hallucination; case still passes. |
+| G-12 | EX-01 · total | `$1,290.65` / `Total Due: $1,290.65` | correct | ungrounded | The quote paraphrases the label (adds a colon, drops `(CAD)`), so it isn't verbatim. Evidence error, not a hallucination; case still passes. |
 | G-13 | EX-05 · dueDate | items `October 21, 2026` / `Due by October 21, 2026` and `10/21/2026` / `10/21/2026` | correct | grounded | Both raws normalise to `2026-10-21`. |
 | G-14 | EX-03 · total + amountDue | total `2,943.73`, amountDue `3,443.73` | wrong_value ×2 | grounded | Swapped: both fields wrong, both decoy hits. |
 | G-15 | EX-05 · customerName | `Driftwood Cafe & Bakery` / `Driftwood Café & Bakery` | correct | ungrounded | Value matches (accents removed), but raw isn't a substring of the quote. Evidence error. |
+| G-16 | EX-06 · invoiceDate | `03/04/2026` / `Date 03/04/2026`, value `2026-04-03` | hallucinated | grounded | Ambiguous under §4: the written due date and "Net 30" don't count. Required → case fails. |
+| G-17 | EX-06 · subtotal | `2 546,00 $` / `Sous-total / Subtotal 2 546,00 $`, value `254600.00` | wrong_value | grounded | Decimal comma read as a thousands separator: a 100× error. Decoy hit. |
 
 ### Document examples (D-)
 
@@ -324,6 +326,9 @@ All examples use the cases in `spec/examples/`. "Actual" is a hypothetical model
 | D-05 | EX-04 | extracted | missed_reject | None. Non-Canadian parties. |
 | D-06 | EX-01 | output missing the `currency` key after one retry | malformed | 11 × `missing`; schema hard fail |
 | D-07 | EX-05 | rejected `multiple_documents` | wrong_reject | The remittance slip repeats the same invoice number, so it's one invoice. 11 × `missing`. |
+| D-08 | EX-07 | rejected `out_of_scope` | correct_reject | None. A statement that only lists other invoices. |
+| D-09 | EX-07 | rejected `multiple_documents` | wrong_reject_reason | None. It lists invoices but contains none; `out_of_scope` also takes precedence. |
+| D-10 | EX-07 | extracted | missed_reject | None. |
 
 ### Case examples (C-)
 
@@ -334,12 +339,13 @@ All examples use the cases in `spec/examples/`. "Actual" is a hypothetical model
 | C-03 | EX-01 | G-11 + G-12 | yes | Missing and evidence errors don't fail a case. |
 | C-04 | EX-02 | G-06 | no | Required field wrong (and ungrounded). |
 | C-05 | EX-03 | G-14 | no | Required field `total` wrong. |
+| C-06 | EX-06 | invoiceDate `not_found`, everything else correct | yes | Abstaining on an ambiguous date is `correct_absent`. |
 
 ## 13. Open questions
 
 | Question | Current default |
 | --- | --- |
-| French-only invoices | Reject `unsupported_language` |
 | `XF-1` is broken by any shipping, freight, fee or discount line (2 of 3 checkable examples violate it in the source). Keep as is, or allow for those lines? | Keep; record in `violatesRules` |
 | "At most one optional field wrong" lets a GST-only `taxAmount` (G-09, risk R-9, S2) pass the case. Acceptable? | Yes; the optional-wrong threshold catches it in aggregate |
 | Line items in scope | No (stretch) |
+| Threshold for rejecting a PDF as `unreadable` when ingest still produces Private Use Area or U+FFFD characters (see `docs/decisions.md`, PDF parser) | Set in Phase 1 from real counts; record the count in source metadata either way |

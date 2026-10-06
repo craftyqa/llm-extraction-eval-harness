@@ -37,7 +37,7 @@ Everything runs locally and costs nothing. Versions are pinned in `package.json`
 | Extraction model | `qwen2.5:7b-instruct` locally, `llama3.2:3b` for CI runs | Two sizes give a ready-made comparison for Phase 3 |
 | Judge model | **Proposed:** a different model family from the extractor, ≥ the extractor's size | Same-model judging tends to be biased toward its own outputs |
 | Output contract | Zod v4 schemas → `z.toJSONSchema()` → Ollama `format` parameter | One source of truth for the schema, the constraint and validation |
-| PDF / CSV parsing | `unpdf` (pdf.js) for PDF text, `csv-parse` for CSV | Pure JS, no native deps, works on Windows and Linux |
+| PDF / CSV parsing | `mupdf` (MuPDF, WebAssembly) for PDF text, `csv-parse` for CSV | No native build, works on Windows and Linux. Chosen over `unpdf` (pdf.js), which mis-maps punctuation in Chromium/Inter PDFs (EX-01, EX-04). **AGPL-3.0**; see `docs/decisions.md` |
 | Synthetic data | `@faker-js/faker` (seeded) + `pdf-lib` to render PDFs | Reproducible generation |
 | Test runner | Vitest | Unit tests for deterministic code and scorers |
 | Eval framework | Promptfoo, using a custom provider that calls the app | Dataset runs, `--repeat`, red-team plugins |
@@ -354,7 +354,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 - [ ] Repo setup: Node 24, TS strict, ESLint, Prettier, Vitest, `.gitattributes`, `.nvmrc`, MIT `LICENSE`, README stub
 - [ ] Install Ollama, pull the models, record their **digests** in the README
 - [ ] Ingest: `ingest(path) → { text, sourceType, pageCount?, bytes }`
-  - PDF: text layer via `unpdf`; no text layer → reject `unreadable`
+  - PDF: text layer via `mupdf`; no text layer → reject `unreadable`. Count Private Use Area and U+FFFD characters and record the count in the source metadata; above a threshold → reject `unreadable`. EX-01 and EX-04 are regression fixtures (must extract with zero PUA characters)
   - CSV: rendered to `header: value` lines per row, so the model sees labels
   - Text: read as UTF-8; strip the BOM; normalise line endings to `\n`
 - [ ] Chunk and retrieve:
@@ -600,6 +600,12 @@ https://community.arize.com/x/arize-news/msg_1lhLy3yEzzb1/free-one-hour-course-o
 | Normalisation | App code; the model returns raw text and quotes | 2026-10-06 |
 | Quality bar | Wrong worse than missing (AP pre-fill framing); separate thresholds | 2026-10-06 |
 | Grading | Two axes per field: value outcome + grounding | 2026-10-06 |
+| `amountDue` | Optional field, separate from `total` | 2026-10-06 |
+| Name matcher | Token-set (replaces Jaro-Winkler ≥ 0.92) | 2026-10-06 |
+| French-only invoices | Reject `unsupported_language` | 2026-10-06 |
+| PDF parser | `mupdf` (replaces `unpdf`) | 2026-10-06 |
+
+The full log, with reasons, is in `docs/decisions.md`. `spec/SPEC.md` is the source of truth for grading rules.
 
 **Open**
 
@@ -609,4 +615,3 @@ https://community.arize.com/x/arize-news/msg_1lhLy3yEzzb1/free-one-hour-course-o
 | Production temperature | 0.2 | Phase 1 |
 | Retrieval on/off by default | Decide from the Phase 3 comparison | Phase 3 |
 | Line items in scope | No (stretch) | Phase 0 |
-| French-only invoices | Reject `unsupported_language` | Phase 0 |
