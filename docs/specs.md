@@ -1,6 +1,6 @@
 # LLM Extraction Eval Harness — Technical Spec and Project Plan
 
-Oct 5, 2026 · @Jen
+Started Oct 5, 2026 · @Jen Cook
 
 ## Overview
 
