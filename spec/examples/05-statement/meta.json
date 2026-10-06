@@ -2,7 +2,7 @@
   "id": "EX-05",
   "partition": "decoys",
   "difficulty": "hard",
-  "risks": ["R-1", "R-2", "R-5", "R-6"],
+  "risks": ["R-1", "R-2", "R-5", "R-6", "R-12"],
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],

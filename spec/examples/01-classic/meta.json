@@ -2,7 +2,7 @@
   "id": "EX-01",
   "partition": "clean",
   "difficulty": "easy",
-  "risks": ["R-1", "R-6", "R-13"],
+  "risks": ["R-1", "R-6", "R-13", "R-14"],
   "sourceFormat": "pdf",
   "smoke": true,
   "violatesRules": ["XF-1"],

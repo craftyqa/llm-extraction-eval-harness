@@ -53,6 +53,8 @@ Everything runs locally and costs nothing. Versions are pinned in `package.json`
 ```
 /docs            specs.md (this file), case-study write-up, phase notes, decision log
 /spec            SPEC.md (grading spec), risks.md, coverage-matrix.md (generated)
+  /examples      EX-01…EX-07 golden examples, grading-examples.md (G-/D-/C-), blind-grade-key.md
+  /blind-grade   Phase 0 blind-grade pairs (BG-1…BG-5), grader instructions, grading sheet
 /src
   /ingest        pdf.ts, csv.ts, text.ts → raw text + source metadata
   /retrieve      chunk.ts, retrieve.ts
@@ -124,209 +126,27 @@ https://github.com/anthropics/courses
 **Deliverables:** `spec/SPEC.md` (the grading spec), `spec/risks.md`, `spec/examples/` (one worked example per outcome label), `docs/decisions.md`.
 
 - [x] Pick the document type: **Canadian supplier invoices**
-- [ ] Write a one-paragraph problem statement (framing below)
-- [ ] Write the scope: in/out document types, languages, currencies, formats
-- [x] Define the output schema, field definitions and normalisation rules (below; revised for Canada)
-- [x] Define grading: value outcome + grounding axes, document outcomes, case pass (below; revised)
-- [x] Write refusal rules with reject-reason precedence (below; revised)
-- [x] Write rules as pure, model-free predicates: `XF-*` cross-field, `FMT-*` single-field (below; revised)
-- [ ] Set thresholds (initial values below; revise after the first baseline)
-- [ ] Finalise the risk list with severities (draft below)
-- [ ] Write one worked example per outcome label in `spec/examples/`
-- [ ] Start `docs/decisions.md`: one line per decision with date, choice and reason
-- [ ] **Blind-grade test** (below)
+- [x] Write a one-paragraph problem statement (SPEC §1)
+- [x] Write the scope: in/out document types, languages, currencies, formats (SPEC §2)
+- [x] Define the output schema, field definitions and normalisation rules (SPEC §3–6)
+- [x] Define grading: value outcome + grounding axes, document outcomes, case pass (SPEC §10)
+- [x] Write refusal rules with reject-reason precedence (SPEC §7)
+- [x] Write rules as pure, model-free predicates: `XF-*` cross-field, `FMT-*` single-field (SPEC §9)
+- [x] Set thresholds (SPEC §11; initial values, revise after the first baseline)
+- [x] Finalise the risk list with severities (`spec/risks.md`)
+- [x] Write one worked example per outcome label (`spec/examples/grading-examples.md`)
+- [x] Start `docs/decisions.md`: one line per decision with date, choice and reason
+- [ ] **Blind-grade test** (below; pairs ready in `spec/blind-grade/`)
 
-### Problem statement
+### Grading spec
 
-An accounts-payable clerk at a Canadian company uploads a supplier invoice. The system pre-fills the AP entry form. The clerk reviews the form and approves it for payment.
+The grading spec lives in [`spec/SPEC.md`](../spec/SPEC.md) and is the single source of truth: problem statement, scope, output fields, normalisation, output contract, expected-file format, refusal rules, model-free rules (`XF-*`, `FMT-*`), matchers, grading and thresholds. Supporting files:
 
-This framing drives the quality bar. A blank field costs the clerk a minute; a plausible wrong value can get approved and paid. **Wrong is worse than missing, so the system should abstain rather than guess.**
+- [`spec/risks.md`](../spec/risks.md): risk list with severities and coverage
+- [`spec/examples/`](../spec/examples/): golden examples EX-01 to EX-07, and the worked grading examples (G-, D-, C-) in `grading-examples.md`
+- [`docs/decisions.md`](decisions.md): every decision with its date and reason
 
-### Scope
-
-| Area | In scope | Out of scope |
-| --- | --- | --- |
-| Document type | Invoices (a seller's request for payment that identifies the seller, has an invoice number or date, and states an amount owed), including invoices marked "PAID" and invoices with a remittance slip attached | Receipts, quotes/estimates, pro formas, credit notes, statements of account, purchase orders, contracts → `out_of_scope` |
-| Parties | Canadian vendors and customers | Non-Canadian vendors |
-| Language | English, and bilingual English/French | French-only → `unsupported_language` (**default; confirm**) |
-| Currency | CAD, USD | Anything else → field `not_found` |
-| Taxes | GST, HST, PST, QST, one or more tax lines | — |
-| Dates | `YYYY-MM-DD`, `DD/MM/YYYY`, `MM/DD/YYYY`, written months (EN and FR) | — |
-| Amounts | `1,234.50`, `$1,234.50`, `1 234,50 $` (French-Canadian, may use non-breaking/narrow spaces) | — |
-
-`multiple_documents` means more than one distinct invoice number, each with its own total. A remittance slip repeating the same invoice is still one invoice. A statement listing several invoices is `out_of_scope`.
-
-### Output schema
-
-"Required" means a valid invoice is expected to show this field, and stricter thresholds apply. **Every field key is always present in the output.** A required field missing from the document is `not_found`, never a reject.
-
-| Field | Normalised form | Required | Matcher | Definition |
-| --- | --- | --- | --- | --- |
-| `invoiceNumber` | string | yes | exact | Strip label prefixes (`Invoice`, `Facture`, `No.`, `N°`, `#`) and surrounding whitespace; keep internal punctuation and leading zeros. Never a PO, order or customer-account number. |
-| `invoiceDate` | `YYYY-MM-DD` | yes | exact | Issue date of the invoice. Not the order, ship or service date. |
-| `dueDate` | `YYYY-MM-DD` | no | exact | Only an explicit date. Terms like "Net 30" with no date → `not_found` (never computed). |
-| `vendorName` | string | yes | fuzzy | The legal entity issuing the invoice. Never the remit-to party or a factoring company. Expected files may list `alternatives` (legal and trading names). |
-| `vendorTaxId` | `123456789RT0001` | no | exact | Vendor's GST/HST registration number: 9-digit business number + `RT` + 4 digits, spaces and dashes removed. QST numbers are not this field. |
-| `customerName` | string | yes | fuzzy | The bill-to entity. Not the ship-to entity. |
-| `currency` | `CAD` \| `USD` | yes | exact | `$`, `C$`, `CAD`, `CDN` → CAD. `US$`, `USD`, "US funds" → USD. |
-| `subtotal` | decimal string, 2 dp | no | exact (minor units) | The document's labelled pre-tax figure. |
-| `taxAmount` | decimal string, 2 dp | no | exact (minor units) | **Sum of all sales-tax lines** (GST+PST, GST+QST or HST). An explicit zero or "exempt" line → `"0.00"`. No tax line at all → `not_found`. |
-| `total` | decimal string, 2 dp | yes | exact (minor units) | Gross total of this invoice, including tax. **Not** an amount due or balance that includes prior balances, deposits or payments. |
-| `lineItems` | — | no | — | **Stretch**; out of v1 scoring. |
-
-Fuzzy match: Jaro-Winkler ≥ 0.92 after lower-casing, collapsing whitespace, removing accents and removing legal suffixes (`Inc`, `Ltd`, `Ltée`, `Corp`, `Limited`, `Limitée`, `S.E.C.`). A match against any listed `alternatives` counts.
-
-### Normalisation rules (app code, not the model)
-
-The model returns the **raw** text exactly as it appears, plus quotes. The app normalises it. A normalisation failure gives `not_found` with reason `unparseable`. All of this is unit-tested in Phase 1.
-
-**Amounts**
-1. Remove currency symbols and codes, plus all space characters, including U+00A0 and U+202F.
-2. If the last separator is `,` followed by exactly 2 digits, it's a decimal comma. Otherwise `,` and `.` before the last 2-digit group are thousands separators.
-3. A leading `-` or surrounding parentheses means negative. This is allowed by the normaliser, but negative totals indicate a credit note.
-4. Output a 2-decimal-place string. Compare as integer cents.
-
-**Dates**
-1. `YYYY-MM-DD` and written months (`March 4, 2026`, `4 mars 2026`) are unambiguous.
-2. `NN/NN/YYYY`:
-   - If one component is > 12, that component is the day.
-   - If both components are equal, the date is unambiguous.
-   - Otherwise, look for another date in the **same document, in the same numeric format**, with a component > 12. If there is one, use its order.
-   - If there isn't, the field is `not_found` / `ambiguous`.
-3. Two-digit years → `not_found` / `ambiguous`.
-
-### Result contract
-
-```ts
-type Evidence = {
-  quote: string;                       // from the model
-  start: number | null;                // computed by the app (first match), null if not found
-  end: number | null;
-  grounded: boolean;                   // quote exists in source after whitespace normalisation
-};
-
-type FieldResult<T> =
-  | { status: "found"; raw: string; value: T; evidence: Evidence[] }   // >1 quote e.g. GST + PST lines
-  | { status: "not_found"; reason?: "absent" | "ambiguous" | "conflicting" | "unparseable" };
-
-type ExtractionResult =
-  | { status: "extracted"; fields: { [K in keyof InvoiceFields]: FieldResult<InvoiceFields[K]> }; meta: RunMeta }
-  | { status: "rejected"; reason: RejectReason; meta: RunMeta };
-
-type RejectReason =
-  | "empty" | "too_large" | "unreadable" | "unsupported_language"
-  | "out_of_scope" | "multiple_documents";
-```
-
-The model fills `status`, `raw`, `evidence[].quote` and `reason`. The app fills `value`, the offsets and `grounded`.
-
-- Grounding check: collapse whitespace runs to a single space on both sides; keep it case-sensitive.
-- A field is grounded only if **every** quote is grounded.
-- Each quote must contain the raw form of the value, not the normalised one.
-- `not_found.reason` is recorded but not graded in v1.
-
-### Refusal rules
-
-| Condition | Result | Model call? |
-| --- | --- | --- |
-| Empty or whitespace-only text after ingest | reject `empty` | no |
-| > 5 MB file, or > N tokens after ingest (N derived from `num_ctx`) | reject `too_large` | no |
-| PDF with no text layer, or binary content | reject `unreadable` | no |
-| French-only | reject `unsupported_language` | yes |
-| Not an invoice (see Scope) | reject `out_of_scope` | yes |
-| More than one invoice | reject `multiple_documents` | yes |
-| A field has two different values and nothing decides between them | field `not_found` / `conflicting` | — |
-| A date is ambiguous under the date rules | field `not_found` / `ambiguous` | — |
-
-**Precedence** when more than one applies: `empty > too_large > unreadable > unsupported_language > out_of_scope > multiple_documents`.
-
-### Rules (model-free predicates)
-
-A rule is checked only when every field it uses was found. Expected outputs record in `violatesRules` any rules the **source document itself** breaks.
-
-- `XF-1` `subtotal + taxAmount == total`, within ±0.01
-- `XF-2` `dueDate >= invoiceDate`
-- `XF-3` (stretch, warning only) `taxAmount / subtotal` matches a valid combination from `spec/tax-rates.json` (GST, HST, GST+PST, GST+QST), within ±0.5 pp
-- `FMT-1` dates fall between 2000-01-01 and 2099-12-31. This is a fixed range, not relative to the run date, so golden cases don't change result over time.
-- `FMT-2` `currency` ∈ {CAD, USD}
-- `FMT-3` `vendorTaxId` matches `^\d{9}RT\d{4}$`
-
-### Grading
-
-Every field of every run is graded on **two independent axes**.
-
-**Axis 1, value outcome**
-
-| Outcome | Expected | Actual |
-| --- | --- | --- |
-| `correct` | found(v) | found(v′), matches under the field's matcher |
-| `correct_absent` | not_found | not_found |
-| `wrong_value` | found(v) | found(v′), no match (includes decoys) |
-| `missing` | found(v) | not_found |
-| `hallucinated` | not_found (any reason) | found |
-
-**Axis 2, grounding** (found fields only): `grounded` or `ungrounded`.
-
-**Derived metrics**
-- **Hallucination rate** = found fields that are `hallucinated`, **or** ungrounded and not `correct`, ÷ all found fields
-- **Evidence error rate** = `correct` but `ungrounded` ÷ `correct`. This is reported separately and isn't a hallucination: the value is right, but its citation is wrong.
-
-**Document outcomes and their effect on field scoring**
-
-| Document outcome | Meaning | Field scoring |
-| --- | --- | --- |
-| `correct_extract` | Expected extract, got extract | Fields scored normally |
-| `correct_reject` | Expected reject, right reason | No fields |
-| `wrong_reject_reason` | Expected reject, wrong reason | No fields; counts as a reject failure |
-| `wrong_reject` | Valid invoice rejected | Every field expected to be found counts as `missing` |
-| `missed_reject` | Should-reject document extracted | No fields; document-level failure |
-| `malformed` | Schema invalid after retry | Every field expected to be found counts as `missing`; every field expected not_found counts as `correct_absent`; schema hard fail |
-
-**A case passes** when all of these hold:
-- the document outcome is `correct_extract` or `correct_reject`
-- no required field is `wrong_value` or `hallucinated`
-- no found field is ungrounded and wrong
-- at most one optional field is `wrong_value` or `hallucinated`
-
-Missing fields don't fail a case on their own; they count against the missing thresholds.
-
-### Thresholds (initial; revise after the first baseline)
-
-Wrong and missing get separate thresholds, following the problem framing. With a small dataset, reject thresholds are written as **counts**: with 7 should-reject cases, any percentage below 100% is a single case anyway.
-
-| Metric | Threshold |
-| --- | --- |
-| Schema-valid rate | 100% (hard fail) |
-| Hallucination rate | ≤ 2% of found fields (hard fail) |
-| Required fields: `wrong_value` + `hallucinated`, per field | ≤ 2% (hard fail) |
-| Required fields: `missing`, per field | ≤ 10% |
-| Optional fields: `wrong_value` + `hallucinated`, per field | ≤ 5% |
-| Optional fields: `missing`, per field | ≤ 20% |
-| Missed rejects | 0 |
-| Wrong rejects + wrong reject reasons | ≤ 1 on the full set, 0 on smoke |
-| Evidence error rate | reported, not gated in v1 |
-| Case stability (pass^k) | ≥ 85% of cases |
-| Latency p95 per document | first baseline + 25% |
-
-### Risk list (draft)
-
-Severity: **S1** direct financial loss or fraud · **S2** compliance or significant time cost · **S3** rework.
-
-| ID | Risk | Fields | Sev |
-| --- | --- | --- | --- |
-| R-1 | Wrong total → overpayment or underpayment | total | S1 |
-| R-2 | Remit-to or factoring company taken as vendor → payment to the wrong party | vendorName | S1 |
-| R-3 | CAD/USD confusion → error the size of the exchange rate | currency | S1 |
-| R-4 | French-format amount misread (`1 234,50` → `123450.00`) → 100× error | total, subtotal, taxAmount | S1 |
-| R-5 | Non-invoice processed (quote, statement, pro forma, credit note) → paying something not owed | document | S1 |
-| R-6 | Wrong invoice number → duplicate-payment checks miss it | invoiceNumber | S1 |
-| R-7 | Injected instructions in the document change a field | any | S1 |
-| R-8 | Wrong or invented GST/HST number → input tax credit claim at risk | vendorTaxId | S2 |
-| R-9 | Wrong tax amount (e.g. only GST picked up, PST dropped) → tax-reclaim errors | taxAmount | S2 |
-| R-10 | Day/month swap → wrong accounting period or wrong due date | invoiceDate, dueDate | S2 |
-| R-11 | Invented value presented with confidence → reviewer trusts it | any | S2 |
-| R-12 | Valid invoice rejected → manual entry, late payment | document | S3 |
-| R-13 | Wrong customer entity → booked to the wrong company | customerName | S3 |
+This plan doesn't repeat any of it, so the two can't drift apart.
 
 ### Blind-grade test
 
@@ -336,7 +156,8 @@ Severity: **S1** direct financial loss or fraud · **S2** compliance or signific
   3. An ambiguous `03/04/2026` date
   4. A statement of account that should be rejected
   5. A GST+PST invoice where only GST was extracted, with an ungrounded quote
-- Grade them myself first, then give a second grader **only** `SPEC.md`, the documents and the outputs. If no person is available, use a fresh LLM session with no other context.
+- The five pairs are in `spec/blind-grade/` (BG-1 to BG-5), with instructions, a grading sheet and a prompt for the second grader.
+- Grade them myself first, then give a second grader **only** `SPEC.md`, the documents and the outputs. If no person is available, use a fresh LLM session with no other context. The grader doesn't get `expected.json`, the case notes or the grading examples: deciding what the right answer is from the spec is part of the test.
 - Every disagreement or question becomes a spec fix or a new worked example.
 
 **Done when:** the blind-grade test ends with zero unresolved disagreements, every outcome label has a worked example, and every risk has a severity.
@@ -408,7 +229,7 @@ https://www.evidentlyai.com/llm-evaluations-course
   "notes": "PO number formatted like an invoice number, placed above it" }
 ```
 
-`expected.json` uses the same `ExtractionResult` shape (without `meta` and evidence offsets). Evidence quotes are optional in expected outputs and are used only for judge calibration.
+`expected.json` follows SPEC §6: the output shape without `meta`, offsets or `grounded`, plus optional `alternatives` and `decoys` per field. Evidence quotes are optional in expected outputs and are used only for judge calibration.
 
 **Learn:** applying equivalence partitioning, boundaries and risk-based selection to AI evals — the skill most AI-eval demos skip.
 
@@ -428,9 +249,9 @@ https://arxiv.org/pdf/2404.12272
 
 - [ ] **Layer 1, deterministic:** schema valid, required fields present, evidence grounded (quote exists in source), cross-field rules `XF-*` hold (unless `violatesRules` says the source breaks them)
 - [ ] **Layer 2, field matching** (normalise both sides first):
-  - Exact: `invoiceNumber`, `currency`, `vendorTaxId` (after removing separators)
-  - Normalised: dates (parsed to ISO), amounts (compared as integer minor units)
-  - Fuzzy: names, using Jaro-Winkler ≥ 0.92 after lower-casing, collapsing whitespace and removing accents and legal suffixes (per the Phase 0 fuzzy-match rule). Implemented by hand, with unit tests for the threshold edges.
+  - Exact: `invoiceNumber`, `currency`, `vendorTaxId` (after removing separators), dates (parsed to ISO)
+  - Amount: `subtotal`, `taxAmount`, `total`, `amountDue` (compared as integer minor units)
+  - Token-set: `vendorName`, `customerName` (SPEC §8). Implemented by hand, with unit tests built from the SPEC §8 table and every name decoy in the golden set.
 - [ ] **Layer 3, LLM judge**, only for fields that pass Layers 1–2's grounding check:
   - Grounding: "Does this quote support this value for this field?" → `{verdict: "supported" | "unsupported" | "partial", rationale}`
   - Refusal correctness: "Is this document an invoice? If not, is the reject reason right?"

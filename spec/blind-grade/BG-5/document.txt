@@ -1,0 +1,163 @@
+KEYSTONE PACKAGING DISTRIBUTORS LTD.
+9 Cannery Row
+Port Alder, BC V9Z 1H4
+Tel 250-555-0117 · orders@keystonepack.example
+
+I N V O I C E
+
+Page 1 of 1
+GST # 70219 8841 RT0001
+
+PST # PST-1048-2273
+
+INVOICE NO.
+0418823
+INVOICE DATE
+09/22/2026
+ORDER NO.
+SO-0392711
+
+CUST. NO.
+MRL001
+
+CUST. PO
+7781-PK
+SHIP VIA
+BEST WAY LTL
+
+SALES REP
+D. OKONKWO
+
+TERMS
+2% 10, Net 30
+DUE DATE
+10/22/2026
+
+SOLD TO
+Saltmarsh Provisions Inc.
+ATTN: A/P
+300 - 1120 Tidewater Ave
+Coho Landing, BC V8R 2N6
+
+SHIP TO
+Saltmarsh Provisions DC
+44 Kelp Road
+Coho Landing, BC V8R 5P2
+
+LN
+ITEM NO.
+DESCRIPTION
+U/M
+ORDERED
+SHIPPED
+B/O
+UNIT PRICE
+DISC %
+EXTENSION
+
+1
+CB-1210-32
+Corrugated box 12x10x8 32ECT kraft
+BDL
+40
+40
+0
+18.90
+5
+718.20
+
+2
+CB-1818-44
+Corrugated box 18x18x16 44ECT double wall
+BDL
+25
+15
+10
+41.35
+5
+589.24
+
+3
+TP-48-110
+Packing tape 48mm x 110m clear acrylic
+CS
+8
+8
+0
+54.60
+436.80
+
+4
+SF-1250-80
+Stretch film 18" x 1500' 80ga cast
+CS
+6
+6
+0
+88.40
+10
+477.36
+
+5
+VF-LOOSE-14
+Loose fill void fill, 14 cu ft bag
+EA
+12
+12
+0
+23.10
+277.20
+
+6
+LB-4X6-DT
+Direct thermal label 4x6, 1000/roll
+RL
+30
+24
+6
+11.85
+284.40
+
+7
+PL-48x40-HT
+Pallet 48x40 heat treated, recycled
+EA
+10
+10
+0
+16.50
+165.00
+
+REMIT TO
+Keystone Packaging Distributors Ltd. — Lockbox 2291
+PO Box 2291, Stn Main
+Cedar Junction, BC V2X 0A9
+EFT: Inlet Mutual Bank · Inst 841 · Transit 06612 · Acct 7004418820
+
+2% discount if paid within 10 days of invoice date.
+Backordered items ship separately and are invoiced on shipment.
+Claims for shortage or damage must be made within 5 days of receipt.
+
+MERCHANDISE
+2,948.20
+
+FREIGHT
+135.00
+
+GST 5%
+154.16
+
+PST 7%
+206.37
+
+INVOICE TOTAL CAD
+3,443.73
+
+LESS DEPOSIT
+-500.00
+
+BALANCE DUE
+2,943.73
+
+Synthetic test document. Fictional company and data, generated for software testing.
+

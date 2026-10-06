@@ -1,0 +1,90 @@
+Traductions Rivière-Bleue Inc.
+
+1450, rue des Érables, bureau 210, Trois-Ruisseaux (Québec) G9A
+3K7
+819 555-0173 · comptes@riviere-bleue.example
+
+FACTURE /
+
+INVOICE
+
+FACTURER À / BILL TO
+
+Lakeshore Medical Devices Ltd.
+Attn: Dana Whitfield, Procurement
+75 Harbourfront Road, Unit 4
+Merrow Bay, ON N0H 2C4
+
+PROJET / PROJECT
+
+Mode d'emploi IFU-220, révision C / IFU-220 user
+manual, rev. C
+
+Facture n° / Invoice No.
+RB-26-147
+
+Date
+03/04/2026
+
+Échéance / Due date
+3 mai 2026 / May 3, 2026
+
+Conditions / Terms
+Net 30 jours / Net 30 days
+
+Bon de commande / PO
+No.
+
+LMD-4471
+
+N° client / Client No.
+10-882
+
+#
+Description
+Qté / Qty
+Prix unitaire / Unit price
+Montant / Amount
+
+1
+Traduction EN→FR / Translation EN→FR (mots /
+words)
+12 400
+0,14 $
+1 736,00 $
+
+2
+Révision / Proofreading (h)
+6
+85,00 $
+510,00 $
+
+3
+Mise en page / Desktop publishing (h)
+4
+75,00 $
+300,00 $
+
+Sous-total / Subtotal
+2 546,00 $
+
+TPS / GST (5 %)
+127,30 $
+
+TVQ / QST (9,975 %)
+253,96 $
+
+Total
+2 927,26 $
+
+Montant dû / Amount due
+2 927,26 $
+
+TPS/GST n° 78415 2290 RT0001 · TVQ/QST n° 1218843307 TQ0001
+
+Paiement par virement / Payment by transfer: Caisse populaire des Trois-Ruisseaux · transit 81520 · folio 0047719
+
+Merci de votre confiance. / Thank you for your business.
+
+Synthetic test document. Fictional company and data, generated for software testing.
+

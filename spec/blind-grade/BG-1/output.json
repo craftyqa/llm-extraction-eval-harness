@@ -1,0 +1,16 @@
+{
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": { "status": "found", "value": "INV-2026-04817", "evidence": [{ "raw": "INV-2026-04817", "quote": "Invoice # INV-2026-04817" }] },
+    "invoiceDate": { "status": "found", "value": "2026-09-14", "evidence": [{ "raw": "September 14, 2026", "quote": "Invoice Date September 14, 2026" }] },
+    "dueDate": { "status": "found", "value": "2026-10-14", "evidence": [{ "raw": "October 14, 2026", "quote": "Due Date October 14, 2026" }] },
+    "vendorName": { "status": "found", "value": "Harbourline Industrial Supply Inc.", "evidence": [{ "raw": "Harbourline Industrial Supply Inc.", "quote": "Harbourline Industrial Supply Inc." }] },
+    "vendorTaxId": { "status": "found", "value": "814273390RT0001", "evidence": [{ "raw": "81427 3390 RT0001", "quote": "GST/HST Reg. 81427 3390 RT0001" }] },
+    "customerName": { "status": "found", "value": "Fundy Ridge Fabrication Ltd.", "evidence": [{ "raw": "Fundy Ridge Fabrication Ltd.", "quote": "BILL TO Fundy Ridge Fabrication Ltd." }] },
+    "currency": { "status": "found", "value": "CAD", "evidence": [{ "raw": "CAD", "quote": "Total Due (CAD)" }] },
+    "subtotal": { "status": "found", "value": "1074.30", "evidence": [{ "raw": "$1,074.30", "quote": "Subtotal $1,074.30" }] },
+    "taxAmount": { "status": "found", "value": "168.35", "evidence": [{ "raw": "$168.35", "quote": "HST (15%) $168.35" }] },
+    "total": { "status": "found", "value": "1290.65", "evidence": [{ "raw": "$1,290.65", "quote": "Total Due (CAD) $1,290.65" }] },
+    "amountDue": { "status": "found", "value": "1290.65", "evidence": [{ "raw": "$1,290.65", "quote": "Total Due (CAD) $1,290.65" }] }
+  }
+}

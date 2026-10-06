@@ -2,7 +2,7 @@
   "id": "EX-04",
   "partition": "should-reject",
   "difficulty": "medium",
-  "risks": ["R-5"],
+  "risks": ["R-5", "R-14"],
   "sourceFormat": "pdf",
   "smoke": true,
   "violatesRules": [],
