@@ -17,6 +17,13 @@ export default defineConfig(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      // A leading underscore marks a deliberately unused parameter
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
+    },
   },
   // Plain JS config files aren't in tsconfig, so skip the type-aware rules there
   {
