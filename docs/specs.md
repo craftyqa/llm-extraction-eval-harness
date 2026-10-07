@@ -172,7 +172,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 
 **Estimate:** 15–25 h
 
-- [ ] Repo setup: Node 24, TS strict, ESLint, Prettier, Vitest, `.gitattributes`, `.nvmrc`, MIT `LICENSE`, README stub
+- [x] Repo setup: Node 24, TS strict, ESLint, Prettier, Vitest, `.gitattributes`, `.nvmrc`, MIT `LICENSE`, README stub
 - [ ] Install Ollama, pull the models, record their **digests** in the README
 - [ ] Ingest: `ingest(path) → { text, sourceType, pageCount?, bytes }`
   - PDF: text layer via `mupdf`; no text layer → reject `unreadable`. Count Private Use Area and U+FFFD characters and record the count in the source metadata; above a threshold → reject `unreadable`. EX-01 and EX-04 are regression fixtures (must extract with zero PUA characters)

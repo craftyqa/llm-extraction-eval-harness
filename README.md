@@ -236,7 +236,7 @@ Model digests, tool versions and dev-machine hardware will be recorded here in P
 
 ## Licence
 
-Repo code will be MIT (a `LICENSE` file arrives in Phase 1). The PDF dependency, MuPDF, is **AGPL-3.0**. That's acceptable for a local CLI that isn't distributed or hosted; it should be revisited if the app is ever offered as a service. See decision #18 in [`docs/decisions.md`](docs/decisions.md).
+Repo code is MIT (see [`LICENSE`](LICENSE)). The PDF dependency, MuPDF, is **AGPL-3.0**. That's acceptable for a local CLI that isn't distributed or hosted; it should be revisited if the app is ever offered as a service. See decision #18 in [`docs/decisions.md`](docs/decisions.md).
 
 All documents in this repo are synthetic. No real personal or company data.
 

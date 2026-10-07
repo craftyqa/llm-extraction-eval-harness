@@ -1,0 +1,10 @@
+# Byte-exact fixtures: reformatting would shift quote offsets
+spec/
+data/
+
+# Hand-written docs and versioned prompts (never edited in place)
+*.md
+
+reports/
+coverage/
+package-lock.json
