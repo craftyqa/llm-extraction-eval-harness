@@ -4,13 +4,14 @@ A small LLM document-extraction app, and a full evaluation harness around it. Th
 
 The app is deliberately simple. The harness is the point: a written quality bar, a golden dataset, layered scoring, adversarial tests, a CI quality gate and tracing.
 
-> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. No app or harness code exists yet. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
+> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 has started: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, but no app or harness code exists yet. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
 
 ## Contents
 
 - [The problem](#the-problem)
 - [Part 1: the extraction app](#part-1-the-extraction-app)
 - [Part 2: the eval harness](#part-2-the-eval-harness)
+- [Development setup](#development-setup)
 - [Repo layout](#repo-layout)
 - [Roadmap](#roadmap)
 - [Stack](#stack)
@@ -166,8 +167,9 @@ Runs repeat each case k = 5 times with varying seeds and report pass rate and **
 ```sh
 npm run eval              # → reports/<date>-<sha>/scorecard.{json,md}   (planned)
 npm run coverage-matrix   # fails if any risk has zero cases             (planned)
-npm test                  # unit tests; no Ollama needed                 (planned)
 ```
+
+Unit tests (`npm test`) need no Ollama; model calls are mocked. See [Development setup](#development-setup).
 
 ### Adversarial tests *(planned, Phase 4)*
 
@@ -186,11 +188,38 @@ The gate compares each run to a committed baseline using a per-metric tolerance 
 
 OpenTelemetry spans for each pipeline stage, sent to a self-hosted Arize Phoenix container. Spans are tagged with app version, model digest, prompt hash and dataset version. Failures found in traces are promoted to golden cases, so one failure can be followed end to end: trace → new case → fix commit → green gate.
 
+## Development setup
+
+**Prerequisites:** Node 24 (pinned in [`.nvmrc`](.nvmrc); a version manager such as [fnm](https://github.com/Schniz/fnm) or nvm picks it up) and [Ollama](https://ollama.com/download).
+
+```sh
+npm install
+
+# Models (Ollama must be running; it serves http://localhost:11434)
+ollama pull qwen2.5:7b-instruct   # local extraction model, 4.7 GB
+ollama pull llama3.2:3b           # CI model, 2.0 GB
+```
+
+| Command | What it does |
+| --- | --- |
+| `npm run typecheck` | `tsc` type-check only; `tsx` runs the code, so there's no build step |
+| `npm run lint` | ESLint with type-aware `typescript-eslint` rules |
+| `npm run format` / `format:check` | Prettier; skips `spec/`, `data/` and Markdown so byte-exact fixtures and prompts are never reformatted |
+| `npm test` / `test:watch` | Vitest unit tests; no Ollama needed |
+
+`typecheck` and `test` fail until the first `.ts` and `.test.ts` files exist.
+
 ## Repo layout
 
 Current:
 
 ```
+.nvmrc                Node version (24)
+package.json          scripts and pinned dev dependencies
+tsconfig.json         strict, noUncheckedIndexedAccess, ESM (nodenext), noEmit
+eslint.config.js      ESLint flat config + typescript-eslint (strictTypeChecked)
+.prettierrc.json      Prettier config; .prettierignore protects fixtures
+vitest.config.ts      Vitest config
 docs/
   specs.md            project plan: phases, stack, cross-cutting decisions
   decisions.md        decision log: date, choice and reason for each decision
@@ -208,7 +237,7 @@ Planned additions: `src/` (ingest, retrieve, extract, cli), `prompts/` (versione
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
-| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | Not started |
+| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup done |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
 | 4 | Adversarial and guardrail tests | Not started |
@@ -225,6 +254,7 @@ Everything runs locally and costs nothing.
 | Layer | Choice |
 | --- | --- |
 | Runtime | Node 24 LTS, TypeScript (strict), `tsx` |
+| Lint and format | ESLint (flat config) + `typescript-eslint`, Prettier |
 | Model runtime | Ollama: `qwen2.5:7b-instruct` locally, `llama3.2:3b` in CI |
 | Output contract | Zod v4 → JSON Schema → Ollama `format` |
 | PDF text | `mupdf` (WebAssembly; chosen over `unpdf`, which mis-mapped punctuation in EX-01 and EX-04) |
@@ -232,7 +262,34 @@ Everything runs locally and costs nothing.
 | CI | GitHub Actions |
 | Tracing | OpenTelemetry → Arize Phoenix |
 
-Model digests, tool versions and dev-machine hardware will be recorded here in Phase 1. Latency numbers only mean something on known hardware.
+Latency numbers only mean something on known hardware, so versions and the dev machine are recorded here.
+
+**Versions** (exact dev-dependency versions are pinned in `package.json` and the lockfile):
+
+| Tool | Version |
+| --- | --- |
+| Node | 24.21.0 (npm 11.19.0) |
+| TypeScript | 6.0.3, not 7: `typescript-eslint` doesn't support 7 yet (decision #32 in [`docs/decisions.md`](docs/decisions.md)) |
+| ESLint / `typescript-eslint` | 10.12.0 / 8.71.1 |
+| Prettier | 3.9.9 |
+| Vitest | 5.0.3 |
+| `tsx` | 4.23.15 |
+| Ollama | 0.40.0 |
+| `qwen2.5:7b-instruct` | 4.7 GB, digest `sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e` |
+| `llama3.2:3b` | 2.0 GB, digest `sha256:a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72` |
+
+Model digests come from Ollama's `/api/tags` (`ollama list` shows only the first 12 characters). A changed digest means the model changed, even under the same tag.
+
+**Dev machine:**
+
+| Part | Spec |
+| --- | --- |
+| CPU | Intel Core i5-13420H |
+| RAM | 16 GB (15.7 GB usable) |
+| GPU | NVIDIA GeForce RTX 4050 Laptop, 6 GB VRAM (driver 610.88) |
+| OS | Windows 11 Home (10.0.26200) |
+
+With Ollama's default 4,096-token context, `llama3.2:3b` runs fully on the GPU (~80 tokens/s warm). `qwen2.5:7b-instruct` doesn't fit in 6 GB of VRAM, so about 18% runs on the CPU (~24 tokens/s warm); a larger `num_ctx` moves more of it to the CPU. A cold model load takes about 7–12 s.
 
 ## Licence
 
