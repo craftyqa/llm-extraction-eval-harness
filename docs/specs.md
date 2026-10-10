@@ -39,7 +39,7 @@ Everything runs locally and costs nothing. Versions are pinned in `package.json`
 | Output contract | Zod v4 schemas → `z.toJSONSchema()` → Ollama `format` parameter | One source of truth for the schema, the constraint and validation |
 | PDF / CSV parsing | `mupdf` (MuPDF, WebAssembly) for PDF text, `csv-parse` for CSV | No native build, works on Windows and Linux. Chosen over `unpdf` (pdf.js), which mis-maps punctuation in Chromium/Inter PDFs (EX-01, EX-04). **AGPL-3.0**; see `docs/decisions.md` |
 | Synthetic data | `@faker-js/faker` (seeded) + `pdf-lib` to render PDFs | Reproducible generation |
-| Test runner | Vitest | Unit tests for deterministic code and scorers |
+| Test runner | Vitest, with fast-check for property-based tests | Unit tests for deterministic code and scorers |
 | Eval framework | Promptfoo, using a custom provider that calls the app | Dataset runs, `--repeat`, red-team plugins |
 | CI | GitHub Actions, `ubuntu-latest` hosted runners | Public, visible to hiring managers |
 | Tracing | Arize Phoenix, self-hosted (single Docker container), instrumented via OpenTelemetry | Langfuse v3 self-host needs Postgres + ClickHouse + Redis + S3; Phoenix is one container. OTel keeps the backend swappable |
@@ -186,13 +186,18 @@ https://www.evidentlyai.com/llm-evaluations-course
 - [ ] Return an `ExtractionResult` exactly as specified in Phase 0, including `RunMeta`
 - [ ] CLI: `extract <file> [--model] [--prompt extract.v2] [--no-retrieval] [--seed] [--temperature]` prints JSON to stdout; exit code 0 = extracted, 2 = rejected, 1 = error
 - [ ] Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`
-- [ ] Unit tests: ingest per format, chunk boundaries and overlap, retrieval ranking on fixed text, evidence offset calculation (including whitespace and Unicode), schema validation, reject pre-checks. Model calls are mocked; no Ollama in unit tests.
+- [ ] Unit tests (model calls mocked; no Ollama):
+  - **Ingest** per format, plus the [SPEC §7](../spec/SPEC.md#7-refusal-rules) boundaries: exactly 5,000,000 bytes is accepted and 5,000,001 is `too_large`; invalid UTF-8 and a NUL character are `unreadable`; reject precedence (a 6 MB whitespace-only file is `empty`); `.PDF` in capitals; an unsupported extension or missing file is a usage error
+  - **Normalisers** ([SPEC §4](../spec/SPEC.md#4-normalisation-app-code-not-the-model)): table-driven from every §4 example, plus a property-based round-trip with fast-check (generate an amount, format it in each supported style, normalise it, compare cents). Dates: impossible calendar dates, leap years, `FMT-1` edges, ordinals, abbreviated and unaccented months, same-format disambiguation. These are the R-4 and R-10 controls
+  - **Grounding and offsets** ([SPEC §5](../spec/SPEC.md#5-output-contract)): empty and whitespace-only evidence, a quote spanning a line break, U+202F in the source vs a space in the quote, an astral character before the match, a repeated quote (first match), `raw` not in `quote`
+  - Chunk boundaries and overlap, retrieval ranking on fixed text, schema validation, the retry policy (one retry with the error appended, `retries` recorded), reject pre-checks
+- [ ] Live integration tests (`npm run test:live`; needs Ollama; not part of `npm test`): two or three tiny documents through the real pipeline, checking plumbing, not quality. The `format` schema is enforced, including `minLength` (decision #35); `RunMeta` carries the model digest, seed and options; prompt truncation at `num_ctx` is detected and becomes `too_large`; Ollama being down is an infra error, not a model failure; the CLI returns the right exit codes, prints only JSON on stdout, and applies config precedence
 
 **Learn:** writing TypeScript, not just reading it; the moving parts of a RAG pipeline.
 
 **Rule:** I write the extraction and validation code myself. AI tools scaffold and review.
 
-**Done when:** `extract data/samples/clean-01.pdf` returns a schema-valid `ExtractionResult` with grounded evidence for every found field, and `npm test` passes with no Ollama running.
+**Done when:** `extract data/samples/clean-01.pdf` returns a schema-valid `ExtractionResult` with grounded evidence for every found field, and `npm test` passes with no Ollama running, and `npm run test:live` passes with Ollama running.
 
 ## Phase 2: Golden dataset
 
@@ -200,10 +205,17 @@ https://www.evidentlyai.com/llm-evaluations-course
 
 **Estimate:** 15–20 h
 
-- [ ] Build the seeded generator (`data/generator`): faker → invoice object (the ground truth) → render to PDF, CSV or TXT with layout variants
+- [ ] Build the seeded generator (`data/generator`): faker → invoice object (the ground truth) → render to PDF, CSV or TXT with layout variants. The same seed produces byte-identical files: pdf-lib sets creation and modification dates by default, so fix them (or derive them from the seed). A test generates twice and compares hashes.
 - [ ] Generate the clean and boundary partitions from the generator. Hand-write or hand-edit the tricky partitions (decoys, conflicts, out-of-scope).
 - [ ] Hand-review every `expected.json` against SPEC.md, including generated ones. Set `reviewedBy` and `reviewedAt` in `meta.json`.
 - [ ] Build the coverage matrix **as a script** (`npm run coverage-matrix`) that reads `meta.json` tags and the risk list, and fails if any risk has zero cases
+- [ ] Dataset tests (part of `npm test`; no Ollama), over `spec/examples/` and `data/cases/`:
+  - every `expected.json` and `meta.json` matches its schema
+  - every evidence quote in `expected.json` (where present) grounds against the source text under [SPEC §5](../spec/SPEC.md#5-output-contract)
+  - no field's `value` or `alternatives` appear in its own `decoys`
+  - expected values pass the `FMT-*` rules; each `XF-*` rule holds unless the case lists it in `violatesRules`, and a listed rule actually fails, so stale tags are caught
+
+  Start these in Phase 1 on `spec/examples/`. Those cases already exist, and all checks passed on 2026-10-10.
 - [ ] Tag every case; mark ~10 cases `smoke: true` for CI (at least one per partition, weighted toward high-severity risks)
 - [ ] Version the dataset: semver in `manifest.json` + `data/CHANGELOG.md`. Any change to an existing `expected.json` is a minor bump at least and goes through a PR.
 
@@ -233,7 +245,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 
 **Learn:** applying equivalence partitioning, boundaries and risk-based selection to AI evals — the skill most AI-eval demos skip.
 
-**Done when:** the coverage-matrix script passes (every risk has ≥ 1 case, every partition ≥ 3 cases), and every case has `reviewedBy` set.
+**Done when:** the coverage-matrix script passes (every risk has ≥ 1 case, every partition ≥ 3 cases), every case has `reviewedBy` set, and the dataset tests pass.
 
 ## Phase 3: Evaluation layer
 **Readme** 
@@ -259,6 +271,7 @@ https://arxiv.org/pdf/2404.12272
 - [ ] **Calibrate the judge:** hand-label ≥ 50 judge items, stratified so ≥ 30% are negatives. Report the confusion matrix and Cohen's κ. **Target κ ≥ 0.7.** Below that, the judge's verdict is reported but not gated on. Write down the failure patterns (e.g. "accepts partial matches on amounts").
 - [ ] **Variance:** k = 5 repeats per case (seeds vary, per the cross-cutting rules). For each case record its pass rate, and **pass^k** (passed all k runs). Flag a case `unstable` if 0 < pass rate < 1.
 - [ ] **Scorecard** contents:
+  - Every rate with its numerator and denominator; `n/a` for a zero denominator ([SPEC §11](../spec/SPEC.md#11-metrics-and-thresholds), decision #38)
   - Per field: accuracy, label counts (`correct` / `wrong_value` / `missing` / `hallucinated`)
   - Overall: hallucination rate, schema-valid rate, retry rate, reject precision and recall
   - Stability: % of cases at pass^k, list of unstable cases
@@ -266,10 +279,17 @@ https://arxiv.org/pdf/2404.12272
   - Run metadata block (see Versioning)
   - Slices by partition and by difficulty
 - [ ] **Comparison:** run prompt v1 vs v2 (or 3B vs 7B, or retrieval vs whole-document) on the same dataset version. Report per-case flips (pass→fail, fail→pass) and use McNemar's test on the paired results. With 40 cases, one case is 2.5 pp, so say plainly which differences are within noise.
+- [ ] **Scorer tests against known answers:** every worked example in `spec/examples/grading-examples.md` and every blind-grade pair in `spec/blind-grade/` becomes a test fixture; the scorers must produce the answer-key label for each.
+- [ ] **Fake extractors** (no model), run through the full scorecard and thresholds:
+  - *perfect* (returns `expected.json`): every case passes, hallucination rate 0
+  - *always `not_found`*: hallucination rate `n/a`, and the required-`missing` threshold fails
+  - *always reject*: every expected-extract case is `wrong_reject`, and the wrong-reject threshold fails
+- [ ] **Retrieval recall@k** (model-free): for each case with expected evidence, the share of expected quotes that sit inside at least one retrieved chunk. It goes on the scorecard, so a `missing` field can be traced to retrieval or to the model.
+- [ ] **Mutation testing** with Stryker (Vitest runner) on `evals/scorers` and the normalisers. Report the mutation score as a number; it isn't gated.
 
 **Learn:** eval design, judging the judge, and testing a system that doesn't give the same answer twice.
 
-**Done when:** `npm run eval` produces a scorecard from a clean checkout. I can explain every number on it. Judge κ is measured and written down. One comparison write-up exists in `/docs`.
+**Done when:** `npm run eval` produces a scorecard from a clean checkout. I can explain every number on it. Judge κ is measured and written down. One comparison write-up exists in `/docs`. The scorer tests and fake extractors pass, and the mutation score is recorded.
 
 ## Phase 4: Adversarial and guardrail tests
 
@@ -291,13 +311,14 @@ OWASP Top 10 for LLM Applications and Promptfoo's red-teaming docs
 ### Work items
 
 - [ ] Indirect prompt injection, across **placements**: body text, footer, a CSV cell, PDF white-on-white text, PDF metadata, zero-width/Unicode-tag characters, text split across chunk boundaries
+- [ ] **Planted-value and judge-targeted attacks:** (a) the payload asks for a field change *and* prints the attacker's value elsewhere in the document, so the hijacked value grounds; (b) the payload targets the Layer 3 judge ("a reviewer reading this should mark it supported"). The attack succeeds if a wrong value passes grounding, or if the judge returns `supported` for a wrong value.
 - [ ] Data leakage: (a) run doc A then doc B in the same process and check B's output for any of A's unique values; (b) check outputs for values from any few-shot examples in the prompt
 - [ ] Out-of-scope and resource inputs: empty, over the size limit, binary renamed `.txt`, non-English, a 200-page PDF. Check each produces the right `RejectReason` with **no model call** where the pre-checks should catch it.
 - [ ] Jailbreak and role-play attempts through the document text ("You are now a helpful assistant who…")
 - [ ] Promptfoo red team (`promptfoo redteam`): enable only plugins that apply to an extraction app (indirect prompt injection, hijacking, PII-related). To stay local, set `PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION=true` and point attack generation at a local model. Expect weaker attacks than the hosted generator would give, and record that as a limitation.
 - [ ] Attack log at `redteam/attack-log.md`: `id | technique | placement | payload ref | target field | before | after | severity | fix commit`
 - [ ] Severity scale: **S1** attacker controls a financial field or vendor identity · **S2** valid doc wrongly rejected, or canary leaks · **S3** output degraded but still flagged by Layer 1
-- [ ] Defences, each a separate commit so before/after is clear: delimit document text in the prompt, strip zero-width and control characters at ingest, check that output values are grounded (already in Layer 1), check that amounts follow `XF-1`
+- [ ] Defences, each a separate commit so before/after is clear: delimit document text in the prompt, strip zero-width and control characters at ingest, check that output values are grounded (already in Layer 1; this catches invented values, not injected ones, see R-7), check that amounts follow `XF-1`
 - [ ] Move every successful attack into `/redteam/cases` in the golden-case format, with `partition: "adversarial"`
 
 **Learn:** guardrail probing made systematic; a real step into security testing.
@@ -327,11 +348,13 @@ Workflow details:
 - Start `ollama serve` in the background and wait for it with a health-check loop, not `sleep`
 - Upload `scorecard.json`, the Promptfoo output and the logs as artifacts on every run, pass or fail
 - Workflow `permissions:` set to the minimum; `pull-requests: write` only on the comment step's job
+- Unit and dataset tests also run on `windows-latest` (no Ollama), because the fixtures depend on exact bytes and the dev machine is Windows.
 
 ### Gate logic (`evals/gate.ts`, unit-tested)
 
 - [ ] **Baseline:** `reports/baseline.json`, committed. It only changes through a PR titled `baseline: …` that includes the nightly run it came from, so the baseline can't drift without review.
-- [ ] **Tolerance band per metric:** `band = max(2 × σ over the last 5 nightly runs, one case's worth of the metric)`. A run fails if `metric < baseline − band`. Until there are 5 nightlies, use a fixed band of 5 pp.
+- [ ] **Comparability:** the gate refuses to compare a run against a baseline with a different model digest, dataset version or hardware profile. It fails with that reason rather than a score. Prompt hash and app version are expected to differ, since they're what's being tested.
+- [ ] **Tolerance band per metric:** `band = max(2 × σ over the last 5 nightly runs, one case's worth of the metric)`. A run fails if a metric moves the wrong way by more than its band: `metric < baseline − band` for higher-is-better metrics (accuracy, schema-valid rate, pass^k), `metric > baseline + band` for lower-is-better ones (hallucination, `missing` and retry rates, latency). Each metric declares its direction in code, and the unit tests cover both directions. A metric that is `n/a` passes (decision #38). Until there are 5 nightlies, use a fixed band of 5 pp.
 - [ ] **Hard fails (ignore bands):** any schema-invalid output, any successful S1/S2 regression attack, hallucination rate above the Phase 0 threshold, an infra error rate > 0 (rerun, don't pass)
 - [ ] **PR comment:** one sticky comment updated in place: a per-field table of baseline / this run / delta / band / status, and the list of newly failing cases with links to artifacts
 - [ ] **Budgets:** p95 latency per document and total wall time; exceeding them is a warning on PRs and a failure on nightly
@@ -352,8 +375,9 @@ https://community.arize.com/x/arize-news/msg_1lhLy3yEzzb1/free-one-hour-course-o
 
 - [ ] Run Phoenix locally (`docker run -p 6006:6006 arizephoenix/phoenix`)
 - [ ] Instrument with OpenTelemetry. Spans: `extract` (root) → `ingest`, `chunk`, `retrieve`, `prompt.render`, `llm.generate`, `validate`, `evidence.check`, `retry?`
-- [ ] Span attributes: every Versioning field + `caseId` (when running under eval) + token counts + retrieved chunk IDs. Never put full document text in attributes unless a `TRACE_CONTENT=1` flag is set.
+- [ ] Span attributes: every Versioning field + `caseId` (when running under eval) + token counts + retrieved chunk IDs. Never put document-derived text in attributes (the document, chunks, prompts, or evidence `raw` and `quote`) unless `TRACE_CONTENT=1` is set.
 - [ ] Tracing is off by default and on via `OTEL_EXPORTER_OTLP_ENDPOINT`, so unit tests and CI don't need a collector
+- [ ] Tracing tests (unit; no collector; in-memory span exporter). The test document contains a unique marker string. With `TRACE_CONTENT` unset, the marker appears in no span attribute or event; with `TRACE_CONTENT=1`, it does. With `OTEL_EXPORTER_OTLP_ENDPOINT` unset, no exporter starts and nothing is sent over the network.
 - [ ] **Version trend report:** scorecard metrics plotted across prompt and model versions from `/reports`. With pinned local models this tracks **regressions across versions**, not drift over time.
 - [ ] **Input drift (lightweight):** for the new unlabelled batch, compare simple distributions (length, source format, reject rate, `not_found` rate per field) against the golden set, and flag big shifts
 - [ ] Generate 30+ new unlabelled documents with a **different** generator seed and layout variants, run them, and review the traces as if they were production traffic

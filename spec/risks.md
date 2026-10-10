@@ -14,7 +14,7 @@ What can go wrong for the AP clerk (SPEC §1), how bad it is, and what catches i
 | R-4 | French-format amount misread (`1 234,50` → `123450.00`) → 100× error | subtotal, taxAmount, total, amountDue | S1 | Amount normaliser unit tests; amount matcher; `XF-1` |
 | R-5 | Non-invoice processed (quote, statement, pro forma, credit note, out-of-scope invoice) → paying something not owed, or paying twice | document | S1 | `missed_reject` (threshold 0) |
 | R-6 | Wrong invoice number (PO, order, account or delivery number) → duplicate-payment checks miss it | invoiceNumber | S1 | Exact matcher; `decoys` |
-| R-7 | Instructions injected in the document change a field or the reject decision | any | S1 | Phase 4: canary token, field-hijack and reject-bypass checks |
+| R-7 | Instructions injected in the document change a field or the reject decision | any | S1 | Phase 4: canary token, field-hijack and reject-bypass checks; `XF-1` for amounts. Grounding does **not** catch this: an injected value is printed in the source, so it grounds |
 | R-8 | Wrong or invented GST/HST number (e.g. QST or PST number taken instead) → input tax credit claim at risk | vendorTaxId | S2 | Exact matcher; `FMT-3`; `decoys` |
 | R-9 | Wrong tax amount (e.g. only GST picked up, PST or QST dropped) → tax-reclaim errors | taxAmount | S2 | Amount matcher; `XF-1`; `XF-3` (stretch) |
 | R-10 | Day/month swap, or an ambiguous date guessed → wrong accounting period or wrong due date | invoiceDate, dueDate | S2 | Date rules (ambiguous → `not_found`); exact matcher; `XF-2` |
@@ -22,6 +22,8 @@ What can go wrong for the AP clerk (SPEC §1), how bad it is, and what catches i
 | R-12 | Valid invoice rejected (e.g. titled "Bill", or a combined statement/invoice) → manual entry, late payment | document | S3 | `wrong_reject` count |
 | R-13 | Wrong customer entity (ship-to, contact person or service address) → booked to the wrong company | customerName | S3 | Token-set matcher; `decoys` |
 | R-14 | Ingest corrupts or scrambles text (unmapped glyphs, reading order) → values the model can't copy correctly, or quotes that can't be grounded | any | S2 | Ingest regression tests (EX-01, EX-04); PUA/U+FFFD count in source metadata; grounding check |
+
+**Judge injection.** The Layer 3 judge reads quotes taken from the document, so injected text can target the judge as well as the extractor and make a wrong value grade as `supported`. This is a risk to the harness, not to the clerk, so it isn't numbered here. Phase 4 includes judge-targeted cases, and the gate never relies on the judge alone for an S1 field.
 
 ## Coverage in `spec/examples/` (2026-10-06)
 

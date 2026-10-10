@@ -1,6 +1,6 @@
 # Grading Spec — Canadian Supplier Invoice Extraction
 
-Version 0.1.0 · 2026-10-06 · @Jen · Status: draft (pending blind-grade test)
+Version 0.1.0 · 2026-10-06 · @Jen · Status: draft (blind-grade test complete)
 
 This file is self-contained. A grader needs only this spec, the source documents and the outputs to grade a run. Golden examples and worked grading examples live in `spec/examples/`; risks and their severities are in `spec/risks.md`.
 
@@ -37,7 +37,7 @@ The check is about labels, not party names or free text.
 | --- | --- | --- |
 | Currency | CAD, USD | field `currency` → `not_found` (if the document is otherwise in scope) |
 | Taxes | GST, HST, PST, QST; one or more tax lines | — |
-| Dates | `YYYY-MM-DD`; `NN/NN/YYYY` with `/`, `-` or `.` separators; written months in EN or FR (`March 4, 2026`, `4 mars 2026`, `08-Sep-2026`) | see §4 |
+| Dates | `YYYY-MM-DD`; `NN/NN/YYYY` with `/`, `-` or `.` separators; written months in EN or FR, full or abbreviated (`March 4, 2026`, `4 mars 2026`, `08-Sep-2026`, `1er mars 2026`, `March 1st, 2026`) | see §4 |
 | Amounts | `1,234.50`, `$1,234.50`, `1 234,50 $`, `1.234,50` (incl. U+00A0 / U+202F spaces) | see §4 |
 | Source text | PDF with a text layer, CSV, plain text | PDF with no text layer → reject `unreadable` |
 
@@ -69,16 +69,17 @@ The model returns raw text exactly as printed, plus quotes. The app normalises i
 **Amounts**
 1. Remove currency symbols and codes, and all space characters (including U+00A0 and U+202F).
 2. A leading `-` or `−` (U+2212), or surrounding parentheses, means negative. Negatives are allowed by the normaliser; a negative `total` indicates a credit note.
-3. Look at the **last** `.` or `,`:
+3. If there is no `.` or `,`, the amount is a whole number. Otherwise look at the **last** `.` or `,`:
    - followed by exactly 2 digits → decimal separator; every other `.`/`,` is a thousands separator;
    - followed by exactly 3 digits → thousands separator; no decimal part;
    - anything else → `unparseable`.
-4. Output a 2-dp string. Compare as integer cents.
+4. After steps 1–3, anything left other than digits and one decimal point → `unparseable`.
+5. Output a 2-dp string. Compare as integer cents.
 
-Examples: `$1,290.65` → `1290.65` · `1 234,50 $` → `1234.50` · `€ 4.250,90` → `4250.90` · `−$612.44` → `-612.44` · `1,234` → `1234.00` · `$1.5` → unparseable.
+Examples: `$1,290.65` → `1290.65` · `1 234,50 $` → `1234.50` · `€ 4.250,90` → `4250.90` · `−$612.44` → `-612.44` · `1,234` → `1234.00` · `$1.5` → unparseable · `$500` → `500.00` · `1 234 $` → `1234.00` · `500 CR` → unparseable.
 
 **Dates**
-1. `YYYY-MM-DD` and written months are unambiguous.
+1. `YYYY-MM-DD` and written months are unambiguous. A day may carry an ordinal suffix: English `st`, `nd`, `rd`, `th`, or French `er` for the first of the month (`1er mars 2026` → `2026-03-01`). Month names may be abbreviated, with or without a period (`Sep`, `Sept.`, `févr.`), and French month names may omit their accents (`fevrier`, `aout`, `decembre`).
 2. `NN/NN/YYYY` (separator `/`, `-` or `.`):
    - If one component is > 12, that component is the day.
    - If both components are equal, the date is unambiguous.
@@ -97,9 +98,9 @@ Examples: `$1,290.65` → `1290.65` · `1 234,50 $` → `1234.50` · `€ 4.250,
 
 ```ts
 type Evidence = {
-  raw: string;          // model: the value exactly as printed
-  quote: string;        // model: verbatim source text that contains raw
-  start: number | null; // app: offset of the first match of quote in source, null if not found
+  raw: string;          // model: the value exactly as printed; non-empty after trimming
+  quote: string;        // model: verbatim source text that contains raw; non-empty after trimming
+  start: number | null; // app: see Offsets below
   end: number | null;
   grounded: boolean;    // app: see below
 };
@@ -122,8 +123,13 @@ type RejectReason =
 The model fills `status`, `evidence[].raw`, `evidence[].quote`, `reason` and the reject reason. The app fills `value`, the offsets and `grounded`.
 
 **Grounding.** An evidence item is grounded when, after collapsing every whitespace run (including line breaks, U+00A0 and U+202F) to a single space on both sides, case-sensitively:
-1. `quote` occurs in the source text, **and**
-2. `raw` occurs in `quote`.
+1. `raw` and `quote` are both non-empty after trimming, **and**
+2. `quote` occurs in the source text, **and**
+3. `raw` occurs in `quote`.
+
+An empty `raw` or `quote` fails the output contract (schema-invalid, so the retry policy applies). The grounding rule still treats one as ungrounded, so outputs checked outside the app's schema are graded the same way.
+
+**Offsets.** `start` and `end` locate the first match of `quote` in the ingested source text, the exact string the ingest step produced, not the whitespace-collapsed copy used for matching. They are UTF-16 code-unit indices with `end` exclusive, so `source.slice(start, end)` returns the matched span as it appears in the source. That span can differ from `quote` in whitespace (a line break where the quote has a space, say). If `quote` doesn't occur, or `raw` or `quote` is empty, both are `null`. If `quote` occurs but `raw` doesn't occur in it, the offsets are still set, and the item is ungrounded.
 
 A field is grounded only if **every** evidence item is grounded. Grounding never changes a field's `status` or `value`: an ungrounded field stays `found`, with `value` normalised from its `raw` (§4) as usual, and `grounded: false`. Grounding is checked against the text produced by the app's own ingest step (PDF text via MuPDF), not against any other PDF-to-text tool. For the cases in `spec/examples/`, that text is `source.mupdf.txt`.
 
@@ -160,13 +166,15 @@ A field is grounded only if **every** evidence item is grounded. Grounding never
 | Condition | Result | Model call? |
 | --- | --- | --- |
 | Empty or whitespace-only text after ingest | reject `empty` | no |
-| > 5 MB file, or > N tokens after ingest (N derived from `num_ctx`) | reject `too_large` | no |
-| PDF with no text layer, or binary content | reject `unreadable` | no |
+| File larger than 5,000,000 bytes, or > N tokens after ingest (N derived from `num_ctx`) | reject `too_large` | no |
+| PDF with no text layer, or a text or CSV file that is binary: not valid UTF-8, or contains a NUL character (U+0000) | reject `unreadable` | no |
 | No English labels (§2) | reject `unsupported_language` | yes |
 | Not an invoice, or a non-Canadian party (§2) | reject `out_of_scope` | yes |
 | More than one invoice (§2) | reject `multiple_documents` | yes |
 | A field has two different values and nothing decides between them | field `not_found` / `conflicting` | — |
 | A date is ambiguous under §4 | field `not_found` / `ambiguous` | — |
+
+The file type comes from the extension (`.pdf`, `.csv`, `.txt`, case-insensitive). Any other extension, or a missing file, is a usage error (CLI exit code `1`), not a reject: rejects describe the document, not how it was passed in.
 
 **Precedence** when more than one applies: `empty > too_large > unreadable > unsupported_language > out_of_scope > multiple_documents`. A grader decides the expected reason by walking this list in order and stopping at the first condition that holds.
 
@@ -273,6 +281,8 @@ Initial values; revise after the first baseline.
 - **Evidence error rate** = `correct` but `ungrounded` ÷ `correct`. Reported separately; the value is right but its citation isn't.
 - **Retry rate** = results that needed the schema retry ÷ all results. A pass after a retry is still a pass.
 - Ollama/network errors are infrastructure failures, reported separately, never counted as model failures.
+- **Per-field rates** (wrong, `missing`) are ÷ every scored instance of that field: each case whose fields are scored, times k repeats. Cases with no field scoring (§10 document outcomes) don't count.
+- **Zero denominators.** Every rate is reported with its numerator and denominator. When the denominator is 0, the rate is reported as `n/a` and passes its threshold, because nothing was asserted, so nothing could be wrong. A run that asserts nothing is caught by the other thresholds instead: an extractor that never finds a value fails the required `missing` threshold, and one that rejects everything fails the wrong-reject count.
 
 | Metric | Threshold |
 | --- | --- |

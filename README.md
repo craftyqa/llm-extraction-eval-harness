@@ -152,7 +152,7 @@ Each example also keeps the text from three PDF parsers (`source.mupdf.txt`, `so
 
 Before any code: can someone grade outputs correctly using **only** the spec? Five document + output pairs in [`spec/blind-grade/`](spec/blind-grade/) each target one edge case. They are graded by me and by a second grader (a person, or a fresh LLM session with no project context) who gets only `SPEC.md`. Every disagreement becomes a spec fix or a new worked example. See [`spec/blind-grade/README.md`](spec/blind-grade/README.md) for the procedure.
 
-> If you plan to act as a blind grader, stop here: don't read `spec/examples/`, `spec/risks.md` or `docs/`.
+> If you plan to act as a blind grader, stop here: don't read `spec/examples/`, `spec/risks.md`, `docs/` or `evals/`.
 
 ### Scoring layers *(planned, Phase 3)*
 
