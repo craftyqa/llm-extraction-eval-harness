@@ -182,8 +182,8 @@ https://www.evidentlyai.com/llm-evaluations-course
   - **Proposed:** ~800-character chunks with 100-character overlap, split on paragraph/line boundaries
   - Retrieval: BM25 keyword scoring over field-specific query terms (e.g. `total`: "total, amount due, balance due"), top-k = 3 per field, merged and deduplicated
   - **Whole-document mode** (`--no-retrieval`) as a baseline: invoices usually fit in context, so the Phase 3 comparison should show whether retrieval helps or hurts
-- [ ] Extract: one model call per document using the merged chunks, `format` = JSON schema from Zod, then `schema.safeParse`, the evidence check and the retry policy
-- [ ] Return an `ExtractionResult` exactly as specified in Phase 0, including `RunMeta`
+- [x] Extract: one model call per document using the merged chunks, `format` = JSON schema from Zod, then `schema.safeParse`, the evidence check and the retry policy (decision #49; prompt `prompts/extract.v1.md`)
+- [x] Return an `ExtractionResult` exactly as specified in Phase 0, including `RunMeta` (`src/extract/types.ts`)
 - [ ] CLI: `extract <file> [--model] [--prompt extract.v2] [--no-retrieval] [--seed] [--temperature]` prints JSON to stdout; exit code 0 = extracted, 2 = rejected, 1 = error
 - [ ] Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`
 - [ ] Unit tests (model calls mocked; no Ollama):

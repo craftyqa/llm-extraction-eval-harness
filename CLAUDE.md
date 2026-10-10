@@ -10,7 +10,7 @@ Guidance for Claude Code in this repo. Start with `README.md` for the overview.
 
 A local LLM extraction app for Canadian supplier invoices, and an evaluation harness around it. The harness is the main deliverable; the app stays deliberately simple.
 
-**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/` and `src/retrieve/` are implemented and tested. Extraction and the CLI are next. The phase checklists are in `docs/specs.md`.
+**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/`, `src/retrieve/` and `src/extract/` are implemented and unit-tested. The CLI and live integration tests are next. The phase checklists are in `docs/specs.md`.
 
 | File | Role |
 | --- | --- |
@@ -23,6 +23,8 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `docs/phase-N.md` | Phase write-ups |
 | `src/ingest/` | `ingest(path)` → text + source metadata, or an `empty` / `too_large` / `unreadable` reject (SPEC §7) |
 | `src/retrieve/` | `chunk(text)` → overlapping chunks; `retrieve(source, chunks)` → BM25 top-k per field, merged into passages (decision #48) |
+| `src/extract/` | `extractFile(path, client)` → `ExtractionResult` (SPEC §5): prompt, Ollama call, schema check with one retry, normalisation (§4), grounding (decision #49) |
+| `prompts/` | Versioned prompts; `extract.v1.md` is the current extraction prompt |
 
 ## Working rules
 
@@ -55,6 +57,6 @@ Planned: `test:live` (needs Ollama), `extract`, `eval`, `coverage-matrix`.
 
 ## Stack
 
-Installed: Node 24 LTS, TypeScript 6.0.x strict (`noUncheckedIndexedAccess`; not 7, decision #32), ESM, `tsx`, ESLint + Prettier, Vitest, `mupdf`, `csv-parse`. Ollama runs locally with `qwen2.5:7b-instruct` (local) and `llama3.2:3b` (CI); pinned digests are in the README.
+Installed: Node 24 LTS, TypeScript 6.0.x strict (`noUncheckedIndexedAccess`; not 7, decision #32), ESM, `tsx`, ESLint + Prettier, Vitest, fast-check, Zod v4, `mupdf`, `csv-parse`. Ollama runs locally with `qwen2.5:7b-instruct` (local) and `llama3.2:3b` (CI); pinned digests are in the README.
 
-Planned: Zod v4, Promptfoo, fast-check, GitHub Actions, OpenTelemetry → Arize Phoenix.
+Planned: Promptfoo, GitHub Actions, OpenTelemetry → Arize Phoenix.

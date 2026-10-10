@@ -1,3 +1,4 @@
+import type { FieldName } from "../extract/fields.ts";
 import type { Chunk } from "./chunk.ts";
 
 /**
@@ -37,9 +38,7 @@ export const FIELD_QUERIES = {
     "montant dû",
     "solde",
   ],
-} as const satisfies Record<string, readonly string[]>;
-
-export type FieldName = keyof typeof FIELD_QUERIES;
+} as const satisfies Record<FieldName, readonly string[]>;
 
 export type Passage = { start: number; end: number; text: string };
 

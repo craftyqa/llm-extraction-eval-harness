@@ -17,7 +17,8 @@ export const MAX_BYTES = 5_000_000;
 export class UsageError extends Error {
   constructor(
     message: string,
-    readonly code: "unsupported_extension" | "file_not_found",
+    readonly code:
+      "unsupported_extension" | "file_not_found" | "prompt_not_found",
   ) {
     super(message);
     this.name = "UsageError";

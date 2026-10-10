@@ -4,7 +4,7 @@ A small LLM document-extraction app, and a full evaluation harness around it. Th
 
 The app is deliberately simple. The harness is the point: a written quality bar, a golden dataset, layered scoring, adversarial tests, a CI quality gate and tracing.
 
-> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 is in progress: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, and the ingest step (PDF, CSV and text, with the SPEC §7 pre-model rejects) is implemented and tested. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
+> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 is in progress: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, and the pipeline from ingest through retrieval and extraction (Ollama call, normalisation, grounding, retry) is implemented and unit-tested. The CLI and live integration tests are next. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
 
 ## Contents
 
@@ -233,16 +233,19 @@ spec/
 src/
   ingest/             ingest(path) → text + source metadata, or a reject; pdf.ts (MuPDF), csv.ts, text.ts, types.ts
   retrieve/           chunk.ts (paragraph/line-aware chunks), retrieve.ts (BM25 per field → merged passages)
+  extract/            extract.ts (pipeline + retry), schema.ts (Zod → Ollama format), normalise.ts, grounding.ts, ollama.ts, prompt.ts
+prompts/
+  extract.v1.md       extraction prompt (versioned, never edited in place)
 ```
 
-Planned additions: `src/` (extract, cli), `prompts/` (versioned, never edited in place), `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
+Planned additions: `src/cli/`, `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
 
 ## Roadmap
 
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
-| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup, ingest, chunk and retrieve done |
+| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup, ingest, retrieval and extraction done; CLI and live tests next |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
 | 4 | Adversarial and guardrail tests | Not started |
@@ -280,6 +283,7 @@ Latency numbers only mean something on known hardware, so versions and the dev m
 | Vitest | 5.0.3 |
 | `tsx` | 4.23.15 |
 | `mupdf` / `csv-parse` | 1.28.1 / 7.0.3 |
+| Zod / fast-check | 4.6.5 / 4.10.2 |
 | Ollama | 0.40.0 |
 | `qwen2.5:7b-instruct` | 4.7 GB, digest `sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e` |
 | `llama3.2:3b` | 2.0 GB, digest `sha256:a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72` |
