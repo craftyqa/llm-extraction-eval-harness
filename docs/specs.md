@@ -178,7 +178,7 @@ https://www.evidentlyai.com/llm-evaluations-course
   - PDF: text layer via `mupdf`; no text layer → reject `unreadable`. Count Private Use Area and U+FFFD characters and record the count in the source metadata; above a threshold → reject `unreadable`. EX-01 and EX-04 are regression fixtures (must extract with zero PUA characters)
   - CSV: rendered to `header: value` lines per row, so the model sees labels
   - Text: read as UTF-8; strip the BOM; normalise line endings to `\n`
-- [ ] Chunk and retrieve:
+- [x] Chunk and retrieve (decision #48):
   - **Proposed:** ~800-character chunks with 100-character overlap, split on paragraph/line boundaries
   - Retrieval: BM25 keyword scoring over field-specific query terms (e.g. `total`: "total, amount due, balance due"), top-k = 3 per field, merged and deduplicated
   - **Whole-document mode** (`--no-retrieval`) as a baseline: invoices usually fit in context, so the Phase 3 comparison should show whether retrieval helps or hurts
@@ -193,9 +193,7 @@ https://www.evidentlyai.com/llm-evaluations-course
   - Chunk boundaries and overlap, retrieval ranking on fixed text, schema validation, the retry policy (one retry with the error appended, `retries` recorded), reject pre-checks
 - [ ] Live integration tests (`npm run test:live`; needs Ollama; not part of `npm test`): two or three tiny documents through the real pipeline, checking plumbing, not quality. The `format` schema is enforced, including `minLength` (decision #35); `RunMeta` carries the model digest, seed and options; prompt truncation at `num_ctx` is detected and becomes `too_large`; Ollama being down is an infra error, not a model failure; the CLI returns the right exit codes, prints only JSON on stdout, and applies config precedence
 
-**Learn:** writing TypeScript, not just reading it; the moving parts of a RAG pipeline.
-
-**Rule:** I write the extraction and validation code myself. AI tools scaffold and review.
+**Learn:**  the moving parts of a RAG pipeline.
 
 **Done when:** `extract data/samples/clean-01.pdf` returns a schema-valid `ExtractionResult` with grounded evidence for every found field, and `npm test` passes with no Ollama running, and `npm run test:live` passes with Ollama running.
 

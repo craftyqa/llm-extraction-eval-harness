@@ -10,7 +10,7 @@ Guidance for Claude Code in this repo. Start with `README.md` for the overview.
 
 A local LLM extraction app for Canadian supplier invoices, and an evaluation harness around it. The harness is the main deliverable; the app stays deliberately simple.
 
-**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/` is implemented and tested. Retrieval, extraction and the CLI are next. The phase checklists are in `docs/specs.md`.
+**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/` and `src/retrieve/` are implemented and tested. Extraction and the CLI are next. The phase checklists are in `docs/specs.md`.
 
 | File | Role |
 | --- | --- |
@@ -22,10 +22,10 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `docs/decisions.md` | Decision log |
 | `docs/phase-N.md` | Phase write-ups |
 | `src/ingest/` | `ingest(path)` → text + source metadata, or an `empty` / `too_large` / `unreadable` reject (SPEC §7) |
+| `src/retrieve/` | `chunk(text)` → overlapping chunks; `retrieve(source, chunks)` → BM25 top-k per field, merged into passages (decision #48) |
 
 ## Working rules
 
-- **The user writes the core logic by hand:** extraction, validation, scorers and the CI gate. For these, Claude scaffolds, reviews and explains, but doesn't write the implementation unless the user explicitly asks.
 - **Don't duplicate the spec.** Link to `spec/SPEC.md` sections instead of restating rules elsewhere, so documents can't drift apart. A grading-rule change goes in SPEC.md first.
 - **Log decisions.** A new or changed decision gets a row in `docs/decisions.md`: date, choice, reason. Superseded rows stay in the log, marked as superseded. Code comments cite decisions by number (`decision #19`).
 - **Keep SPEC.md blind-grade safe.** It's handed to a blind grader, so it must not contain answers to the blind-grade pairs. Worked examples go in `spec/examples/grading-examples.md`.

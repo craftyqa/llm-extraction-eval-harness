@@ -232,16 +232,17 @@ spec/
   blind-grade/        BG-1…BG-5 pairs, grader instructions, grading sheet, results
 src/
   ingest/             ingest(path) → text + source metadata, or a reject; pdf.ts (MuPDF), csv.ts, text.ts, types.ts
+  retrieve/           chunk.ts (paragraph/line-aware chunks), retrieve.ts (BM25 per field → merged passages)
 ```
 
-Planned additions: `src/` (retrieve, extract, cli), `prompts/` (versioned, never edited in place), `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
+Planned additions: `src/` (extract, cli), `prompts/` (versioned, never edited in place), `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
 
 ## Roadmap
 
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
-| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup and ingest done |
+| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup, ingest, chunk and retrieve done |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
 | 4 | Adversarial and guardrail tests | Not started |
