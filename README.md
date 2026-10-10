@@ -4,7 +4,7 @@ A small LLM document-extraction app, and a full evaluation harness around it. Th
 
 The app is deliberately simple. The harness is the point: a written quality bar, a golden dataset, layered scoring, adversarial tests, a CI quality gate and tracing.
 
-> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 has started: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, but no app or harness code exists yet. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
+> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 is in progress: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, and the ingest step is scaffolded (types, stubs and tests written ahead of the implementation). Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
 
 ## Contents
 
@@ -207,7 +207,7 @@ ollama pull llama3.2:3b           # CI model, 2.0 GB
 | `npm run format` / `format:check` | Prettier; skips `spec/`, `data/` and Markdown so byte-exact fixtures and prompts are never reformatted |
 | `npm test` / `test:watch` | Vitest unit tests; no Ollama needed |
 
-`typecheck` and `test` fail until the first `.ts` and `.test.ts` files exist.
+The ingest tests are written ahead of the code, so `npm test` fails until the stubs in `src/ingest/` are implemented. Open cases are marked `it.todo`.
 
 ## Repo layout
 
@@ -220,24 +220,28 @@ tsconfig.json         strict, noUncheckedIndexedAccess, ESM (nodenext), noEmit
 eslint.config.js      ESLint flat config + typescript-eslint (strictTypeChecked)
 .prettierrc.json      Prettier config; .prettierignore protects fixtures
 vitest.config.ts      Vitest config
+.gitattributes        byte-exact fixtures: no line-ending conversion under spec/examples/, spec/blind-grade/, data/
 docs/
   specs.md            project plan: phases, stack, cross-cutting decisions
   decisions.md        decision log: date, choice and reason for each decision
+  phase-0.md          Phase 0 write-up
 spec/
   SPEC.md             grading spec (source of truth)
   risks.md            risk list with severities and coverage
   examples/           EX-01…EX-07 golden examples, worked grading examples, blind-grade answer key
-  blind-grade/        BG-1…BG-5 pairs, grader instructions, grading sheet
+  blind-grade/        BG-1…BG-5 pairs, grader instructions, grading sheet, results
+src/
+  ingest/             ingest(path) → text + source metadata, or a reject; pdf.ts (MuPDF), csv.ts, text.ts, types.ts (scaffolded)
 ```
 
-Planned additions: `src/` (ingest, retrieve, extract, cli), `prompts/` (versioned, never edited in place), `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
+Planned additions: `src/` (retrieve, extract, cli), `prompts/` (versioned, never edited in place), `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
 
 ## Roadmap
 
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
-| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup done |
+| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup done, ingest scaffolded |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
 | 4 | Adversarial and guardrail tests | Not started |
@@ -264,7 +268,7 @@ Everything runs locally and costs nothing.
 
 Latency numbers only mean something on known hardware, so versions and the dev machine are recorded here.
 
-**Versions** (exact dev-dependency versions are pinned in `package.json` and the lockfile):
+**Versions** (exact dependency versions are pinned in `package.json` and the lockfile):
 
 | Tool | Version |
 | --- | --- |
@@ -274,6 +278,7 @@ Latency numbers only mean something on known hardware, so versions and the dev m
 | Prettier | 3.9.9 |
 | Vitest | 5.0.3 |
 | `tsx` | 4.23.15 |
+| `mupdf` / `csv-parse` | 1.28.1 / 7.0.3 |
 | Ollama | 0.40.0 |
 | `qwen2.5:7b-instruct` | 4.7 GB, digest `sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e` |
 | `llama3.2:3b` | 2.0 GB, digest `sha256:a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72` |
