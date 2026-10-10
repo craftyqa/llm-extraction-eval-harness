@@ -186,9 +186,9 @@ https://www.evidentlyai.com/llm-evaluations-course
 - [x] Return an `ExtractionResult` exactly as specified in Phase 0, including `RunMeta` (`src/extract/types.ts`)
 - [ ] CLI: `extract <file> [--model] [--prompt extract.v2] [--no-retrieval] [--seed] [--temperature]` prints JSON to stdout; exit code 0 = extracted, 2 = rejected, 1 = error
 - [ ] Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`
-- [ ] Unit tests (model calls mocked; no Ollama):
+- [x] Unit tests (model calls mocked; no Ollama):
   - **Ingest** per format, plus the [SPEC §7](../spec/SPEC.md#7-refusal-rules) boundaries: exactly 5,000,000 bytes is accepted and 5,000,001 is `too_large`; invalid UTF-8 and a NUL character are `unreadable`; reject precedence (a 6 MB whitespace-only file is `empty`); `.PDF` in capitals; an unsupported extension or missing file is a usage error
-  - **Normalisers** ([SPEC §4](../spec/SPEC.md#4-normalisation-app-code-not-the-model)): table-driven from every §4 example, plus a property-based round-trip with fast-check (generate an amount, format it in each supported style, normalise it, compare cents). Dates: impossible calendar dates, leap years, `FMT-1` edges, ordinals, abbreviated and unaccented months, same-format disambiguation. These are the R-4 and R-10 controls
+  - **Normalisers** ([SPEC §4](../spec/SPEC.md#4-normalisation-app-code-not-the-model)): table-driven from every §4 example, plus a property-based round-trip with fast-check (generate an amount, format it in each supported style, normalise it, compare cents). Dates: impossible calendar dates, leap years, ordinals, abbreviated and unaccented months, same-format disambiguation. These are the R-4 and R-10 controls
   - **Grounding and offsets** ([SPEC §5](../spec/SPEC.md#5-output-contract)): empty and whitespace-only evidence, a quote spanning a line break, U+202F in the source vs a space in the quote, an astral character before the match, a repeated quote (first match), `raw` not in `quote`
   - Chunk boundaries and overlap, retrieval ranking on fixed text, schema validation, the retry policy (one retry with the error appended, `retries` recorded), reject pre-checks
 - [ ] Live integration tests (`npm run test:live`; needs Ollama; not part of `npm test`): two or three tiny documents through the real pipeline, checking plumbing, not quality. The `format` schema is enforced, including `minLength` (decision #35); `RunMeta` carries the model digest, seed and options; prompt truncation at `num_ctx` is detected and becomes `too_large`; Ollama being down is an infra error, not a model failure; the CLI returns the right exit codes, prints only JSON on stdout, and applies config precedence
@@ -257,7 +257,7 @@ https://arxiv.org/pdf/2404.12272
 
 **Design:** scorers are pure TypeScript functions in `evals/scorers`, unit-tested with Vitest, called from Promptfoo `javascript` assertions. Promptfoo runs the cases (`--repeat k`, JSON output). A separate `scorecard` script aggregates that JSON into per-field metrics, which Promptfoo doesn't do natively. One command: `npm run eval` → `reports/<date>-<sha>/scorecard.{json,md}`.
 
-- [ ] **Layer 1, deterministic:** schema valid, required fields present, evidence grounded (quote exists in source), cross-field rules `XF-*` hold (unless `violatesRules` says the source breaks them)
+- [ ] **Layer 1, deterministic:** schema valid, required fields present, evidence grounded (quote exists in source), cross-field rules `XF-*` hold (unless `violatesRules` says the source breaks them). Unit tests for the `FMT-*` rules include the `FMT-1` edges (1999-12-31, 2000-01-01, 2099-12-31, 2100-01-01); moved from the Phase 1 normaliser tests, since `FMT-1` is a rule (SPEC §9), not normalisation (decision #50)
 - [ ] **Layer 2, field matching** (normalise both sides first):
   - Exact: `invoiceNumber`, `currency`, `vendorTaxId` (after removing separators), dates (parsed to ISO)
   - Amount: `subtotal`, `taxAmount`, `total`, `amountDue` (compared as integer minor units)
