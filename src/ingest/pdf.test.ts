@@ -1,7 +1,12 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { countUnmappedGlyphs, extractPdfText } from "./pdf.ts";
+import {
+  countUnmappedGlyphs,
+  extractPdfText,
+  hasTooManyUnmappedGlyphs,
+} from "./pdf.ts";
+import { pdfWithoutText } from "./test-fixtures.ts";
 
 const examples = join(import.meta.dirname, "../../spec/examples");
 
@@ -35,7 +40,50 @@ describe("extractPdfText", () => {
     expect(countUnmappedGlyphs(extract(caseDir).text)).toBe(0);
   });
 
-  it.todo("a PDF with no text layer (needs a fixture)");
+  it("returns no text for a PDF with no text layer", () => {
+    expect(extractPdfText(pdfWithoutText())).toEqual({
+      text: "",
+      pageCount: 1,
+    });
+  });
+
+  it("throws on a file that isn't a PDF", () => {
+    expect(() =>
+      extractPdfText(new TextEncoder().encode("not a pdf")),
+    ).toThrow();
+  });
+});
+
+describe("hasTooManyUnmappedGlyphs", () => {
+  // Decision #45: the unpdf output for these two is the reason the threshold exists
+  it.each(["01-classic", "04-eu"])(
+    "rejects the unpdf text of %s",
+    (caseDir) => {
+      const text = readFileSync(
+        join(examples, caseDir, "source.unpdf.txt"),
+        "utf8",
+      );
+      expect(hasTooManyUnmappedGlyphs(text, countUnmappedGlyphs(text))).toBe(
+        true,
+      );
+    },
+  );
+
+  it("allows up to 0.5% of non-whitespace characters", () => {
+    const text = "x".repeat(1000);
+    expect(hasTooManyUnmappedGlyphs(text, 5)).toBe(false);
+    expect(hasTooManyUnmappedGlyphs(text, 6)).toBe(true);
+  });
+
+  it("ignores whitespace when counting characters", () => {
+    expect(
+      hasTooManyUnmappedGlyphs(`${"x".repeat(200)}${" ".repeat(800)}`, 2),
+    ).toBe(true);
+  });
+
+  it("is false for text with no visible characters", () => {
+    expect(hasTooManyUnmappedGlyphs(" \n", 0)).toBe(false);
+  });
 });
 
 describe("countUnmappedGlyphs", () => {

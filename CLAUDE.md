@@ -10,7 +10,7 @@ Guidance for Claude Code in this repo. Start with `README.md` for the overview.
 
 A local LLM extraction app for Canadian supplier invoices, and an evaluation harness around it. The harness is the main deliverable; the app stays deliberately simple.
 
-**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/` is a skeleton of types, stubs that throw `Not implemented`, and tests written ahead of the code (open cases are `it.todo`). The phase checklists are in `docs/specs.md`.
+**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/` is implemented and tested. Retrieval, extraction and the CLI are next. The phase checklists are in `docs/specs.md`.
 
 | File | Role |
 | --- | --- |

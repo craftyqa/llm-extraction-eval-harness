@@ -165,14 +165,16 @@ A field is grounded only if **every** evidence item is grounded. Grounding never
 
 | Condition | Result | Model call? |
 | --- | --- | --- |
-| Empty or whitespace-only text after ingest | reject `empty` | no |
+| Text or CSV file that is empty or whitespace-only after ingest; a CSV with a header row and no non-blank data rows | reject `empty` | no |
 | File larger than 5,000,000 bytes, or > N tokens after ingest (N derived from `num_ctx`) | reject `too_large` | no |
-| PDF with no text layer, or a text or CSV file that is binary: not valid UTF-8, or contains a NUL character (U+0000) | reject `unreadable` | no |
+| PDF that can't be opened, has no text layer (no non-whitespace text), or whose Private Use Area and U+FFFD characters are more than 0.5% of its non-whitespace characters; a text or CSV file that is binary (not valid UTF-8, or contains a NUL character, U+0000); a CSV that can't be parsed | reject `unreadable` | no |
 | No English labels (§2) | reject `unsupported_language` | yes |
 | Not an invoice, or a non-Canadian party (§2) | reject `out_of_scope` | yes |
 | More than one invoice (§2) | reject `multiple_documents` | yes |
 | A field has two different values and nothing decides between them | field `not_found` / `conflicting` | — |
 | A date is ambiguous under §4 | field `not_found` / `ambiguous` | — |
+
+A PDF is never `empty`: without OCR, a blank page and a scan with no text layer look the same, so both are `unreadable`.
 
 The file type comes from the extension (`.pdf`, `.csv`, `.txt`, case-insensitive). Any other extension, or a missing file, is a usage error (CLI exit code `1`), not a reject: rejects describe the document, not how it was passed in.
 
@@ -310,4 +312,3 @@ Worked examples for every outcome label (G- field, D- document, C- case) are in 
 | --- | --- |
 | "At most one optional field wrong" lets a `taxAmount` with a tax line missing (risk R-9, S2) pass the case if it's otherwise clean. Acceptable? | Yes; the optional-wrong threshold catches it in aggregate |
 | Line items in scope | No (stretch) |
-| Threshold for rejecting a PDF as `unreadable` when ingest still produces Private Use Area or U+FFFD characters (see `docs/decisions.md`, PDF parser) | Set in Phase 1 from real counts; record the count in source metadata either way |
