@@ -150,11 +150,11 @@ describe("extractSource", () => {
       reason: "absent",
     });
 
-    const prompt = loadPrompt("extract.v1");
+    const prompt = loadPrompt(DEFAULT_EXTRACT_OPTIONS.promptId);
     expect(result.meta).toMatchObject({
-      model: "qwen2.5:7b-instruct",
+      model: DEFAULT_EXTRACT_OPTIONS.model,
       modelDigest: "sha256:fake",
-      promptId: "extract.v1",
+      promptId: DEFAULT_EXTRACT_OPTIONS.promptId,
       promptHash: prompt.hash,
       options: DEFAULT_EXTRACT_OPTIONS.options,
       retrieval: true,
@@ -286,6 +286,29 @@ describe("extractSource", () => {
         meta: { retries: 1 },
       });
       expect(fake.requests).toHaveLength(2);
+    });
+
+    it("doesn't send a retry that wouldn't fit in num_ctx (decision #52)", async () => {
+      const longGarbage = "x".repeat(3000);
+      const fake = fakeClient(longGarbage);
+      const error: unknown = await extractSource(
+        textSource(invoice),
+        fake.client,
+        {
+          ...DEFAULT_EXTRACT_OPTIONS,
+          options: {
+            ...DEFAULT_EXTRACT_OPTIONS.options,
+            num_ctx: 4096,
+            num_predict: 1024,
+          },
+        },
+      ).catch((e: unknown) => e);
+      expect(error).toBeInstanceOf(MalformedOutputError);
+      expect(error).toMatchObject({
+        lastOutput: longGarbage,
+        meta: { retries: 0 },
+      });
+      expect(fake.requests).toHaveLength(1);
     });
   });
 

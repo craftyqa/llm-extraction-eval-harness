@@ -10,7 +10,7 @@ Guidance for Claude Code in this repo. Start with `README.md` for the overview.
 
 A local LLM extraction app for Canadian supplier invoices, and an evaluation harness around it. The harness is the main deliverable; the app stays deliberately simple.
 
-**Status:** Phase 0 (spec) is done. Phase 1 (system under test) is in progress: repo tooling and local Ollama are set up, and `src/ingest/`, `src/retrieve/` and `src/extract/` are implemented and unit-tested. The CLI and live integration tests are next. The phase checklists are in `docs/specs.md`.
+**Status:** Phases 0 (spec) and 1 (system under test) are done; see `docs/phase-1.md`. The pipeline (`src/ingest/`, `src/retrieve/`, `src/extract/`) and CLI (`src/cli/`) have unit and live tests. Phase 2 (golden dataset) is next. The phase checklists are in `docs/specs.md`.
 
 | File | Role |
 | --- | --- |
@@ -24,7 +24,8 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `src/ingest/` | `ingest(path)` → text + source metadata, or an `empty` / `too_large` / `unreadable` reject (SPEC §7) |
 | `src/retrieve/` | `chunk(text)` → overlapping chunks; `retrieve(source, chunks)` → BM25 top-k per field, merged into passages (decision #48) |
 | `src/extract/` | `extractFile(path, client)` → `ExtractionResult` (SPEC §5): prompt, Ollama call, schema check with one retry, normalisation (§4), grounding (decision #49) |
-| `prompts/` | Versioned prompts; `extract.v1.md` is the current extraction prompt |
+| `src/cli/` | `extract` CLI: flags > env vars > `config.default.json`; exit 0 extracted, 2 rejected, 1 error (decision #51) |
+| `prompts/` | Versioned prompts; the default is set in `config.default.json` (currently `extract.v2`) |
 
 ## Working rules
 
@@ -45,13 +46,16 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `npm run lint` | ESLint, `typescript-eslint` `strictTypeChecked` |
 | `npm run format` / `format:check` | Prettier; skips `spec/`, `data/` and all Markdown |
 | `npm test` / `test:watch` | Vitest; no Ollama needed |
+| `npm run -s extract -- <file>` | Extract one file; needs Ollama, ~20–70 s per document. Ask before running it: it occupies the GPU |
 
-Planned: `test:live` (needs Ollama), `extract`, `eval`, `coverage-matrix`.
+| `npm run test:live` | Live tests in `*.live.test.ts` against Ollama (`LIVE_MODEL`, default `llama3.2:3b`); about a minute on the GPU, so ask first |
+
+Planned: `eval`, `coverage-matrix`.
 
 ## Code conventions
 
 - ESM with explicit `.ts` import extensions (`import { ingest } from "./ingest.ts"`).
-- Tests sit next to the code as `*.test.ts`. Unit tests must run without Ollama; mock model calls.
+- Tests sit next to the code as `*.test.ts`. Unit tests must run without Ollama; mock model calls. Tests that need Ollama are `*.live.test.ts`, which `npm test` excludes.
 - A deliberately unused parameter starts with `_`.
 - Use `node:path` for paths; the dev machine is Windows and CI is Linux.
 

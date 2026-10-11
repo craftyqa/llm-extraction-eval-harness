@@ -1,0 +1,11 @@
+{
+  "model": "qwen2.5:7b-instruct",
+  "promptId": "extract.v2",
+  "retrieval": true,
+  "options": {
+    "temperature": 0.2,
+    "seed": 42,
+    "num_ctx": 8192,
+    "num_predict": 2048
+  }
+}

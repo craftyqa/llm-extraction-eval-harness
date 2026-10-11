@@ -4,7 +4,7 @@ A small LLM document-extraction app, and a full evaluation harness around it. Th
 
 The app is deliberately simple. The harness is the point: a written quality bar, a golden dataset, layered scoring, adversarial tests, a CI quality gate and tracing.
 
-> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 is in progress: the repo tooling (TypeScript, ESLint, Prettier, Vitest) and local Ollama are set up, and the pipeline from ingest through retrieval and extraction (Ollama call, normalisation, grounding, retry) is implemented and unit-tested. The CLI and live integration tests are next. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
+> **Status:** Phase 0 (spec and quality bar) is complete, including the blind-grade test. Phase 1 (system under test) is complete: the pipeline from ingest through retrieval and extraction (Ollama call, normalisation, grounding, retry), a CLI, unit tests and live integration tests against Ollama; see [`docs/phase-1.md`](docs/phase-1.md). Phase 2 (golden dataset) is next. Commands below marked *planned* describe the target design from [`docs/specs.md`](docs/specs.md).
 
 ## Contents
 
@@ -77,13 +77,15 @@ type Evidence = { raw: string; quote: string; start: number | null; end: number 
 
 The full output contract is in [SPEC §5](spec/SPEC.md#5-output-contract).
 
-### Usage *(planned, Phase 1)*
+### Usage
 
 ```sh
-npm run extract -- invoice.pdf [--model qwen2.5:7b-instruct] [--prompt extract.v2] [--no-retrieval] [--seed 42] [--temperature 0.2]
+npm run -s extract -- invoice.pdf [--model qwen2.5:7b-instruct] [--prompt extract.v2] [--no-retrieval] [--seed 42] [--temperature 0.2]
 ```
 
-Prints an `ExtractionResult` as JSON. Exit code `0` = extracted, `2` = rejected, `1` = error. Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`.
+Prints an `ExtractionResult` as JSON on stdout; diagnostics go to stderr. Exit code `0` = extracted, `2` = rejected, `1` = error (bad arguments, Ollama unreachable, or output still schema-invalid after one retry). Use `-s` so npm doesn't print its own banner on stdout. Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, `EXTRACT_PROMPT`, `EXTRACT_RETRIEVAL`, `EXTRACT_SEED`, `EXTRACT_TEMPERATURE`, `EXTRACT_NUM_CTX`, `EXTRACT_NUM_PREDICT`) > [`config.default.json`](config.default.json). `OLLAMA_HOST` sets the Ollama address. `npm run -s extract -- --help` lists the options.
+
+A run on a golden example takes about 20–70 s with `qwen2.5:7b-instruct` on the dev machine below.
 
 ## Part 2: the eval harness
 
@@ -206,6 +208,8 @@ ollama pull llama3.2:3b           # CI model, 2.0 GB
 | `npm run lint` | ESLint with type-aware `typescript-eslint` rules |
 | `npm run format` / `format:check` | Prettier; skips `spec/`, `data/` and Markdown so byte-exact fixtures and prompts are never reformatted |
 | `npm test` / `test:watch` | Vitest unit tests; no Ollama needed |
+| `npm run test:live` | Live integration tests against Ollama (default model `llama3.2:3b`, override with `LIVE_MODEL`); plumbing, not quality; about a minute |
+| `npm run -s extract -- <file>` | Extract one file (needs Ollama); see [Usage](#usage) |
 
 The ingest tests use the PDFs and `source.mupdf.txt` files in `spec/examples/` as fixtures.
 
@@ -220,11 +224,13 @@ tsconfig.json         strict, noUncheckedIndexedAccess, ESM (nodenext), noEmit
 eslint.config.js      ESLint flat config + typescript-eslint (strictTypeChecked)
 .prettierrc.json      Prettier config; .prettierignore protects fixtures
 vitest.config.ts      Vitest config
+config.default.json   extraction defaults: model, prompt, retrieval, Ollama options
 .gitattributes        byte-exact fixtures: no line-ending conversion under spec/examples/, spec/blind-grade/, data/
 docs/
   specs.md            project plan: phases, stack, cross-cutting decisions
   decisions.md        decision log: date, choice and reason for each decision
   phase-0.md          Phase 0 write-up
+  phase-1.md          Phase 1 write-up
 spec/
   SPEC.md             grading spec (source of truth)
   risks.md            risk list with severities and coverage
@@ -233,19 +239,21 @@ spec/
 src/
   ingest/             ingest(path) → text + source metadata, or a reject; pdf.ts (MuPDF), csv.ts, text.ts, types.ts
   retrieve/           chunk.ts (paragraph/line-aware chunks), retrieve.ts (BM25 per field → merged passages)
-  extract/            extract.ts (pipeline + retry), schema.ts (Zod → Ollama format), normalise.ts, grounding.ts, ollama.ts, prompt.ts
+  extract/            extract.ts (pipeline + retry), schema.ts (Zod → Ollama format), normalise.ts, grounding.ts, ollama.ts, prompt.ts, config.ts
+  cli/                extract.ts: the CLI (flags > env vars > config.default.json)
 prompts/
-  extract.v1.md       extraction prompt (versioned, never edited in place)
+  extract.v1.md       first extraction prompt, kept as the baseline
+  extract.v2.md       current default: value-only raw, worked example (decision #50)
 ```
 
-Planned additions: `src/cli/`, `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
+Planned additions: `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).
 
 ## Roadmap
 
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 0 | Spec and quality bar: SPEC, risks, golden examples, blind-grade test | Done |
-| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | In progress: repo setup, ingest, retrieval and extraction done; CLI and live tests next |
+| 1 | System under test: ingest, retrieval, extraction, CLI, unit tests | Done |
 | 2 | Golden dataset: 40 cases across 7 partitions, seeded generator, coverage matrix | Not started |
 | 3 | Evaluation layer: scorers, LLM judge with κ calibration, variance, scorecard | Not started |
 | 4 | Adversarial and guardrail tests | Not started |

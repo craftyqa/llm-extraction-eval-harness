@@ -2,6 +2,7 @@ import { ingest } from "../ingest/ingest.ts";
 import type { IngestedSource } from "../ingest/types.ts";
 import { chunk } from "../retrieve/chunk.ts";
 import { retrieve } from "../retrieve/retrieve.ts";
+import { DEFAULT_EXTRACT_OPTIONS, type ExtractOptions } from "./config.ts";
 import { FIELD_KINDS, FIELD_NAMES, type FieldName } from "./fields.ts";
 import {
   collapseWhitespace,
@@ -12,6 +13,7 @@ import { appVersion, hardwareProfile } from "./meta.ts";
 import { formatCents, normalise, toCents } from "./normalise.ts";
 import type { ChatMessage, ModelClient } from "./ollama.ts";
 import { loadPrompt, renderDocument, type Prompt } from "./prompt.ts";
+import { estimateTokens } from "./tokens.ts";
 import {
   type ModelField,
   type ModelOutput,
@@ -22,29 +24,11 @@ import type {
   ExtractedFields,
   ExtractionResult,
   FieldResult,
-  ModelOptions,
   RejectReason,
   RunMeta,
 } from "./types.ts";
 
-export type ExtractOptions = {
-  model: string;
-  promptId: string;
-  /** `false` sends the whole document (`--no-retrieval`). */
-  retrieval: boolean;
-  options: ModelOptions;
-};
-
-/** Defaults; the CLI layers env vars and flags on top. Temperature 0.2 is still proposed (docs/specs.md). */
-export const DEFAULT_EXTRACT_OPTIONS: ExtractOptions = {
-  model: "qwen2.5:7b-instruct",
-  promptId: "extract.v1",
-  retrieval: true,
-  options: { temperature: 0.2, seed: 42, num_ctx: 8192, num_predict: 2048 },
-};
-
-/** Conservative characters-per-token estimate for the `too_large` pre-check (decision #49). */
-export const CHARS_PER_TOKEN = 3;
+export { DEFAULT_EXTRACT_OPTIONS, type ExtractOptions } from "./config.ts";
 
 /** At most one retry on a schema-validation failure (docs/specs.md, Retry policy). */
 const MAX_ATTEMPTS = 2;
@@ -103,11 +87,19 @@ export async function extractSource(
     ...(source.pageCount === undefined ? {} : { pageCount: source.pageCount }),
   };
 
-  // SPEC §7: too_large on the whole ingested text, whether or not retrieval is on
-  const estimate = Math.ceil(
-    (prompt.text.length + source.text.length) / CHARS_PER_TOKEN,
-  );
-  if (estimate + num_predict > num_ctx) {
+  // SPEC §7: too_large on the whole ingested text, whether or not retrieval is
+  // on. Ollama truncates an oversized prompt silently, so this is checked
+  // before the call, on an over-estimate (decision #52).
+  const fits = (messages: readonly ChatMessage[]) =>
+    messages.reduce((sum, m) => sum + estimateTokens(m.content), 0) +
+      num_predict <=
+    num_ctx;
+  if (
+    !fits([
+      { role: "system", content: prompt.text },
+      { role: "user", content: renderDocument([source.text]) },
+    ])
+  ) {
     return reject(
       "too_large",
       runMeta(prompt, options, startedAt, { source: sourceMeta }),
@@ -139,6 +131,9 @@ export async function extractSource(
     });
 
   while (output === undefined && attempts < MAX_ATTEMPTS) {
+    // A retry carries the bad output and the error too; if that won't fit, don't
+    // send it truncated: the run is malformed
+    if (attempts > 0 && !fits(messages)) break;
     attempts++;
     const response = await client.chat({
       model: options.model,
@@ -148,7 +143,8 @@ export async function extractSource(
     });
     promptTokens += response.promptTokens;
     completionTokens += response.completionTokens;
-    // The estimate can undercount (digits are often one token each); trust the measured count
+    // Backstop: a prompt that fits but leaves too little room for the output.
+    // A truncated prompt can't be seen here: Ollama reports the truncated count
     if (response.promptTokens + num_predict > num_ctx) {
       return reject("too_large", meta());
     }

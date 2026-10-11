@@ -184,18 +184,18 @@ https://www.evidentlyai.com/llm-evaluations-course
   - **Whole-document mode** (`--no-retrieval`) as a baseline: invoices usually fit in context, so the Phase 3 comparison should show whether retrieval helps or hurts
 - [x] Extract: one model call per document using the merged chunks, `format` = JSON schema from Zod, then `schema.safeParse`, the evidence check and the retry policy (decision #49; prompt `prompts/extract.v1.md`)
 - [x] Return an `ExtractionResult` exactly as specified in Phase 0, including `RunMeta` (`src/extract/types.ts`)
-- [ ] CLI: `extract <file> [--model] [--prompt extract.v2] [--no-retrieval] [--seed] [--temperature]` prints JSON to stdout; exit code 0 = extracted, 2 = rejected, 1 = error
-- [ ] Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`
+- [x] CLI: `extract <file> [--model] [--prompt extract.v2] [--no-retrieval] [--seed] [--temperature]` prints JSON to stdout; exit code 0 = extracted, 2 = rejected, 1 = error (decision #51)
+- [x] Config precedence: CLI flags > env vars (`EXTRACT_MODEL`, …) > `config.default.json`
 - [x] Unit tests (model calls mocked; no Ollama):
   - **Ingest** per format, plus the [SPEC §7](../spec/SPEC.md#7-refusal-rules) boundaries: exactly 5,000,000 bytes is accepted and 5,000,001 is `too_large`; invalid UTF-8 and a NUL character are `unreadable`; reject precedence (a 6 MB whitespace-only file is `empty`); `.PDF` in capitals; an unsupported extension or missing file is a usage error
   - **Normalisers** ([SPEC §4](../spec/SPEC.md#4-normalisation-app-code-not-the-model)): table-driven from every §4 example, plus a property-based round-trip with fast-check (generate an amount, format it in each supported style, normalise it, compare cents). Dates: impossible calendar dates, leap years, ordinals, abbreviated and unaccented months, same-format disambiguation. These are the R-4 and R-10 controls
   - **Grounding and offsets** ([SPEC §5](../spec/SPEC.md#5-output-contract)): empty and whitespace-only evidence, a quote spanning a line break, U+202F in the source vs a space in the quote, an astral character before the match, a repeated quote (first match), `raw` not in `quote`
   - Chunk boundaries and overlap, retrieval ranking on fixed text, schema validation, the retry policy (one retry with the error appended, `retries` recorded), reject pre-checks
-- [ ] Live integration tests (`npm run test:live`; needs Ollama; not part of `npm test`): two or three tiny documents through the real pipeline, checking plumbing, not quality. The `format` schema is enforced, including `minLength` (decision #35); `RunMeta` carries the model digest, seed and options; prompt truncation at `num_ctx` is detected and becomes `too_large`; Ollama being down is an infra error, not a model failure; the CLI returns the right exit codes, prints only JSON on stdout, and applies config precedence
+- [x] Live integration tests (`npm run test:live`; needs Ollama; not part of `npm test`; `src/pipeline.live.test.ts`, decision #52): two or three tiny documents through the real pipeline, checking plumbing, not quality. The `format` schema is enforced, including `minLength` (decision #35); `RunMeta` carries the model digest, seed and options; prompt truncation at `num_ctx` is detected and becomes `too_large`; Ollama being down is an infra error, not a model failure; the CLI returns the right exit codes, prints only JSON on stdout, and applies config precedence
 
 **Learn:**  the moving parts of a RAG pipeline.
 
-**Done when:** `extract data/samples/clean-01.pdf` returns a schema-valid `ExtractionResult` with grounded evidence for every found field, and `npm test` passes with no Ollama running, and `npm run test:live` passes with Ollama running.
+**Done when:** `extract spec/examples/01-classic/source.pdf` returns a schema-valid `ExtractionResult` with grounded evidence for every found field, and `npm test` passes with no Ollama running, and `npm run test:live` passes with Ollama running. (The generated-sample version of this check moved to Phase 2, decision #53.)
 
 ## Phase 2: Golden dataset
 
@@ -243,7 +243,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 
 **Learn:** applying equivalence partitioning, boundaries and risk-based selection to AI evals — the skill most AI-eval demos skip.
 
-**Done when:** the coverage-matrix script passes (every risk has ≥ 1 case, every partition ≥ 3 cases), every case has `reviewedBy` set, and the dataset tests pass.
+**Done when:** the coverage-matrix script passes (every risk has ≥ 1 case, every partition ≥ 3 cases), every case has `reviewedBy` set, and the dataset tests pass. `extract` on a generated clean PDF case returns a schema-valid `ExtractionResult` with grounded evidence for every found field (moved from Phase 1, decision #53).
 
 ## Phase 3: Evaluation layer
 **Readme** 
