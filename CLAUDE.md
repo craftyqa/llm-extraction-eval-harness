@@ -25,6 +25,7 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `src/retrieve/` | `chunk(text)` → overlapping chunks; `retrieve(source, chunks)` → BM25 top-k per field, merged into passages (decision #48) |
 | `src/extract/` | `extractFile(path, client)` → `ExtractionResult` (SPEC §5): prompt, Ollama call, schema check with one retry, normalisation (§4), grounding (decision #49) |
 | `src/cli/` | `extract` CLI: flags > env vars > `config.default.json`; exit 0 extracted, 2 rejected, 1 error (decision #51) |
+| `data/generator/` | Seeded synthetic-invoice generator: `generateCase(seed, options, info)` → input file + `expected.json` + `meta.json`, byte-identical per seed (decision #57) |
 | `prompts/` | Versioned prompts; the default is set in `config.default.json` (currently `extract.v3`) |
 
 ## Working rules
@@ -48,6 +49,7 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `npm test` / `test:watch` | Vitest; no Ollama needed |
 | `npm run -s extract -- <file>` | Extract one file; needs Ollama, ~20–70 s per document. Ask before running it: it occupies the GPU |
 
+| `npm run -s generate -- --seed <n> --out <dir>` | Write one generated case (`--help` for options); refuses to overwrite a case without `--force` |
 | `npm run test:live` | Live tests in `*.live.test.ts` against Ollama (`LIVE_MODEL`, default `llama3.2:3b`); about a minute on the GPU, so ask first |
 
 Planned: `eval`, `coverage-matrix`.

@@ -1,6 +1,7 @@
 # Byte-exact fixtures: reformatting would shift quote offsets
 spec/
-data/
+data/*
+!data/generator/
 
 # Hand-written docs and versioned prompts (never edited in place)
 *.md

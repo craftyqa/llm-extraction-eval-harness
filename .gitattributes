@@ -5,3 +5,5 @@
 spec/examples/** -text
 spec/blind-grade/** -text
 data/** -text
+# ...except the generator, which is code
+data/generator/** text=auto

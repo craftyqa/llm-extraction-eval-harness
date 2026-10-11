@@ -203,7 +203,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 
 **Estimate:** 15–20 h
 
-- [ ] Build the seeded generator (`data/generator`): faker → invoice object (the ground truth) → render to PDF, CSV or TXT with layout variants. The same seed produces byte-identical files: pdf-lib sets creation and modification dates by default, so fix them (or derive them from the seed). A test generates twice and compares hashes.
+- [x] Build the seeded generator (`data/generator`, decision #57; `npm run generate`): faker → invoice object (the ground truth) → render to PDF, CSV or TXT with layout variants. The same seed produces byte-identical files: pdf-lib sets creation and modification dates by default, so fix them (or derive them from the seed). A test generates twice and compares hashes.
 - [ ] Generate the clean and boundary partitions from the generator. Hand-write or hand-edit the tricky partitions (decoys, conflicts, out-of-scope).
 - [ ] Hand-review every `expected.json` against SPEC.md, including generated ones. Set `reviewedBy` and `reviewedAt` in `meta.json`.
 - [ ] Build the coverage matrix **as a script** (`npm run coverage-matrix`) that reads `meta.json` tags and the risk list, and fails if any risk has zero cases
