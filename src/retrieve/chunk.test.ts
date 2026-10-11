@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { DEFAULT_EXTRACT_OPTIONS } from "../extract/config.ts";
 import { type Chunk, chunk } from "./chunk.ts";
 
 const examples = join(import.meta.dirname, "../../spec/examples");
@@ -30,11 +31,13 @@ function expectValidChunks(
 
 describe("chunk", () => {
   it("returns no chunks for empty text", () => {
-    expect(chunk("")).toEqual([]);
+    expect(chunk("", { size: 800, overlap: 100 })).toEqual([]);
   });
 
   it("returns one chunk when the text fits", () => {
-    expect(chunk("Invoice INV-001\nTotal: 10.00\n")).toEqual([
+    expect(
+      chunk("Invoice INV-001\nTotal: 10.00\n", { size: 800, overlap: 100 }),
+    ).toEqual([
       { id: 0, start: 0, end: 29, text: "Invoice INV-001\nTotal: 10.00\n" },
     ]);
   });
@@ -99,13 +102,15 @@ describe("chunk", () => {
     "05-statement",
     "06-ambiguous-date",
     "07-account-statement",
-  ])("chunks %s with the default options", (caseDir) => {
+  ])("chunks %s with the configured options", (caseDir) => {
     const text = readFileSync(
       join(examples, caseDir, "source.mupdf.txt"),
       "utf8",
     );
-    const chunks = chunk(text);
+    const { chunkSize, chunkOverlap } =
+      DEFAULT_EXTRACT_OPTIONS.retrievalOptions;
+    const chunks = chunk(text, { size: chunkSize, overlap: chunkOverlap });
     expect(chunks.length).toBeGreaterThan(1);
-    expectValidChunks(text, chunks, 800, 100);
+    expectValidChunks(text, chunks, chunkSize, chunkOverlap);
   });
 });

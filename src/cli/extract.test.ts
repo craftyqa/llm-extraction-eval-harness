@@ -22,6 +22,7 @@ const defaults: ExtractOptions = {
   model: "default-model",
   promptId: "extract.v2",
   retrieval: true,
+  retrievalOptions: { chunkSize: 300, chunkOverlap: 75, k: 2 },
   options: { temperature: 0.2, seed: 42, num_ctx: 8192, num_predict: 2048 },
 };
 
@@ -92,6 +93,7 @@ describe("resolveOptions", () => {
       model: "env-model",
       promptId: "extract.v1",
       retrieval: false,
+      retrievalOptions: defaults.retrievalOptions,
       options: { temperature: 0.5, seed: 7, num_ctx: 4096, num_predict: 1024 },
     });
     expect(

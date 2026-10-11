@@ -111,7 +111,7 @@ export async function extractSource(
     { role: "system", content: prompt.text },
     {
       role: "user",
-      content: renderDocument(documentText(source.text, options.retrieval)),
+      content: renderDocument(documentText(source.text, options)),
     },
   ];
 
@@ -182,9 +182,11 @@ export async function extractSource(
   return { status: "extracted", fields, meta: meta() };
 }
 
-function documentText(text: string, retrieval: boolean): string[] {
-  if (!retrieval) return [text];
-  return retrieve(text, chunk(text)).passages.map((p) => p.text);
+function documentText(text: string, options: ExtractOptions): string[] {
+  if (!options.retrieval) return [text];
+  const { chunkSize, chunkOverlap, k } = options.retrievalOptions;
+  const chunks = chunk(text, { size: chunkSize, overlap: chunkOverlap });
+  return retrieve(text, chunks, { k }).passages.map((p) => p.text);
 }
 
 /** Normalises and grounds one field (SPEC §4 multiple evidence items, §5 grounding). */
@@ -246,6 +248,7 @@ function runMeta(
     promptHash: prompt.hash,
     options: options.options,
     retrieval: options.retrieval,
+    retrievalOptions: options.retrievalOptions,
     hardware: hardwareProfile(),
     retries: 0,
     promptTokens: 0,

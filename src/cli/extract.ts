@@ -84,6 +84,8 @@ export function resolveOptions(
       flags["no-retrieval"] === true
         ? false
         : pick(undefined, "EXTRACT_RETRIEVAL", asBoolean, defaults.retrieval),
+    // Config file only: an experiment setting, not a per-run flag
+    retrievalOptions: defaults.retrievalOptions,
     options: {
       temperature: pick(
         ["temperature", flags.temperature],

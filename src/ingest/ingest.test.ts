@@ -9,7 +9,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
 import { ingest } from "./ingest.ts";
-import { pdfWithoutText } from "./test-fixtures.ts";
+import { pdfWithoutText, pdfWithPages } from "./test-fixtures.ts";
 
 const examples = join(import.meta.dirname, "../../spec/examples");
 const dir = mkdtempSync(join(tmpdir(), "ingest-test-"));
@@ -90,6 +90,17 @@ describe("ingest", () => {
     expect(await ingest(path)).toMatchObject({
       status: "ok",
       source: { text: "Invoice Number: INV-1001\nTotal: 1130.00\n" },
+    });
+  });
+
+  it("reads a multi-page PDF with its page count", async () => {
+    const path = writeTemp(
+      "two-pages.pdf",
+      pdfWithPages(["Invoice No. INV-1", "Total 10.00"]),
+    );
+    expect(await ingest(path)).toMatchObject({
+      status: "ok",
+      source: { text: "Invoice No. INV-1\n\nTotal 10.00\n\n", pageCount: 2 },
     });
   });
 

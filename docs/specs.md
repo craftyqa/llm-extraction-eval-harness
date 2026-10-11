@@ -106,7 +106,7 @@ Retries hide failures, so they are part of the spec:
 
 With `temperature: 0` and a fixed seed, Ollama is close to deterministic on the same hardware, so a variance study at those settings would measure nearly nothing. So:
 
-- **Gate runs** use the production settings (**Proposed:** `temperature: 0.2`) and a different seed per repeat (`seed = baseSeed + repeatIndex`).
+- **Gate runs** use the production settings (`temperature: 0.2`, decision #56) and a different seed per repeat (`seed = baseSeed + repeatIndex`).
 - **Debug reproductions** use `temperature: 0` and a fixed seed.
 - Results from CPU and GPU, or from different machines, are never compared directly. Each baseline belongs to one hardware profile.
 
@@ -447,6 +447,7 @@ https://community.arize.com/x/arize-news/msg_1lhLy3yEzzb1/free-one-hour-course-o
 | Name matcher | Token-set (replaces Jaro-Winkler ≥ 0.92) | 2026-10-06 |
 | French-only invoices | Reject `unsupported_language` | 2026-10-06 |
 | PDF parser | `mupdf` (replaces `unpdf`) | 2026-10-06 |
+| Production temperature | 0.2, seed varied per repeat (decision #56) | 2026-10-11 |
 
 The full log, with reasons, is in `docs/decisions.md`. `spec/SPEC.md` is the source of truth for grading rules.
 
@@ -455,5 +456,4 @@ The full log, with reasons, is in `docs/decisions.md`. `spec/SPEC.md` is the sou
 | Decision | Proposed | Decide by |
 | --- | --- | --- |
 | Judge model | Different family, ≥ the extractor's size | Phase 3 |
-| Production temperature | 0.2 | Phase 1 |
 | Retrieval on/off by default | Decide from the Phase 3 comparison | Phase 3 |

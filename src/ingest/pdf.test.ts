@@ -6,7 +6,7 @@ import {
   extractPdfText,
   hasTooManyUnmappedGlyphs,
 } from "./pdf.ts";
-import { pdfWithoutText } from "./test-fixtures.ts";
+import { pdfWithoutText, pdfWithPages } from "./test-fixtures.ts";
 
 const examples = join(import.meta.dirname, "../../spec/examples");
 
@@ -38,6 +38,18 @@ describe("extractPdfText", () => {
   // Regression fixtures for decision #17: unpdf mis-mapped punctuation in these two
   it.each(["01-classic", "04-eu"])("%s has no unmapped glyphs", (caseDir) => {
     expect(countUnmappedGlyphs(extract(caseDir).text)).toBe(0);
+  });
+
+  it("joins pages in order, each followed by a blank line", () => {
+    const pdf = pdfWithPages([
+      "Invoice No. INV-1",
+      "Subtotal 9.00",
+      "Total 10.00",
+    ]);
+    expect(extractPdfText(pdf)).toEqual({
+      text: "Invoice No. INV-1\n\nSubtotal 9.00\n\nTotal 10.00\n\n",
+      pageCount: 3,
+    });
   });
 
   it("returns no text for a PDF with no text layer", () => {

@@ -8,6 +8,18 @@ export const extractOptionsSchema = z
     promptId: z.string().min(1),
     /** `false` sends the whole document (`--no-retrieval`). */
     retrieval: z.boolean(),
+    /** Chunking and top-k per field (decisions #48, #55); used when `retrieval` is on. */
+    retrievalOptions: z
+      .object({
+        chunkSize: z.int().positive(),
+        chunkOverlap: z.int().nonnegative(),
+        k: z.int().positive(),
+      })
+      .strict()
+      .refine((r) => r.chunkOverlap < r.chunkSize / 2, {
+        message: "chunkOverlap must be less than half of chunkSize",
+        path: ["chunkOverlap"],
+      }),
     options: z
       .object({
         temperature: z.number().min(0),

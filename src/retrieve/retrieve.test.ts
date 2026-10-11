@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { DEFAULT_EXTRACT_OPTIONS } from "../extract/config.ts";
 import { type Chunk, chunk } from "./chunk.ts";
 import { retrieve, tokenize } from "./retrieve.ts";
 
@@ -48,14 +49,14 @@ describe("retrieve", () => {
   ]);
 
   it("ranks the chunk with the field's label first", () => {
-    const { byField } = retrieve(source, chunks);
+    const { byField } = retrieve(source, chunks, { k: 3 });
     expect(byField.amountDue[0]).toBe(3);
     expect(byField.taxAmount[0]).toBe(2);
     expect(byField.invoiceNumber[0]).toBe(0);
   });
 
   it("only returns chunks that match the field", () => {
-    const { byField } = retrieve(source, chunks);
+    const { byField } = retrieve(source, chunks, { k: 3 });
     expect(byField.taxAmount).toEqual([2]);
     expect(byField.customerName).toEqual([]);
   });
@@ -80,7 +81,7 @@ describe("retrieve", () => {
   });
 
   it("skips chunks no field matches", () => {
-    const { chunkIds, passages } = retrieve(source, chunks);
+    const { chunkIds, passages } = retrieve(source, chunks, { k: 3 });
     expect(chunkIds).toEqual([0, 2, 3]);
     expect(passages).toEqual([
       { start: 0, end: 37, text: chunks[0]?.text },
@@ -98,13 +99,16 @@ describe("retrieve", () => {
       { id: 0, start: 0, end: 32, text: text.slice(0, 32) },
       { id: 1, start: 20, end: text.length, text: text.slice(20) },
     ];
-    expect(retrieve(text, overlapping).passages).toEqual([
+    expect(retrieve(text, overlapping, { k: 3 }).passages).toEqual([
       { start: 0, end: text.length, text },
     ]);
   });
 
   it("returns nothing for no chunks", () => {
-    expect(retrieve("", [])).toMatchObject({ chunkIds: [], passages: [] });
+    expect(retrieve("", [], { k: 3 })).toMatchObject({
+      chunkIds: [],
+      passages: [],
+    });
   });
 });
 
@@ -115,8 +119,8 @@ type Expected = {
 
 const collapse = (s: string) => s.replace(/\s+/gu, " ");
 
-// With the default options every example is 2–3 chunks and all of them are
-// retrieved, so this only starts to bite once documents grow or chunks shrink.
+// With the configured options (decision #55) retrieval keeps about 85% of the
+// examples' text; every expected quote must still be in a passage.
 describe("retrieval recall on spec/examples", () => {
   it.each([
     "01-classic",
@@ -132,9 +136,14 @@ describe("retrieval recall on spec/examples", () => {
     const expected = JSON.parse(
       readFileSync(join(examples, caseDir, "expected.json"), "utf8"),
     ) as Expected;
-    const passages = retrieve(source, chunk(source)).passages.map((p) =>
+    const { chunkSize, chunkOverlap, k } =
+      DEFAULT_EXTRACT_OPTIONS.retrievalOptions;
+    const chunks = chunk(source, { size: chunkSize, overlap: chunkOverlap });
+    const passages = retrieve(source, chunks, { k }).passages.map((p) =>
       collapse(p.text),
     );
+    // Retrieval must actually drop something, or it's whole-document mode
+    expect(passages.join("").length).toBeLessThan(collapse(source).length);
     const quotes = Object.values(expected.fields ?? {}).flatMap((f) =>
       (f.evidence ?? []).map((e) => collapse(e.quote)),
     );

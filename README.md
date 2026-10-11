@@ -243,7 +243,8 @@ src/
   cli/                extract.ts: the CLI (flags > env vars > config.default.json)
 prompts/
   extract.v1.md       first extraction prompt, kept as the baseline
-  extract.v2.md       current default: value-only raw, worked example (decision #50)
+  extract.v2.md       value-only raw, worked example (decision #50)
+  extract.v3.md       current default: total vs amount due, subtotal, statements (decision #56)
 ```
 
 Planned additions: `data/` (40-case golden dataset and seeded generator), `evals/` (Promptfoo config, scorers, scorecard, gate), `redteam/`, `reports/` and `.github/workflows/`. See [`docs/specs.md`](docs/specs.md#repo-layout).

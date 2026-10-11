@@ -51,9 +51,8 @@ export type Retrieval = {
   passages: Passage[];
 };
 
+/** Defaults live in `config.default.json` (`retrievalOptions`, decision #55). */
 export type RetrieveOptions = { k: number };
-
-export const DEFAULT_RETRIEVE_OPTIONS: RetrieveOptions = { k: 3 };
 
 const K1 = 1.2;
 const B = 0.75;
@@ -78,7 +77,7 @@ export function tokenize(text: string): string[] {
 export function retrieve(
   source: string,
   chunks: readonly Chunk[],
-  { k }: RetrieveOptions = DEFAULT_RETRIEVE_OPTIONS,
+  { k }: RetrieveOptions,
 ): Retrieval {
   const index = new Bm25(chunks.map((c) => tokenize(c.text)));
 

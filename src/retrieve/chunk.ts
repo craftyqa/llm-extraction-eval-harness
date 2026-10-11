@@ -1,9 +1,8 @@
 /** A slice of the ingested text. `text === source.slice(start, end)`, offsets in UTF-16 code units. */
 export type Chunk = { id: number; start: number; end: number; text: string };
 
+/** Defaults live in `config.default.json` (`retrievalOptions`, decision #55). */
 export type ChunkOptions = { size: number; overlap: number };
-
-export const DEFAULT_CHUNK_OPTIONS: ChunkOptions = { size: 800, overlap: 100 };
 
 /**
  * Splits text into chunks of at most `size` characters. Each chunk ends at the
@@ -11,10 +10,7 @@ export const DEFAULT_CHUNK_OPTIONS: ChunkOptions = { size: 800, overlap: 100 };
  * of preference, else at `size`. The next chunk starts up to `overlap` characters
  * earlier, at a line start where there is one, else a word start (decision #48).
  */
-export function chunk(
-  text: string,
-  { size, overlap }: ChunkOptions = DEFAULT_CHUNK_OPTIONS,
-): Chunk[] {
+export function chunk(text: string, { size, overlap }: ChunkOptions): Chunk[] {
   if (!(size > 0 && overlap >= 0 && overlap < size / 2)) {
     throw new RangeError(
       `Need size > 0 and 0 <= overlap < size / 2 (got size ${String(size)}, overlap ${String(overlap)})`,

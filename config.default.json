@@ -1,7 +1,12 @@
 {
   "model": "qwen2.5:7b-instruct",
-  "promptId": "extract.v2",
+  "promptId": "extract.v3",
   "retrieval": true,
+  "retrievalOptions": {
+    "chunkSize": 300,
+    "chunkOverlap": 75,
+    "k": 2
+  },
   "options": {
     "temperature": 0.2,
     "seed": 42,

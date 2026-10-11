@@ -53,6 +53,8 @@ export type RunMeta = {
   promptHash: string;
   options: ModelOptions;
   retrieval: boolean;
+  /** Recorded even when `retrieval` is off, so every result names its full config. */
+  retrievalOptions: { chunkSize: number; chunkOverlap: number; k: number };
   hardware: string;
   /** Schema-validation retries (0 or 1). */
   retries: number;
