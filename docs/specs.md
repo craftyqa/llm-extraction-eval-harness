@@ -206,7 +206,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 - [x] Build the seeded generator (`data/generator`, decision #57; `npm run generate`): faker → invoice object (the ground truth) → render to PDF, CSV or TXT with layout variants. The same seed produces byte-identical files: pdf-lib sets creation and modification dates by default, so fix them (or derive them from the seed). A test generates twice and compares hashes.
 - [ ] Generate the clean and boundary partitions from the generator (done: CASE-0001…0013 in `data/generator/cases.ts`, decision #58). Hand-write or hand-edit the tricky partitions (decoys, conflicts, out-of-scope).
 - [ ] Hand-review every `expected.json` against SPEC.md, including generated ones. Set `reviewedBy` and `reviewedAt` in `meta.json`.
-- [ ] Build the coverage matrix **as a script** (`npm run coverage-matrix`) that reads `meta.json` tags and the risk list, and fails if any risk has zero cases
+- [x] Build the coverage matrix **as a script** (`npm run coverage-matrix`, decision #60) that reads `meta.json` tags and the risk list, and fails if any risk has zero cases
 - [x] Dataset tests (part of `npm test`; no Ollama), over `spec/examples/` and `data/cases/` (`src/dataset/`, decision #59):
   - every `expected.json` and `meta.json` matches its schema
   - every evidence quote in `expected.json` (where present) grounds against the source text under [SPEC §5](../spec/SPEC.md#5-output-contract)

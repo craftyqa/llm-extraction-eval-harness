@@ -52,9 +52,10 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 
 | `npm run -s generate -- --seed <n> --out <dir>` | Write one generated case (`--help` for options); refuses to overwrite a case without `--force` |
 | `npm run -s generate:cases` | Write the cases listed in `data/generator/cases.ts` to `data/cases/`; skips existing cases unless `--force` (decision #58) |
+| `npm run -s coverage-matrix` | Writes `spec/coverage-matrix.md` from the `data/cases/` tags; exits 1 if a risk has no case or a Phase 2 partition has < 3 (decision #60) |
 | `npm run test:live` | Live tests in `*.live.test.ts` against Ollama (`LIVE_MODEL`, default `llama3.2:3b`); about a minute on the GPU, so ask first |
 
-Planned: `eval`, `coverage-matrix`.
+Planned: `eval`.
 
 ## Code conventions
 
