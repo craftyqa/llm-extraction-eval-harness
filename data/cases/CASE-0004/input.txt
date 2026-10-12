@@ -1,0 +1,40 @@
+Granite Bay Janitorial Services Inc.
+2316 Kuhic-O'Keefe Lane
+Alder Falls, AB T8L 2L9
+Tel (403) 555-0164 · ar@granitebay.example
+GST/HST Reg. No.: 27167 6797 RT0001
+
+INVOICE
+
+Invoice No.:    2729307
+Invoice Date:   Feb 20, 2026
+Due Date:       Mar 22, 2026
+Terms:          Net 30
+PO No.:         P108359
+Customer No.:   FER974
+
+Bill To:
+  Fernhollow Property Management Limited
+  Attn: Mattie Fay
+  876 Bernhard Road
+  Ironwood Harbour, AB T0T 1N3
+
+Item      Description                                Qty     Unit Price           Amount
+----------------------------------------------------------------------------------------
+JS-3577   Carpet extraction (sq ft x 100)             39        C$19.13         C$746.07
+JS-2209   Window washing, exterior                     1       C$647.89         C$647.89
+JS-3744   Nightly office cleaning (month)              1     C$1,792.06       C$1,792.06
+JS-3808   Nightly office cleaning (month)              1     C$1,116.43       C$1,116.43
+JS-6064   Window washing, exterior                     1       C$286.51         C$286.51
+JS-3362   Washroom supplies restock                    4       C$116.70         C$466.80
+JS-7326   Carpet extraction (sq ft x 100)             22        C$26.07         C$573.54
+----------------------------------------------------------------------------------------
+                                                             Subtotal:        C$5,629.30
+                                                             GST (5%):          C$281.47
+                                                                Total:        C$5,910.77
+                                                           Amount Due:        C$5,910.77
+
+Payment by EFT to Northwind Savings & Trust.
+Please quote the invoice number with your payment.
+
+Synthetic test document. Fictional company and data, generated for software testing.

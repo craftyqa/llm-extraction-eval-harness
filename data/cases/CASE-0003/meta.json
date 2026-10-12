@@ -1,0 +1,32 @@
+{
+  "id": "CASE-0003",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-4",
+    "R-8",
+    "R-9"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/bilingual, 2 lines; GST 5% + QST 9.975%; CAD shown as CAD; fr amounts; fr dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 103,
+    "options": {
+      "vendorProvince": "QC",
+      "customerProvince": "QC",
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "bilingual",
+      "dateFormat": "fr",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

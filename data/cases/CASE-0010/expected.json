@@ -1,0 +1,137 @@
+{
+  "caseId": "CASE-0010",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "A32137",
+      "evidence": [
+        {
+          "raw": "A32137",
+          "quote": "A32137"
+        }
+      ],
+      "decoys": [
+        "3379-WO",
+        "RIV498"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-03-29",
+      "evidence": [
+        {
+          "raw": "2026-03-29",
+          "quote": "2026-03-29"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-03-29",
+      "evidence": [
+        {
+          "raw": "2026-03-29",
+          "quote": "2026-03-29"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Willowbrook Printing Inc",
+      "evidence": [
+        {
+          "raw": "Willowbrook Printing Inc",
+          "quote": "Willowbrook Printing Inc"
+        }
+      ],
+      "decoys": [
+        "Ironwood Credit Union"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "728514749RT0002",
+      "evidence": [
+        {
+          "raw": "728514749RT0002",
+          "quote": "728514749RT0002"
+        }
+      ],
+      "decoys": [
+        "4983110"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Riverbend Property Management Inc",
+      "evidence": [
+        {
+          "raw": "Riverbend Property Management Inc",
+          "quote": "Riverbend Property Management Inc"
+        }
+      ],
+      "decoys": [
+        "Lane Gorczany"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "C$",
+          "quote": "C$5,662.74"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "5101.57",
+      "evidence": [
+        {
+          "raw": "C$5,101.57",
+          "quote": "C$5,101.57"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "561.17",
+      "evidence": [
+        {
+          "raw": "C$255.08",
+          "quote": "C$255.08"
+        },
+        {
+          "raw": "C$306.09",
+          "quote": "C$306.09"
+        }
+      ],
+      "decoys": [
+        "255.08",
+        "306.09"
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "5662.74",
+      "evidence": [
+        {
+          "raw": "C$5,662.74",
+          "quote": "C$5,662.74"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "5662.74",
+      "evidence": [
+        {
+          "raw": "C$5,662.74",
+          "quote": "C$5,662.74"
+        }
+      ]
+    }
+  }
+}

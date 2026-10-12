@@ -1,0 +1,126 @@
+{
+  "caseId": "CASE-0005",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "3416589",
+      "evidence": [
+        {
+          "raw": "3416589",
+          "quote": "3416589"
+        }
+      ],
+      "decoys": [
+        "PO-51834",
+        "C-61583"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-07-19",
+      "evidence": [
+        {
+          "raw": "19-Jul-2026",
+          "quote": "19-Jul-2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-08-18",
+      "evidence": [
+        {
+          "raw": "18-Aug-2026",
+          "quote": "18-Aug-2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Bluewater Janitorial Services Corp.",
+      "evidence": [
+        {
+          "raw": "Bluewater Janitorial Services Corp.",
+          "quote": "Bluewater Janitorial Services Corp."
+        }
+      ],
+      "decoys": [
+        "Pinecrest Mutual Bank"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "763511135RT0001",
+      "evidence": [
+        {
+          "raw": "76351 1135 RT0001",
+          "quote": "76351 1135 RT0001"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Marrowind Fabrication Limited",
+      "evidence": [
+        {
+          "raw": "Marrowind Fabrication Limited",
+          "quote": "Marrowind Fabrication Limited"
+        }
+      ],
+      "decoys": [
+        "Columbus Shanahan"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "$",
+          "quote": "$3,037.07"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2892.45",
+      "evidence": [
+        {
+          "raw": "$2,892.45",
+          "quote": "$2,892.45"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "144.62",
+      "evidence": [
+        {
+          "raw": "$144.62",
+          "quote": "$144.62"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "3037.07",
+      "evidence": [
+        {
+          "raw": "$3,037.07",
+          "quote": "$3,037.07"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "3037.07",
+      "evidence": [
+        {
+          "raw": "$3,037.07",
+          "quote": "$3,037.07"
+        }
+      ]
+    }
+  }
+}

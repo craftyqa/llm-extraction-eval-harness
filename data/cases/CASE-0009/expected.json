@@ -1,0 +1,126 @@
+{
+  "caseId": "CASE-0009",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "A27690",
+      "evidence": [
+        {
+          "raw": "A27690",
+          "quote": "A27690"
+        }
+      ],
+      "decoys": [
+        "P942756",
+        "GRA014"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-05-02",
+      "evidence": [
+        {
+          "raw": "May 2, 2026",
+          "quote": "May 2, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-07-01",
+      "evidence": [
+        {
+          "raw": "July 1, 2026",
+          "quote": "July 1, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Quarryside Janitorial Services Inc.",
+      "evidence": [
+        {
+          "raw": "Quarryside Janitorial Services Inc.",
+          "quote": "Quarryside Janitorial Services Inc."
+        }
+      ],
+      "decoys": [
+        "Pinecrest Credit Union"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "377484133RT0001",
+      "evidence": [
+        {
+          "raw": "377484133 RT0001",
+          "quote": "377484133 RT0001"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Granite Bay Construction Inc",
+      "evidence": [
+        {
+          "raw": "Granite Bay Construction Inc",
+          "quote": "Granite Bay Construction Inc"
+        }
+      ],
+      "decoys": [
+        "Mossie Halvorson"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "$",
+          "quote": "$5,760.56"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "5053.11",
+      "evidence": [
+        {
+          "raw": "$5,053.11",
+          "quote": "$5,053.11"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "707.44",
+      "evidence": [
+        {
+          "raw": "$707.44",
+          "quote": "$707.44"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "5760.56",
+      "evidence": [
+        {
+          "raw": "$5,760.56",
+          "quote": "$5,760.56"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "5760.56",
+      "evidence": [
+        {
+          "raw": "$5,760.56",
+          "quote": "$5,760.56"
+        }
+      ]
+    }
+  }
+}

@@ -1,10 +1,9 @@
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
 import { parseArgs } from "node:util";
 import {
   type CaseInfo,
   generateCase,
   generatorOptionsSchema,
+  writeCase,
 } from "./generate.ts";
 
 export const USAGE = `Usage: generate --seed <int> --out <dir> [options]
@@ -65,12 +64,6 @@ async function main(argv: string[]): Promise<number> {
   }
   const seed = Number(values.seed);
   const out = values.out;
-  if (existsSync(join(out, "expected.json")) && values.force !== true) {
-    process.stderr.write(
-      `error: ${out} already has a case; pass --force to overwrite it\n`,
-    );
-    return 1;
-  }
 
   const options = generatorOptionsSchema.parse({
     ...(values.options === undefined
@@ -101,18 +94,7 @@ async function main(argv: string[]): Promise<number> {
   };
 
   const generated = await generateCase(seed, options, info);
-  const json = (value: unknown) => JSON.stringify(value, null, 2) + "\n";
-  mkdirSync(out, { recursive: true });
-  // A regenerated case may change format; don't leave the old input behind
-  for (const extension of ["pdf", "txt", "csv"]) {
-    rmSync(join(out, `input.${extension}`), { force: true });
-  }
-  writeFileSync(
-    join(out, `input.${generated.input.extension}`),
-    generated.input.data,
-  );
-  writeFileSync(join(out, "expected.json"), json(generated.expected));
-  writeFileSync(join(out, "meta.json"), json(generated.meta));
+  writeCase(out, generated, values.force === true);
   process.stderr.write(`wrote ${out} (${generated.meta.notes})\n`);
   return 0;
 }

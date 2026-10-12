@@ -50,6 +50,7 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `npm run -s extract -- <file>` | Extract one file; needs Ollama, ~20–70 s per document. Ask before running it: it occupies the GPU |
 
 | `npm run -s generate -- --seed <n> --out <dir>` | Write one generated case (`--help` for options); refuses to overwrite a case without `--force` |
+| `npm run -s generate:cases` | Write the cases listed in `data/generator/cases.ts` to `data/cases/`; skips existing cases unless `--force` (decision #58) |
 | `npm run test:live` | Live tests in `*.live.test.ts` against Ollama (`LIVE_MODEL`, default `llama3.2:3b`); about a minute on the GPU, so ask first |
 
 Planned: `eval`, `coverage-matrix`.

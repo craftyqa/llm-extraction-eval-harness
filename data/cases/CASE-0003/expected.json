@@ -1,0 +1,137 @@
+{
+  "caseId": "CASE-0003",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "A53946",
+      "evidence": [
+        {
+          "raw": "A53946",
+          "quote": "A53946"
+        }
+      ],
+      "decoys": [
+        "P909771",
+        "C-79534"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-11-01",
+      "evidence": [
+        {
+          "raw": "1er novembre 2026",
+          "quote": "1er novembre 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-12-01",
+      "evidence": [
+        {
+          "raw": "1er décembre 2026",
+          "quote": "1er décembre 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Copperleaf Packaging Distributors Inc",
+      "evidence": [
+        {
+          "raw": "Copperleaf Packaging Distributors Inc",
+          "quote": "Copperleaf Packaging Distributors Inc"
+        }
+      ],
+      "decoys": [
+        "Caisse populaire Marrowind"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "448763579RT0001",
+      "evidence": [
+        {
+          "raw": "448763579RT0001",
+          "quote": "448763579RT0001"
+        }
+      ],
+      "decoys": [
+        "4513051342TQ0001"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Bluewater Veterinary Clinic Corp.",
+      "evidence": [
+        {
+          "raw": "Bluewater Veterinary Clinic Corp.",
+          "quote": "Bluewater Veterinary Clinic Corp."
+        }
+      ],
+      "decoys": [
+        "Crystal Hessel"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "CAD",
+          "quote": "Currency: CAD"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "766.86",
+      "evidence": [
+        {
+          "raw": "766,86",
+          "quote": "766,86"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "114.83",
+      "evidence": [
+        {
+          "raw": "38,34",
+          "quote": "38,34"
+        },
+        {
+          "raw": "76,49",
+          "quote": "76,49"
+        }
+      ],
+      "decoys": [
+        "38.34",
+        "76.49"
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "881.69",
+      "evidence": [
+        {
+          "raw": "881,69",
+          "quote": "881,69"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "881.69",
+      "evidence": [
+        {
+          "raw": "881,69",
+          "quote": "881,69"
+        }
+      ]
+    }
+  }
+}

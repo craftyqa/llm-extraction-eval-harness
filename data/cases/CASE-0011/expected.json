@@ -1,0 +1,126 @@
+{
+  "caseId": "CASE-0011",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "INV-2026-46705",
+      "evidence": [
+        {
+          "raw": "INV-2026-46705",
+          "quote": "INV-2026-46705"
+        }
+      ],
+      "decoys": [
+        "P615132",
+        "KES208"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-02-12",
+      "evidence": [
+        {
+          "raw": "12-Feb-2026",
+          "quote": "12-Feb-2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-02-27",
+      "evidence": [
+        {
+          "raw": "27-Feb-2026",
+          "quote": "27-Feb-2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Osprey Electrical Contractors Inc",
+      "evidence": [
+        {
+          "raw": "OSPREY ELECTRICAL CONTRACTORS INC",
+          "quote": "OSPREY ELECTRICAL CONTRACTORS INC"
+        }
+      ],
+      "decoys": [
+        "Birchbank Savings & Trust"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "605694214RT0002",
+      "evidence": [
+        {
+          "raw": "605694214 RT0002",
+          "quote": "605694214 RT0002"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Kestrel Provisions Ltd.",
+      "evidence": [
+        {
+          "raw": "Kestrel Provisions Ltd.",
+          "quote": "Kestrel Provisions Ltd."
+        }
+      ],
+      "decoys": [
+        "Schuyler Jast"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "$",
+          "quote": "$3,301.35"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "3301.35",
+      "evidence": [
+        {
+          "raw": "$3,301.35",
+          "quote": "$3,301.35"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "0.00",
+      "evidence": [
+        {
+          "raw": "$0.00",
+          "quote": "$0.00"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "3301.35",
+      "evidence": [
+        {
+          "raw": "$3,301.35",
+          "quote": "$3,301.35"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "3301.35",
+      "evidence": [
+        {
+          "raw": "$3,301.35",
+          "quote": "$3,301.35"
+        }
+      ]
+    }
+  }
+}

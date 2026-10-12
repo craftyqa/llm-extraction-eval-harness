@@ -1,0 +1,126 @@
+{
+  "caseId": "CASE-0002",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "INV-2026-03616",
+      "evidence": [
+        {
+          "raw": "INV-2026-03616",
+          "quote": "INV-2026-03616"
+        }
+      ],
+      "decoys": [
+        "P444990",
+        "C-53805"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-04-14",
+      "evidence": [
+        {
+          "raw": "2026-04-14",
+          "quote": "2026-04-14"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-04-29",
+      "evidence": [
+        {
+          "raw": "2026-04-29",
+          "quote": "2026-04-29"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Quarryside Translation Services Corp.",
+      "evidence": [
+        {
+          "raw": "QUARRYSIDE TRANSLATION SERVICES CORP.",
+          "quote": "QUARRYSIDE TRANSLATION SERVICES CORP."
+        }
+      ],
+      "decoys": [
+        "Larchmont Mutual Bank"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "311506721RT0001",
+      "evidence": [
+        {
+          "raw": "311506721 RT0001",
+          "quote": "311506721 RT0001"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Birchbank Logistics Corp.",
+      "evidence": [
+        {
+          "raw": "Birchbank Logistics Corp.",
+          "quote": "Birchbank Logistics Corp."
+        }
+      ],
+      "decoys": [
+        "Caleb Morar"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "USD",
+      "evidence": [
+        {
+          "raw": "US$",
+          "quote": "US$797.27"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "699.36",
+      "evidence": [
+        {
+          "raw": "US$699.36",
+          "quote": "US$699.36"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "97.91",
+      "evidence": [
+        {
+          "raw": "US$97.91",
+          "quote": "US$97.91"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "797.27",
+      "evidence": [
+        {
+          "raw": "US$797.27",
+          "quote": "US$797.27"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "797.27",
+      "evidence": [
+        {
+          "raw": "US$797.27",
+          "quote": "US$797.27"
+        }
+      ]
+    }
+  }
+}

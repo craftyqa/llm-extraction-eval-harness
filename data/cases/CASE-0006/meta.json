@@ -1,0 +1,30 @@
+{
+  "id": "CASE-0006",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-6",
+    "R-8",
+    "R-9"
+  ],
+  "sourceFormat": "csv",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated csv/lines, 4 lines; GST 5% + QST 9.975%; CAD shown as CAD; plain amounts; iso dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 106,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "lines",
+      "dateFormat": "iso",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

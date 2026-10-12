@@ -1,0 +1,31 @@
+{
+  "id": "CASE-0010",
+  "partition": "boundary (cross-field)",
+  "difficulty": "medium",
+  "risks": [
+    "R-8",
+    "R-9",
+    "R-10"
+  ],
+  "sourceFormat": "txt",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated txt/plain, 7 lines; GST 5% + PST 6%; CAD shown as C$; en amounts; iso dates; one Total Due line.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 202,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "dueDays": 0,
+      "shipTo": false,
+      "layout": "plain",
+      "dateFormat": "iso",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

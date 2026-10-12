@@ -16,7 +16,8 @@
     "test:watch": "vitest",
     "test:live": "vitest run --config vitest.live.config.ts",
     "extract": "tsx src/cli/extract.ts",
-    "generate": "tsx data/generator/cli.ts"
+    "generate": "tsx data/generator/cli.ts",
+    "generate:cases": "tsx data/generator/build-cases.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -1,0 +1,37 @@
+From: Patience McLaughlin <ar@bluewater.example>
+To: Accounts Payable <ap@marrowind.example>
+Subject: Invoice 3416589 from Bluewater Janitorial Services Corp.
+
+Hello Columbus Shanahan,
+
+Please find our invoice details below.
+
+Invoice number: 3416589
+Invoice date: 19-Jul-2026
+Due date: 18-Aug-2026
+Terms: Net 30
+Your PO: PO-51834
+Customer account: C-61583
+
+Billed to: Marrowind Fabrication Limited, 472 White Road, Kestrel Landing, AB T7M 2G0
+
+Items:
+- Washroom supplies restock (JS-2603): 2 x $92.42 = $184.84
+- Nightly office cleaning (month) (JS-6437): 1 x $2,021.09 = $2,021.09
+- Window washing, exterior (JS-9007): 2 x $343.26 = $686.52
+
+Subtotal: $2,892.45
+GST (5%): $144.62
+Total Due: $3,037.07
+
+Payment by EFT to Pinecrest Mutual Bank.
+
+Thank you,
+Patience McLaughlin
+Bluewater Janitorial Services Corp.
+192 Klein Way
+Northwind Falls, AB T3B 5N8
+(780) 555-0177
+GST/HST No. 76351 1135 RT0001
+
+Synthetic test document. Fictional company and data, generated for software testing.

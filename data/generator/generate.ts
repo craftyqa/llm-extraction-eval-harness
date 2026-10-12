@@ -1,3 +1,5 @@
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { Faker, base, en, en_CA } from "@faker-js/faker";
 import { z } from "zod";
 import {
@@ -193,4 +195,32 @@ function describe(invoice: Invoice, style: Style, printed: Printed): string {
   if (printed.gstNumber === null) parts.push("no GST/HST number printed");
   if (printed.subtotal === null) parts.push("no subtotal printed");
   return parts.join("; ") + ".";
+}
+
+/** A case directory's files by name: `input.<ext>`, `expected.json`, `meta.json`. */
+export function caseFiles(c: GeneratedCase): Record<string, Uint8Array> {
+  const json = (value: unknown) =>
+    new TextEncoder().encode(JSON.stringify(value, null, 2) + "\n");
+  return {
+    [`input.${c.input.extension}`]: c.input.data,
+    "expected.json": json(c.expected),
+    "meta.json": json(c.meta),
+  };
+}
+
+/**
+ * Writes a case to `dir`, replacing any earlier input file (a regenerated case
+ * may change format). Throws if `dir` already holds a case, unless `force`.
+ */
+export function writeCase(dir: string, c: GeneratedCase, force: boolean): void {
+  if (existsSync(join(dir, "expected.json")) && !force) {
+    throw new Error(`${dir} already has a case; pass --force to overwrite it`);
+  }
+  mkdirSync(dir, { recursive: true });
+  for (const extension of ["pdf", "txt", "csv"]) {
+    rmSync(join(dir, `input.${extension}`), { force: true });
+  }
+  for (const [name, data] of Object.entries(caseFiles(c))) {
+    writeFileSync(join(dir, name), data);
+  }
 }

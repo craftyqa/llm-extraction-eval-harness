@@ -1,0 +1,126 @@
+{
+  "caseId": "CASE-0004",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "2729307",
+      "evidence": [
+        {
+          "raw": "2729307",
+          "quote": "2729307"
+        }
+      ],
+      "decoys": [
+        "P108359",
+        "FER974"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-02-20",
+      "evidence": [
+        {
+          "raw": "Feb 20, 2026",
+          "quote": "Feb 20, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-03-22",
+      "evidence": [
+        {
+          "raw": "Mar 22, 2026",
+          "quote": "Mar 22, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Granite Bay Janitorial Services Inc.",
+      "evidence": [
+        {
+          "raw": "Granite Bay Janitorial Services Inc.",
+          "quote": "Granite Bay Janitorial Services Inc."
+        }
+      ],
+      "decoys": [
+        "Northwind Savings & Trust"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "271676797RT0001",
+      "evidence": [
+        {
+          "raw": "27167 6797 RT0001",
+          "quote": "27167 6797 RT0001"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Fernhollow Property Management Limited",
+      "evidence": [
+        {
+          "raw": "Fernhollow Property Management Limited",
+          "quote": "Fernhollow Property Management Limited"
+        }
+      ],
+      "decoys": [
+        "Mattie Fay"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "C$",
+          "quote": "C$5,910.77"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "5629.30",
+      "evidence": [
+        {
+          "raw": "C$5,629.30",
+          "quote": "C$5,629.30"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "281.47",
+      "evidence": [
+        {
+          "raw": "C$281.47",
+          "quote": "C$281.47"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "5910.77",
+      "evidence": [
+        {
+          "raw": "C$5,910.77",
+          "quote": "C$5,910.77"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "5910.77",
+      "evidence": [
+        {
+          "raw": "C$5,910.77",
+          "quote": "C$5,910.77"
+        }
+      ]
+    }
+  }
+}

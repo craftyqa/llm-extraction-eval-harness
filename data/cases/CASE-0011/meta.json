@@ -1,0 +1,29 @@
+{
+  "id": "CASE-0011",
+  "partition": "boundary (cross-field)",
+  "difficulty": "medium",
+  "risks": [
+    "R-9"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/erp, 4 lines; GST 0%; CAD shown as $; en amounts; dmy-abbr dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 203,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "tax": "zero",
+      "shipTo": false,
+      "layout": "erp",
+      "dateFormat": "dmy-abbr",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

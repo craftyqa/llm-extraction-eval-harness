@@ -1,0 +1,28 @@
+{
+  "id": "CASE-0007",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-6"
+  ],
+  "sourceFormat": "csv",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated csv/summary, 6 lines; HST 14%; CAD shown as CAD; plain amounts; iso dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 107,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "summary",
+      "dateFormat": "iso",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

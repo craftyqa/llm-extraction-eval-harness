@@ -1,0 +1,29 @@
+{
+  "id": "CASE-0002",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-3",
+    "R-6"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/erp, 2 lines; HST 14%; USD shown as US$; en amounts; iso dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 102,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "erp",
+      "dateFormat": "iso",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

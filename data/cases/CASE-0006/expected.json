@@ -1,0 +1,137 @@
+{
+  "caseId": "CASE-0006",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "2026-5587",
+      "evidence": [
+        {
+          "raw": "2026-5587",
+          "quote": "2026-5587"
+        }
+      ],
+      "decoys": [
+        "P800447",
+        "LAN973"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-12-28",
+      "evidence": [
+        {
+          "raw": "2026-12-28",
+          "quote": "2026-12-28"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2027-01-27",
+      "evidence": [
+        {
+          "raw": "2027-01-27",
+          "quote": "2027-01-27"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Sprucewood Office Products Limited",
+      "evidence": [
+        {
+          "raw": "Sprucewood Office Products Limited",
+          "quote": "Sprucewood Office Products Limited"
+        }
+      ],
+      "decoys": [
+        "Copperleaf Mutual Bank"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "574245350RT0002",
+      "evidence": [
+        {
+          "raw": "574245350 RT0002",
+          "quote": "574245350 RT0002"
+        }
+      ],
+      "decoys": [
+        "PST68224302"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Lanternfield Property Management Inc",
+      "evidence": [
+        {
+          "raw": "Lanternfield Property Management Inc",
+          "quote": "Lanternfield Property Management Inc"
+        }
+      ],
+      "decoys": [
+        "Sharon Rowe"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "CAD",
+          "quote": "Currency: CAD"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "3623.48",
+      "evidence": [
+        {
+          "raw": "3623.48",
+          "quote": "3623.48"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "542.61",
+      "evidence": [
+        {
+          "raw": "181.17",
+          "quote": "181.17"
+        },
+        {
+          "raw": "361.44",
+          "quote": "361.44"
+        }
+      ],
+      "decoys": [
+        "181.17",
+        "361.44"
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "4166.09",
+      "evidence": [
+        {
+          "raw": "4166.09",
+          "quote": "4166.09"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "4166.09",
+      "evidence": [
+        {
+          "raw": "4166.09",
+          "quote": "4166.09"
+        }
+      ]
+    }
+  }
+}

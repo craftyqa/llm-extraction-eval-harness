@@ -1,0 +1,137 @@
+{
+  "caseId": "CASE-0008",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "QU-26-587",
+      "evidence": [
+        {
+          "raw": "QU-26-587",
+          "quote": "QU-26-587"
+        }
+      ],
+      "decoys": [
+        "PO-79690",
+        "LAR107"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-11-12",
+      "evidence": [
+        {
+          "raw": "November 12, 2026",
+          "quote": "November 12, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-12-12",
+      "evidence": [
+        {
+          "raw": "December 12, 2026",
+          "quote": "December 12, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Cedarvale Office Products Limited",
+      "evidence": [
+        {
+          "raw": "Cedarvale Office Products Limited",
+          "quote": "Cedarvale Office Products Limited"
+        }
+      ],
+      "decoys": [
+        "Larchmont Credit Union"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "267206169RT0001",
+      "evidence": [
+        {
+          "raw": "26720 6169 RT0001",
+          "quote": "26720 6169 RT0001"
+        }
+      ],
+      "decoys": [
+        "6750029"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Larchmont Medical Devices Inc",
+      "evidence": [
+        {
+          "raw": "Larchmont Medical Devices Inc",
+          "quote": "Larchmont Medical Devices Inc"
+        }
+      ],
+      "decoys": [
+        "Ahmad Schmitt"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "USD",
+      "evidence": [
+        {
+          "raw": "US$",
+          "quote": "US$3,028.06"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2703.63",
+      "evidence": [
+        {
+          "raw": "US$2,703.63",
+          "quote": "US$2,703.63"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "324.43",
+      "evidence": [
+        {
+          "raw": "US$135.18",
+          "quote": "US$135.18"
+        },
+        {
+          "raw": "US$189.25",
+          "quote": "US$189.25"
+        }
+      ],
+      "decoys": [
+        "135.18",
+        "189.25"
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "3028.06",
+      "evidence": [
+        {
+          "raw": "US$3,028.06",
+          "quote": "US$3,028.06"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "3028.06",
+      "evidence": [
+        {
+          "raw": "US$3,028.06",
+          "quote": "US$3,028.06"
+        }
+      ]
+    }
+  }
+}

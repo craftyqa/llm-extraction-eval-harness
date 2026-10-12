@@ -1,0 +1,41 @@
+Willowbrook Printing Inc
+1714 Schroeder Street
+Willowbrook Junction, SK S4B 4X4
+Tel (306) 555-0165 · ar@willowbrook.example
+GST/HST Reg. No.: 728514749RT0002
+PST Reg. No.: 4983110
+
+INVOICE
+
+Invoice No.:    A32137
+Invoice Date:   2026-03-29
+Due Date:       2026-03-29
+Terms:          Due on receipt
+PO No.:         3379-WO
+Customer No.:   RIV498
+
+Bill To:
+  Riverbend Property Management Inc
+  Attn: Lane Gorczany
+  1025 Grant Road
+  Copperleaf Falls, SK S8G 1M8
+
+Item      Description                                Qty     Unit Price           Amount
+----------------------------------------------------------------------------------------
+PR-3401   Graphic design (hour)                        2        C$74.20         C$148.40
+PR-4719   Tri-fold brochure, gloss (per 100)          18        C$87.47       C$1,574.46
+PR-8125   Tri-fold brochure, gloss (per 100)           2       C$119.63         C$239.26
+PR-5245   Graphic design (hour)                        4        C$71.67         C$286.68
+PR-2730   Tri-fold brochure, gloss (per 100)          20       C$128.67       C$2,573.40
+PR-3307   Vinyl banner 3x8 ft                          1       C$210.24         C$210.24
+PR-5281   Tri-fold brochure, gloss (per 100)           1        C$69.13          C$69.13
+----------------------------------------------------------------------------------------
+                                                             Subtotal:        C$5,101.57
+                                                             GST (5%):          C$255.08
+                                                             PST (6%):          C$306.09
+                                                            Total Due:        C$5,662.74
+
+Payment by EFT to Ironwood Credit Union.
+Please quote the invoice number with your payment.
+
+Synthetic test document. Fictional company and data, generated for software testing.

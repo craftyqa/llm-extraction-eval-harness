@@ -1,0 +1,30 @@
+{
+  "id": "CASE-0013",
+  "partition": "boundary (cross-field)",
+  "difficulty": "hard",
+  "risks": [
+    "R-1",
+    "R-14"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/classic, 45 lines; GST 5%; CAD shown as CDN; en amounts; long dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 205,
+    "options": {
+      "lineCount": 45,
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "classic",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "CASE-0004",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-3",
+    "R-6"
+  ],
+  "sourceFormat": "txt",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated txt/plain, 7 lines; GST 5%; CAD shown as C$; en amounts; short dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 104,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "plain",
+      "dateFormat": "short",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

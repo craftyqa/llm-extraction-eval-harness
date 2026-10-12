@@ -1,0 +1,129 @@
+{
+  "caseId": "CASE-0007",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "SX-26-422",
+      "evidence": [
+        {
+          "raw": "SX-26-422",
+          "quote": "SX-26-422"
+        }
+      ],
+      "decoys": [
+        "9375-GH",
+        "C-77307"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-05-07",
+      "evidence": [
+        {
+          "raw": "2026-05-07",
+          "quote": "2026-05-07"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-06-06",
+      "evidence": [
+        {
+          "raw": "2026-06-06",
+          "quote": "2026-06-06"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Heronmoor Packaging Distributors Inc.",
+      "evidence": [
+        {
+          "raw": "Heronmoor Packaging Distributors Inc.",
+          "quote": "Heronmoor Packaging Distributors Inc."
+        }
+      ],
+      "decoys": [
+        "Birchbank Mutual Bank"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "290504344RT0001",
+      "evidence": [
+        {
+          "raw": "29050 4344 RT0001",
+          "quote": "29050 4344 RT0001"
+        }
+      ],
+      "decoys": [
+        "9349995"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Quarryside Construction Inc",
+      "evidence": [
+        {
+          "raw": "Quarryside Construction Inc",
+          "quote": "Quarryside Construction Inc"
+        }
+      ],
+      "decoys": [
+        "Lupe Raynor"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "CAD",
+          "quote": "Currency: CAD"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2391.64",
+      "evidence": [
+        {
+          "raw": "2391.64",
+          "quote": "2391.64"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "334.83",
+      "evidence": [
+        {
+          "raw": "334.83",
+          "quote": "334.83"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "2726.47",
+      "evidence": [
+        {
+          "raw": "2726.47",
+          "quote": "2726.47"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "2726.47",
+      "evidence": [
+        {
+          "raw": "2726.47",
+          "quote": "2726.47"
+        }
+      ]
+    }
+  }
+}

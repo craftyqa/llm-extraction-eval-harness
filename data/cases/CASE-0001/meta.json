@@ -1,0 +1,28 @@
+{
+  "id": "CASE-0001",
+  "partition": "clean",
+  "difficulty": "easy",
+  "risks": [
+    "R-6"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/classic, 5 lines; HST 15%; CAD shown as $; en amounts; long dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 101,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "classic",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}

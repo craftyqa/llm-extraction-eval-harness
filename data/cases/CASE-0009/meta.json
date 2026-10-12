@@ -1,0 +1,31 @@
+{
+  "id": "CASE-0009",
+  "partition": "boundary (cross-field)",
+  "difficulty": "medium",
+  "risks": [
+    "R-1",
+    "R-11"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/classic, 4 lines; HST 14%; CAD shown as $; en amounts; long dates.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 201,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "tax": "province",
+      "shipTo": false,
+      "totalAdjustCents": 1,
+      "layout": "classic",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": false
+      }
+    }
+  }
+}
