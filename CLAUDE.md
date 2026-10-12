@@ -25,6 +25,7 @@ A local LLM extraction app for Canadian supplier invoices, and an evaluation har
 | `src/retrieve/` | `chunk(text)` → overlapping chunks; `retrieve(source, chunks)` → BM25 top-k per field, merged into passages (decision #48) |
 | `src/extract/` | `extractFile(path, client)` → `ExtractionResult` (SPEC §5): prompt, Ollama call, schema check with one retry, normalisation (§4), grounding (decision #49) |
 | `src/cli/` | `extract` CLI: flags > env vars > `config.default.json`; exit 0 extracted, 2 rejected, 1 error (decision #51) |
+| `src/dataset/` | Golden-case schemas (`expected.json`, `meta.json`), SPEC §9 rules (`XF-*`, `FMT-*`), case loader, and the dataset tests over `spec/examples/` and `data/cases/` (decision #59) |
 | `data/generator/` | Seeded synthetic-invoice generator: `generateCase(seed, options, info)` → input file + `expected.json` + `meta.json`, byte-identical per seed (decision #57) |
 | `prompts/` | Versioned prompts; the default is set in `config.default.json` (currently `extract.v3`) |
 

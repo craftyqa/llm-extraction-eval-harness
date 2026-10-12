@@ -1,4 +1,9 @@
 import { FIELD_NAMES, type FieldName } from "../../src/extract/fields.ts";
+import {
+  failedRules,
+  type FoundValues,
+  type RuleId,
+} from "../../src/dataset/rules.ts";
 import type { Invoice } from "./invoice.ts";
 import type { Printed, Style } from "./print.ts";
 
@@ -181,31 +186,14 @@ export function cents(amount: number): string {
 }
 
 /**
- * SPEC §9 cross-field rules the printed document itself breaks, checked only
- * when every field a rule uses is expected found (the `violatesRules` in `meta.json`).
+ * SPEC §9 rules the printed document itself breaks (the `violatesRules` in
+ * `meta.json`), checked only when every field a rule uses is expected found.
  */
-export function violatedRules(expected: Expected): string[] {
-  const value = (name: FieldName) => {
+export function violatedRules(expected: Expected): RuleId[] {
+  const found: FoundValues = {};
+  for (const name of FIELD_NAMES) {
     const field = expected.fields[name];
-    return field.status === "found" ? field.value : undefined;
-  };
-  const toCents = (s: string) => Math.round(Number(s) * 100);
-  const rules: string[] = [];
-  const subtotal = value("subtotal");
-  const tax = value("taxAmount");
-  const total = value("total");
-  if (subtotal !== undefined && tax !== undefined && total !== undefined) {
-    if (Math.abs(toCents(subtotal) + toCents(tax) - toCents(total)) > 1)
-      rules.push("XF-1");
+    if (field.status === "found") found[name] = field.value;
   }
-  const invoiceDate = value("invoiceDate");
-  const dueDate = value("dueDate");
-  if (
-    invoiceDate !== undefined &&
-    dueDate !== undefined &&
-    dueDate < invoiceDate
-  ) {
-    rules.push("XF-2");
-  }
-  return rules;
+  return failedRules(found);
 }

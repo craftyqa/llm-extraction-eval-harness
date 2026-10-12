@@ -207,7 +207,7 @@ https://www.evidentlyai.com/llm-evaluations-course
 - [ ] Generate the clean and boundary partitions from the generator (done: CASE-0001…0013 in `data/generator/cases.ts`, decision #58). Hand-write or hand-edit the tricky partitions (decoys, conflicts, out-of-scope).
 - [ ] Hand-review every `expected.json` against SPEC.md, including generated ones. Set `reviewedBy` and `reviewedAt` in `meta.json`.
 - [ ] Build the coverage matrix **as a script** (`npm run coverage-matrix`) that reads `meta.json` tags and the risk list, and fails if any risk has zero cases
-- [ ] Dataset tests (part of `npm test`; no Ollama), over `spec/examples/` and `data/cases/`:
+- [x] Dataset tests (part of `npm test`; no Ollama), over `spec/examples/` and `data/cases/` (`src/dataset/`, decision #59):
   - every `expected.json` and `meta.json` matches its schema
   - every evidence quote in `expected.json` (where present) grounds against the source text under [SPEC §5](../spec/SPEC.md#5-output-contract)
   - no field's `value` or `alternatives` appear in its own `decoys`
