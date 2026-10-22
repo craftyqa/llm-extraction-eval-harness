@@ -10,8 +10,8 @@
   "sourceFormat": "txt",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated txt/plain, 7 lines; GST 5% + PST 6%; CAD shown as C$; en amounts; iso dates; one Total Due line.",
   "generator": {
     "version": "1.0.0",

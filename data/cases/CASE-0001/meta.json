@@ -8,8 +8,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/classic, 5 lines; HST 15%; CAD shown as $; en amounts; long dates.",
   "generator": {
     "version": "1.0.0",

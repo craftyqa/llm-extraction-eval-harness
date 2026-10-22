@@ -10,8 +10,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/classic, 6 lines; GST 5% + RST 7%; USD shown as US$; en amounts; long dates.",
   "generator": {
     "version": "1.0.0",

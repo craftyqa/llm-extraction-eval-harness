@@ -9,8 +9,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/erp, 2 lines; HST 14%; USD shown as US$; en amounts; iso dates.",
   "generator": {
     "version": "1.0.0",

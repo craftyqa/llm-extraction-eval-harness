@@ -9,8 +9,8 @@
   "sourceFormat": "txt",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated txt/email, 3 lines; GST 5%; CAD shown as $; en amounts; dmy-abbr dates; one Total Due line.",
   "generator": {
     "version": "1.0.0",

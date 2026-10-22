@@ -10,8 +10,8 @@
   "sourceFormat": "txt",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Combined statement and invoice in text: titled STATEMENT & INVOICE, with its own invoice number and current charges, so in scope (SPEC §2). total = Total Current Charges 2,586.01; amountDue = Total Amount Due 3,026.23 after a previous balance of 1,940.22 and a payment of 1,500.00. The previous statement date and the payment date are invoiceDate decoys. QST number printed next to the GST/HST number.",
   "generator": {
     "version": "1.0.0",

@@ -9,8 +9,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/classic, 45 lines; GST 5%; CAD shown as CDN; en amounts; long dates.",
   "generator": {
     "version": "1.0.0",

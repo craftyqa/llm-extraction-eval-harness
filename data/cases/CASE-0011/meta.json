@@ -8,8 +8,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/erp, 4 lines; GST 0%; CAD shown as $; en amounts; dmy-abbr dates.",
   "generator": {
     "version": "1.0.0",

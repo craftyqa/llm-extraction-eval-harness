@@ -8,8 +8,8 @@
   "sourceFormat": "txt",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Invoice sent by email, assigned to a factoring company: the remit-to block names Granite Bay Receivables Funding Corp. as assignee and asks for payment only to it. The vendor is still Shoalwater Office Products Limited (SPEC §3: never the factoring company).",
   "generator": {
     "version": "1.0.0",

@@ -10,8 +10,8 @@
   "sourceFormat": "pdf",
   "smoke": false,
   "violatesRules": [],
-  "reviewedBy": null,
-  "reviewedAt": null,
+  "reviewedBy": "craftyqa",
+  "reviewedAt": "2026-10-21",
   "notes": "Generated pdf/bilingual, 6 lines; GST 5% + QST 9.975%; CAD shown as CDN; fr amounts; iso dates.",
   "generator": {
     "version": "1.0.0",
