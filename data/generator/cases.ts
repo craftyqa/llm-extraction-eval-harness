@@ -141,4 +141,37 @@ export const CASES: CaseSpec[] = [
     options: { ...clean, layout: "classic", lineCount: 45, dateFormat: "long" },
     info: info("CASE-0013", "boundary (cross-field)", "hard", ["R-1", "R-14"]),
   },
+
+  // Decoys (generated); CASE-0016…0018 are hand-edited and not listed (decision #59)
+  {
+    seed: 301,
+    options: {
+      layout: "erp",
+      deposit: true,
+      shipTo: true,
+      vendorProvince: "BC",
+      customerProvince: "BC",
+      show: { remitTo: true },
+      dateFormat: "mdy",
+    },
+    info: info("CASE-0014", "decoys", "hard", ["R-1", "R-2", "R-8", "R-13"]),
+  },
+  {
+    seed: 302,
+    options: {
+      layout: "classic",
+      invoiceNumber: "2026-0718",
+      poNumber: "2026-0781",
+      shipTo: true,
+      show: { remitTo: true },
+      dateFormat: "long",
+    },
+    info: info(
+      "CASE-0015",
+      "decoys",
+      "medium",
+      ["R-2", "R-6", "R-13"],
+      "PO number 2026-0781 formatted like the invoice number 2026-0718 (two digits swapped). Remit-to lockbox and bank; ship-to site.",
+    ),
+  },
 ];

@@ -1,0 +1,127 @@
+{
+  "caseId": "CASE-0016",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "A86073",
+      "evidence": [
+        {
+          "raw": "A86073",
+          "quote": "A86073"
+        }
+      ],
+      "decoys": [
+        "P792590",
+        "C-85704"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-07-04",
+      "evidence": [
+        {
+          "raw": "July 4, 2026",
+          "quote": "July 4, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-09-02",
+      "evidence": [
+        {
+          "raw": "September 2, 2026",
+          "quote": "September 2, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Shoalwater Office Products Limited",
+      "evidence": [
+        {
+          "raw": "Shoalwater Office Products Limited",
+          "quote": "Shoalwater Office Products Limited"
+        }
+      ],
+      "decoys": [
+        "Granite Bay Receivables Funding Corp.",
+        "Juniper Mutual Bank"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "275070598RT0002",
+      "evidence": [
+        {
+          "raw": "275070598RT0002",
+          "quote": "275070598RT0002"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Driftwood Construction Limited",
+      "evidence": [
+        {
+          "raw": "Driftwood Construction Limited",
+          "quote": "Driftwood Construction Limited"
+        }
+      ],
+      "decoys": [
+        "Van Schuppe"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "$",
+          "quote": "$3,012.75"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2619.78",
+      "evidence": [
+        {
+          "raw": "$2,619.78",
+          "quote": "$2,619.78"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "392.97",
+      "evidence": [
+        {
+          "raw": "$392.97",
+          "quote": "$392.97"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "3012.75",
+      "evidence": [
+        {
+          "raw": "$3,012.75",
+          "quote": "$3,012.75"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "3012.75",
+      "evidence": [
+        {
+          "raw": "$3,012.75",
+          "quote": "$3,012.75"
+        }
+      ]
+    }
+  }
+}

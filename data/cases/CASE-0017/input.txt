@@ -1,0 +1,46 @@
+Ironwood Electrical Contractors Corp.
+1807, rue Deckow
+Birchbank Junction, QC J6B 2S5
+Tel (819) 555-0183 · ar@ironwood.example
+GST/HST Reg. No.: 47759 5130 RT0001
+QST Reg. No.: 4233276109 TQ0001
+
+STATEMENT & INVOICE
+
+Invoice No.:    2026-3500
+Invoice Date:   November 14, 2026
+Due Date:       January 13, 2027
+Terms:          Net 60
+PO No.:         PO-49827
+Customer No.:   C-42823
+
+Bill To:
+  Kestrel Construction Limited
+  Attn: Lela Kuhn
+  1415 Casper Way
+  Copperleaf Bay, NU X2M 2X2
+
+Item      Description                                Qty     Unit Price           Amount
+----------------------------------------------------------------------------------------
+EL-8350   20A breaker, single pole                     9        C$19.22         C$172.98
+EL-2870   Service call                                 1        C$98.57          C$98.57
+EL-1107   LED panel light 2x4 ft                       8       C$139.12       C$1,112.96
+EL-5264   LED panel light 2x4 ft                       4        C$95.84         C$383.36
+EL-2038   Electrician labour (hour)                    4       C$121.97         C$487.88
+EL-4669   Service call                                 1       C$112.51         C$112.51
+EL-5643   Service call                                 1        C$94.61          C$94.61
+----------------------------------------------------------------------------------------
+                                                             Subtotal:        C$2,462.87
+                                                             GST (5%):          C$123.14
+                                                Total Current Charges:        C$2,586.01
+
+Account Summary
+  Previous balance (statement of October 31, 2026)        C$1,940.22
+  Payment received November 3, 2026 - thank you          -C$1,500.00
+  Current charges (this invoice)                          C$2,586.01
+  Total Amount Due                                        C$3,026.23
+
+Payment by EFT to Caisse populaire Ironwood.
+Please quote the invoice number with your payment.
+
+Synthetic test document. Fictional company and data, generated for software testing.

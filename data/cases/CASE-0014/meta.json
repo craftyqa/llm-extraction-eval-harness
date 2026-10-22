@@ -1,0 +1,32 @@
+{
+  "id": "CASE-0014",
+  "partition": "decoys",
+  "difficulty": "hard",
+  "risks": [
+    "R-1",
+    "R-2",
+    "R-8",
+    "R-13"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Generated pdf/erp, 7 lines; GST 5% + PST 7%; CAD shown as $; en amounts; mdy dates; deposit 2377.00 (total vs amount due); ship-to site; remit-to lockbox.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 301,
+    "options": {
+      "vendorProvince": "BC",
+      "customerProvince": "BC",
+      "deposit": true,
+      "shipTo": true,
+      "layout": "erp",
+      "dateFormat": "mdy",
+      "show": {
+        "remitTo": true
+      }
+    }
+  }
+}

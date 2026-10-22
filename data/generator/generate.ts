@@ -45,6 +45,14 @@ export const generatorOptionsSchema = z.strictObject({
   tax: z.enum(["province", "zero", "none"]).optional(),
   dueDays: z.int().min(-365).max(365).optional(),
   invoiceDate: z.iso.date().optional(),
+  invoiceNumber: z
+    .string()
+    .regex(/^[A-Z0-9][A-Z0-9-]*$/u)
+    .optional(),
+  poNumber: z
+    .string()
+    .regex(/^[A-Z0-9][A-Z0-9-]*$/u)
+    .optional(),
   shipTo: z.boolean().optional(),
   totalAdjustCents: z.int().min(-100_000).max(100_000).optional(),
   // Style

@@ -1,0 +1,128 @@
+{
+  "caseId": "CASE-0015",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "2026-0718",
+      "evidence": [
+        {
+          "raw": "2026-0718",
+          "quote": "2026-0718"
+        }
+      ],
+      "decoys": [
+        "2026-0781",
+        "C-33178"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-09-28",
+      "evidence": [
+        {
+          "raw": "September 28, 2026",
+          "quote": "September 28, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-11-27",
+      "evidence": [
+        {
+          "raw": "November 27, 2026",
+          "quote": "November 27, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Lanternfield Analytics Corp.",
+      "evidence": [
+        {
+          "raw": "Lanternfield Analytics Corp.",
+          "quote": "Lanternfield Analytics Corp."
+        }
+      ],
+      "decoys": [
+        "Bluewater Credit Union",
+        "Lanternfield Analytics Corp. — Lockbox 2830"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "314498356RT0001",
+      "evidence": [
+        {
+          "raw": "31449 8356 RT0001",
+          "quote": "31449 8356 RT0001"
+        }
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Juniper Brewing Limited",
+      "evidence": [
+        {
+          "raw": "Juniper Brewing Limited",
+          "quote": "Juniper Brewing Limited"
+        }
+      ],
+      "decoys": [
+        "Caroline Schaefer",
+        "Juniper Brewing — Warehouse"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "CDN",
+          "quote": "Currency: CDN"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "4002.80",
+      "evidence": [
+        {
+          "raw": "4,002.80",
+          "quote": "4,002.80"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "520.36",
+      "evidence": [
+        {
+          "raw": "520.36",
+          "quote": "520.36"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "4523.16",
+      "evidence": [
+        {
+          "raw": "4,523.16",
+          "quote": "4,523.16"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "4523.16",
+      "evidence": [
+        {
+          "raw": "4,523.16",
+          "quote": "4,523.16"
+        }
+      ]
+    }
+  }
+}

@@ -57,9 +57,18 @@ export type StyleOptions = {
   combinedTotal?: boolean;
   taxIdStyle?: TaxIdStyle;
   show?: Partial<Shown>;
+  /** A document that isn't an invoice (should-reject cases). `classic` layout only. */
+  documentType?: DocumentType;
+  /** `false` draws every string as a grey bar: a scan with no text layer. PDF only. */
+  textLayer?: boolean;
 };
 
+/** Out-of-scope look-alikes are retitled and relabelled (SPEC §2: quotes and credit notes are rejected `out_of_scope`). */
+export type DocumentType = "invoice" | "quote" | "credit_note";
+
 export type Style = {
+  documentType: DocumentType;
+  textLayer: boolean;
   format: SourceFormat;
   layout: Layout;
   dateFormat: DateFormat;
@@ -119,7 +128,18 @@ export function drawStyle(
     );
   }
 
+  const documentType = options.documentType ?? "invoice";
+  if (documentType !== "invoice" && layout !== "classic") {
+    throw new Error(`documentType ${documentType} needs the classic layout`);
+  }
+  const textLayer = options.textLayer ?? true;
+  if (!textLayer && format !== "pdf") {
+    throw new Error("textLayer: false needs a pdf layout");
+  }
+
   return {
+    documentType,
+    textLayer,
     format,
     layout,
     dateFormat: options.dateFormat ?? drawnDateFormat,
@@ -264,7 +284,10 @@ export function printInvoice(invoice: Invoice, style: Style): Printed {
     total: amount(invoice.total),
     deposit: invoice.deposit > 0 ? amount(-invoice.deposit) : null,
     amountDue: amount(invoice.amountDue),
-    combinedTotal: invoice.deposit === 0 && style.combinedTotal,
+    // A quote or credit note has one total line
+    combinedTotal:
+      invoice.deposit === 0 &&
+      (style.combinedTotal || style.documentType !== "invoice"),
     footer: FOOTER,
   };
 }

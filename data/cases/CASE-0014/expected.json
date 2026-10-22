@@ -1,0 +1,145 @@
+{
+  "caseId": "CASE-0014",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "QW-26-623",
+      "evidence": [
+        {
+          "raw": "QW-26-623",
+          "quote": "QW-26-623"
+        }
+      ],
+      "decoys": [
+        "3384-XE",
+        "C-92397"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-06-14",
+      "evidence": [
+        {
+          "raw": "06/14/2026",
+          "quote": "06/14/2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-06-29",
+      "evidence": [
+        {
+          "raw": "06/29/2026",
+          "quote": "06/29/2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Pinecrest Office Products Corp.",
+      "evidence": [
+        {
+          "raw": "PINECREST OFFICE PRODUCTS CORP.",
+          "quote": "PINECREST OFFICE PRODUCTS CORP."
+        }
+      ],
+      "decoys": [
+        "Heronmoor Credit Union",
+        "Pinecrest Office Products Corp. — Lockbox 1385"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "807999534RT0002",
+      "evidence": [
+        {
+          "raw": "807999534 RT0002",
+          "quote": "807999534 RT0002"
+        }
+      ],
+      "decoys": [
+        "PST77281307"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Kestrel Engineering Limited",
+      "evidence": [
+        {
+          "raw": "Kestrel Engineering Limited",
+          "quote": "Kestrel Engineering Limited"
+        }
+      ],
+      "decoys": [
+        "Charles Roob",
+        "Kestrel Engineering — Plant 2"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "$",
+          "quote": "$6,993.94"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "6244.59",
+      "evidence": [
+        {
+          "raw": "$6,244.59",
+          "quote": "$6,244.59"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "749.35",
+      "evidence": [
+        {
+          "raw": "$312.23",
+          "quote": "$312.23"
+        },
+        {
+          "raw": "$437.12",
+          "quote": "$437.12"
+        }
+      ],
+      "decoys": [
+        "312.23",
+        "437.12"
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "6993.94",
+      "evidence": [
+        {
+          "raw": "$6,993.94",
+          "quote": "$6,993.94"
+        }
+      ],
+      "decoys": [
+        "4616.94"
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "4616.94",
+      "evidence": [
+        {
+          "raw": "$4,616.94",
+          "quote": "$4,616.94"
+        }
+      ],
+      "decoys": [
+        "6993.94"
+      ]
+    }
+  }
+}

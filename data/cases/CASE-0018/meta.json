@@ -1,0 +1,31 @@
+{
+  "id": "CASE-0018",
+  "partition": "decoys",
+  "difficulty": "medium",
+  "risks": [
+    "R-6",
+    "R-8",
+    "R-13"
+  ],
+  "sourceFormat": "csv",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "One-row CSV export with five number-like columns besides the invoice number, including a sales order (SO-2026-57860) that shares its digits. Ship-to site and contact next to the bill-to; Attn person. PST number printed next to the GST/HST number.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 305,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "summary",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": false
+      }
+    },
+    "edited": "input.csv: added Sales Order, Delivery Note and Account Number columns after Customer ID, and Ship To and Ship To Contact after Bill To Address; expected.json: those values added to invoiceNumber and customerName decoys."
+  }
+}

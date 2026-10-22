@@ -1,0 +1,30 @@
+{
+  "id": "CASE-0015",
+  "partition": "decoys",
+  "difficulty": "medium",
+  "risks": [
+    "R-2",
+    "R-6",
+    "R-13"
+  ],
+  "sourceFormat": "pdf",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "PO number 2026-0781 formatted like the invoice number 2026-0718 (two digits swapped). Remit-to lockbox and bank; ship-to site.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 302,
+    "options": {
+      "invoiceNumber": "2026-0718",
+      "poNumber": "2026-0781",
+      "shipTo": true,
+      "layout": "classic",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": true
+      }
+    }
+  }
+}

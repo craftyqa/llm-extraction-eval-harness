@@ -1,0 +1,31 @@
+{
+  "id": "CASE-0017",
+  "partition": "decoys",
+  "difficulty": "hard",
+  "risks": [
+    "R-1",
+    "R-8",
+    "R-12"
+  ],
+  "sourceFormat": "txt",
+  "smoke": false,
+  "violatesRules": [],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "notes": "Combined statement and invoice in text: titled STATEMENT & INVOICE, with its own invoice number and current charges, so in scope (SPEC §2). total = Total Current Charges 2,586.01; amountDue = Total Amount Due 3,026.23 after a previous balance of 1,940.22 and a payment of 1,500.00. The previous statement date and the payment date are invoiceDate decoys. QST number printed next to the GST/HST number.",
+  "generator": {
+    "version": "1.0.0",
+    "seed": 304,
+    "options": {
+      "shipping": false,
+      "deposit": false,
+      "shipTo": false,
+      "layout": "plain",
+      "dateFormat": "long",
+      "show": {
+        "remitTo": false
+      }
+    },
+    "edited": "input.txt: title changed to STATEMENT & INVOICE, \"Total Due\" relabelled \"Total Current Charges\", account summary added (previous balance, payment, total amount due); expected.json: amountDue 3026.23 and the matching decoys."
+  }
+}

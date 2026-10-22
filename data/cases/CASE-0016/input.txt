@@ -1,0 +1,49 @@
+From: Emma Emard <ar@shoalwater.example>
+To: Accounts Payable <ap@driftwood.example>
+Subject: Invoice A86073 from Shoalwater Office Products Limited
+
+Hello Van Schuppe,
+
+Please find our invoice details below.
+
+Invoice number: A86073
+Invoice date: July 4, 2026
+Due date: September 2, 2026
+Terms: Net 60
+Your PO: P792590
+Customer account: C-85704
+
+Billed to: Driftwood Construction Limited, 2794 Schuster Way, Cedarvale Ridge, NL A1T 0T2
+
+Items:
+- Toner cartridge, black (OP-3678): 1 x $93.84 = $93.84
+- Desk delivery and assembly (OP-7247): 1 x $67.59 = $67.59
+- Ergonomic task chair (OP-8585): 3 x $287.33 = $861.99
+- Desk delivery and assembly (OP-4495): 2 x $78.86 = $157.72
+- Ergonomic task chair (OP-9193): 3 x $299.88 = $899.64
+- Desk delivery and assembly (OP-6056): 1 x $131.57 = $131.57
+- Desk delivery and assembly (OP-7462): 3 x $135.81 = $407.43
+
+Subtotal: $2,619.78
+HST (15%): $392.97
+Total Due: $3,012.75
+
+NOTICE OF ASSIGNMENT
+This invoice has been sold and assigned to Granite Bay Receivables Funding Corp.
+Please remit payment only to:
+  Granite Bay Receivables Funding Corp.
+  as assignee of Shoalwater Office Products Limited
+  PO Box 4471, Station A
+  Pinecrest Crossing, NL A0P 6G0
+Payment by EFT to Juniper Mutual Bank, for the account of Granite Bay Receivables Funding Corp.
+Payment to any other party does not discharge this invoice.
+
+Thank you,
+Emma Emard
+Shoalwater Office Products Limited
+1306 Green Lane
+Pinecrest Crossing, NL A0P 6G0
+(709) 555-0107
+GST/HST No. 275070598RT0002
+
+Synthetic test document. Fictional company and data, generated for software testing.

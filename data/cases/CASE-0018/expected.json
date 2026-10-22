@@ -1,0 +1,134 @@
+{
+  "caseId": "CASE-0018",
+  "status": "extracted",
+  "fields": {
+    "invoiceNumber": {
+      "status": "found",
+      "value": "INV-2026-57860",
+      "evidence": [
+        {
+          "raw": "INV-2026-57860",
+          "quote": "INV-2026-57860"
+        }
+      ],
+      "decoys": [
+        "5926-HH",
+        "C-93140",
+        "SO-2026-57860",
+        "DN-57860-01",
+        "ACCT-0093140"
+      ]
+    },
+    "invoiceDate": {
+      "status": "found",
+      "value": "2026-03-09",
+      "evidence": [
+        {
+          "raw": "March 9, 2026",
+          "quote": "March 9, 2026"
+        }
+      ]
+    },
+    "dueDate": {
+      "status": "found",
+      "value": "2026-05-08",
+      "evidence": [
+        {
+          "raw": "May 8, 2026",
+          "quote": "May 8, 2026"
+        }
+      ]
+    },
+    "vendorName": {
+      "status": "found",
+      "value": "Lanternfield Electrical Contractors Limited",
+      "evidence": [
+        {
+          "raw": "Lanternfield Electrical Contractors Limited",
+          "quote": "Lanternfield Electrical Contractors Limited"
+        }
+      ],
+      "decoys": [
+        "Bluewater Savings & Trust"
+      ]
+    },
+    "vendorTaxId": {
+      "status": "found",
+      "value": "905600174RT0001",
+      "evidence": [
+        {
+          "raw": "90560 0174 RT0001",
+          "quote": "90560 0174 RT0001"
+        }
+      ],
+      "decoys": [
+        "6524473"
+      ]
+    },
+    "customerName": {
+      "status": "found",
+      "value": "Thistledown Medical Devices Inc",
+      "evidence": [
+        {
+          "raw": "Thistledown Medical Devices Inc",
+          "quote": "Thistledown Medical Devices Inc"
+        }
+      ],
+      "decoys": [
+        "Stewart Donnelly",
+        "Thistledown Medical Devices - Receiving Dock",
+        "Priya Nakamura"
+      ]
+    },
+    "currency": {
+      "status": "found",
+      "value": "CAD",
+      "evidence": [
+        {
+          "raw": "CAD",
+          "quote": "Currency: CAD"
+        }
+      ]
+    },
+    "subtotal": {
+      "status": "found",
+      "value": "2588.06",
+      "evidence": [
+        {
+          "raw": "2588.06",
+          "quote": "2588.06"
+        }
+      ]
+    },
+    "taxAmount": {
+      "status": "found",
+      "value": "388.21",
+      "evidence": [
+        {
+          "raw": "388.21",
+          "quote": "388.21"
+        }
+      ]
+    },
+    "total": {
+      "status": "found",
+      "value": "2976.27",
+      "evidence": [
+        {
+          "raw": "2976.27",
+          "quote": "2976.27"
+        }
+      ]
+    },
+    "amountDue": {
+      "status": "found",
+      "value": "2976.27",
+      "evidence": [
+        {
+          "raw": "2976.27",
+          "quote": "2976.27"
+        }
+      ]
+    }
+  }
+}

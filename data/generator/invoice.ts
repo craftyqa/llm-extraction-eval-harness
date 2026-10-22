@@ -186,6 +186,9 @@ export type InvoiceOptions = {
   dueDays?: number;
   /** An invoice date to use instead of one drawn from the seed. */
   invoiceDate?: string;
+  /** An invoice number or PO number to print instead of the drawn one, e.g. a PO formatted like an invoice number. */
+  invoiceNumber?: string;
+  poNumber?: string;
   shipTo?: boolean;
   /** Added to the computed total, e.g. 1 for a total off by a cent. */
   totalAdjustCents?: number;
@@ -325,8 +328,8 @@ export function generateInvoice(
   }
 
   return {
-    invoiceNumber,
-    poNumber,
+    invoiceNumber: options.invoiceNumber ?? invoiceNumber,
+    poNumber: options.poNumber ?? poNumber,
     customerId,
     invoiceDate,
     dueDate: addDays(invoiceDate, dueDays),
